@@ -63,8 +63,8 @@ public class BeachReport {
 		this.fishingConditions = fishingConditions;
 	}
 
-	public Integer getPostRecord() {
-		return fishingConditions;
+	public PostRecord getPostRecord() {
+		return postRecord;
 	}
 
 	public void setPostRecord(PostRecord postRecord) {

@@ -32,9 +32,9 @@ services:
     ports:
       - 8085:8080
     volumes:
-      - ./src:/usr/src/app/src
-      - ./.m2:/usr/src/app/.m2
-      - ./pom.xml:/usr/src/app/pom.xml
+      - ./backend/src:/usr/src/app/src
+      - ./backend/.m2:/usr/src/app/.m2
+      - ./backend/pom.xml:/usr/src/app/pom.xml
       - m2:/root/.m2
     environment:
       SPRING_PROFILES_ACTIVE: "postgres"

@@ -19,6 +19,10 @@ public class BeachReport {
     @JoinColumn(name = "postId")
     private PostRecord postRecord;
 
+	@OneToOne
+	@JoinColumn(name = "windId")
+	private WindStatus windStatus; 
+
 	public BeachReport() {
 
 	}

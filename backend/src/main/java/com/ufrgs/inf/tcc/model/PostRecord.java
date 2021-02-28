@@ -1,6 +1,8 @@
 package com.ufrgs.inf.tcc.model;
 
 import javax.persistence.*;
+
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -10,6 +12,9 @@ public class PostRecord {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long postId;
 	private String description;
+
+	@OneToMany(mappedBy = "postRecord")
+	private List<BeachReport> reports;
 
 	public PostRecord() {
 
@@ -35,6 +40,10 @@ public class PostRecord {
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+
+	public List<BeachReport> getReports(){
+		return reports;
 	}
 
 	@Override
@@ -63,4 +72,3 @@ public class PostRecord {
 				'}';
 	}
 }
-

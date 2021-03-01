@@ -2,7 +2,6 @@ package com.ufrgs.inf.tcc.model;
 
 import javax.persistence.*;
 
-import java.net.URL;
 import java.util.Objects;
 
 @Entity

@@ -12,7 +12,8 @@ public class WindStatus {
 	private String windDirection;
     private Double windVelocity;
 
-    @OneToOne(mappedBy = "windStatus")
+    @OneToOne
+    @JoinColumn(name = "reportId")
     private BeachReport beachReport;
 
 	public WindStatus() {

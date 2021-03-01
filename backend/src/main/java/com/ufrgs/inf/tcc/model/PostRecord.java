@@ -12,8 +12,7 @@ public class PostRecord {
 	private Long postId;
 	private String description;
 
-	@OneToOne
-	@JoinColumn(name = "reportId")
+	@OneToOne(mappedBy = "postRecord")
 	private BeachReport beachReport;
 
 	public PostRecord() {

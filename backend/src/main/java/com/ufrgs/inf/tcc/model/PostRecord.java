@@ -2,6 +2,7 @@ package com.ufrgs.inf.tcc.model;
 
 import javax.persistence.*;
 
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -14,6 +15,9 @@ public class PostRecord {
 
 	@OneToOne(mappedBy = "postRecord")
 	private BeachReport beachReport;
+
+	@OneToMany(mappedBy = "postRecord")
+	private List<Link> links;
 
 	public PostRecord() {
 
@@ -47,6 +51,10 @@ public class PostRecord {
 
 	public void setReport(BeachReport beachReport){
 		this.beachReport = beachReport;
+	}
+
+	public List<Link> getLinks(){
+		return links;
 	}
 
 	@Override

@@ -45,7 +45,7 @@ public class WindStatusTest {
 	}
 
 	@Test
-	public void toStringShouldReturnAStringThatContainsIdAndTitle() {
+	public void toStringShouldReturnAStringThatContainsAttributes() {
 		WindStatus wind = new WindStatus(373L, "NE", 40.8);
 		String toString = wind.toString();
 		assertTrue(toString.indexOf("373") > -1);

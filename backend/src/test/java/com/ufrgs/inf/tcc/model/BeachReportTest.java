@@ -45,7 +45,7 @@ public class BeachReportTest {
 	}
 
 	@Test
-	public void toStringShouldReturnAStringThatContainsIdAndAttributes() {
+	public void toStringShouldReturnAStringThatContainsAttributes() {
 		BeachReport report = new BeachReport(373L, 28.5, "Boa", 8);
 		String toString = report.toString();
 		assertTrue(toString.indexOf("373") > -1);

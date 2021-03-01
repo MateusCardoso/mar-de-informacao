@@ -45,7 +45,7 @@ public class PostRecordTest {
 	}
 
 	@Test
-	public void toStringShouldReturnAStringThatContainsIdAndTitle() {
+	public void toStringShouldReturnAStringThatContainsAttributes() {
 		PostRecord post = new PostRecord(373L, "Hello World");
 		String toString = post.toString();
 		assertTrue(toString.indexOf("373") > -1);

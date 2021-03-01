@@ -2,7 +2,6 @@ package com.ufrgs.inf.tcc.model;
 
 import javax.persistence.*;
 
-import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -13,8 +12,9 @@ public class PostRecord {
 	private Long postId;
 	private String description;
 
-	@OneToMany(mappedBy = "postRecord")
-	private List<BeachReport> reports;
+	@OneToOne
+	@JoinColumn(name = "reportId")
+	private BeachReport beachReport;
 
 	public PostRecord() {
 
@@ -42,8 +42,12 @@ public class PostRecord {
 		this.description = description;
 	}
 
-	public List<BeachReport> getReports(){
-		return reports;
+	public BeachReport getReport(){
+		return beachReport;
+	}
+
+	public void setReport(BeachReport beachReport){
+		this.beachReport = beachReport;
 	}
 
 	@Override

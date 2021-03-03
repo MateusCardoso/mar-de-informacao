@@ -2,9 +2,12 @@ package com.ufrgs.inf.tcc.model;
 
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import java.util.Objects;
 
 @Entity
+@JsonIgnoreProperties(value = {"postRecord","windStatus"})
 public class BeachReport {
 
 

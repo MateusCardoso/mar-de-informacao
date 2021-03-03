@@ -7,7 +7,7 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
-@JsonIgnoreProperties(value = {"links","tags"})
+@JsonIgnoreProperties(value = {"links","tags","beachReport"})
 public class PostRecord {
 
 	@Id

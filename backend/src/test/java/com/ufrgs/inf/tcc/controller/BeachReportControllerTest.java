@@ -44,9 +44,9 @@ public class BeachReportControllerTest {
 
 	@Test
 	public void findAllShouldReturnAllCreatedBeachReports() throws Exception {
-		create(BeachReport("A"));
-		create(BeachReport("B"));
-		create(BeachReport("C"));
+		create(beachReport("A"));
+		create(beachReport("B"));
+		create(beachReport("C"));
 		findAll()
 				.andExpect(status().isOk())
 				.andExpect(jsonArrayLength(3));
@@ -59,19 +59,19 @@ public class BeachReportControllerTest {
 	}
 
 	public void findByIdReturnsTheBeachReportWithTheSpecifiedId() throws Exception {
-		create(BeachReport("A"));
-		BeachReport BeachReportUT = createAndReturn(BeachReport("B"));
-		create(BeachReport("C"));
+		create(beachReport("A"));
+		BeachReport beachReportUT = createAndReturn(beachReport("B"));
+		create(beachReport("C"));
 
-		findById(BeachReportUT.getId())
+		findById(beachReportUT.getId())
 				.andExpect(status().isOk())
-				.andExpect(jsonTitle(BeachReportUT.getWaterQuality()));
+				.andExpect(jsonTitle(beachReportUT.getWaterQuality()));
 
 	}
 
 	@Test
 	public void createShouldSaveTheBeachReportAndAssignAnId() throws Exception {
-		create(BeachReport("BOA!"))
+		create(beachReport("BOA!"))
 				.andExpect(status().isCreated())
 				.andExpect(jsonPath("$.id").isNumber())
 				.andExpect(jsonTitle("BOA!"));
@@ -79,45 +79,45 @@ public class BeachReportControllerTest {
 
 	@Test
 	public void updateShouldReturnNotFoundForAnInvalidId() throws Exception {
-		update(BeachReport("BOA!", 5180l))
+		update(beachReport("BOA!", 5180l))
 				.andExpect(status().isNotFound());
 	}
 
 	@Test
 	public void updateShouldReturnBadRequestForInconsistentIds() throws Exception {
-		update(BeachReport("BOA!", 5180l), 123l)
+		update(beachReport("BOA!", 5180l), 123l)
 				.andExpect(status().isBadRequest());
 	}
 
 	@Test
 	public void updateShouldReturnBadRequestIfIdInBodyIsNull() throws Exception {
-		update(BeachReport("BOA!", null), 5180l)
+		update(beachReport("BOA!", null), 5180l)
 				.andExpect(status().isBadRequest());
 	}
 
 	@Test
 	public void updateShouldUpdateTheBeachReport() throws Exception {
-		create(BeachReport("A"));
-		BeachReport BeachReportUT = createAndReturn(BeachReport("B"));
-		create(BeachReport("C"));
+		create(beachReport("A"));
+		BeachReport beachReportUT = createAndReturn(beachReport("B"));
+		create(beachReport("C"));
 
-		BeachReportUT.setWaterQuality("BOA!");
-		update(BeachReportUT)
+		beachReportUT.setWaterQuality("BOA!");
+		update(beachReportUT)
 				.andExpect(status().isOk())
-				.andExpect(jsonTitle(BeachReportUT.getWaterQuality()));
+				.andExpect(jsonTitle(beachReportUT.getWaterQuality()));
 
-		findById(BeachReportUT.getId())
-				.andExpect(jsonTitle(BeachReportUT.getWaterQuality()));
+		findById(beachReportUT.getId())
+				.andExpect(jsonTitle(beachReportUT.getWaterQuality()));
 
 	}
 
 	@Test
 	public void deleteShouldDeleteTheSpecifiedBeachReport() throws Exception {
-		create(BeachReport("A"));
-		BeachReport BeachReportUT = createAndReturn(BeachReport("B"));
-		create(BeachReport("C"));
+		create(beachReport("A"));
+		BeachReport beachReportUT = createAndReturn(beachReport("B"));
+		create(beachReport("C"));
 
-		deleteById(BeachReportUT.getId());
+		deleteById(beachReportUT.getId());
 		findAll()
 				.andExpect(status().isOk())
 				.andExpect(jsonArrayLength(2));
@@ -131,21 +131,21 @@ public class BeachReportControllerTest {
 
 	@Test
 	public void deleteAllShouldDeleteAllBeachReports() throws Exception {
-		create(BeachReport("A"));
-		create(BeachReport("B"));
+		create(beachReport("A"));
+		create(beachReport("B"));
 		deleteAll()
 				.andExpect(status().isNoContent());
 		findAll()
 				.andExpect(jsonArrayLength(0));
 	}
 
-	private ResultActions create(BeachReport BeachReport) throws Exception {
+	private ResultActions create(BeachReport beachReport) throws Exception {
 		ObjectMapper objectMapper = new ObjectMapper();
-		return mockMvc.perform(post(CONTROLLER_BASE_PATH).content(objectMapper.writeValueAsString(BeachReport)).contentType(MediaType.APPLICATION_JSON));
+		return mockMvc.perform(post(CONTROLLER_BASE_PATH).content(objectMapper.writeValueAsString(beachReport)).contentType(MediaType.APPLICATION_JSON));
 	}
 
 	private BeachReport createAndReturn(BeachReport BeachReport) throws Exception {
-		MockHttpServletResponse mockHttpServletResponse = create(BeachReport("B"))
+		MockHttpServletResponse mockHttpServletResponse = create(beachReport("B"))
 				.andReturn().getResponse();
 		return BeachReport(mockHttpServletResponse);
 	}
@@ -179,14 +179,14 @@ public class BeachReportControllerTest {
 		return CONTROLLER_BASE_PATH + "/" + (id == null ? "" : id);
 	}
 
-	private BeachReport BeachReport(String waterQuality) {
+	private BeachReport beachReport(String waterQuality) {
 		BeachReport BeachReport = new BeachReport();
 		BeachReport.setWaterQuality(waterQuality);
 		return BeachReport;
 	}
 
-	private BeachReport BeachReport(String waterQuality, Long id) {
-		BeachReport BeachReport = BeachReport(waterQuality);
+	private BeachReport beachReport(String waterQuality, Long id) {
+		BeachReport BeachReport = beachReport(waterQuality);
 		BeachReport.setId(id);
 		return BeachReport;
 	}

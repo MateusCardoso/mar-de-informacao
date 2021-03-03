@@ -44,9 +44,9 @@ public class WindStatusControllerTest {
 
 	@Test
 	public void findAllShouldReturnAllCreatedWindStatus() throws Exception {
-		create(WindStatus("A"));
-		create(WindStatus("B"));
-		create(WindStatus("C"));
+		create(windStatus("A"));
+		create(windStatus("B"));
+		create(windStatus("C"));
 		findAll()
 				.andExpect(status().isOk())
 				.andExpect(jsonArrayLength(3));
@@ -59,19 +59,19 @@ public class WindStatusControllerTest {
 	}
 
 	public void findByIdReturnsTheWindStatusWithTheSpecifiedId() throws Exception {
-		create(WindStatus("A"));
-		WindStatus WindStatusUT = createAndReturn(WindStatus("B"));
-		create(WindStatus("C"));
+		create(windStatus("A"));
+		WindStatus windStatusUT = createAndReturn(windStatus("B"));
+		create(windStatus("C"));
 
-		findById(WindStatusUT.getId())
+		findById(windStatusUT.getId())
 				.andExpect(status().isOk())
-				.andExpect(jsonTitle(WindStatusUT.getWindDirection()));
+				.andExpect(jsonTitle(windStatusUT.getWindDirection()));
 
 	}
 
 	@Test
 	public void createShouldSaveTheWindStatusAndAssignAnId() throws Exception {
-		create(WindStatus("NE"))
+		create(windStatus("NE"))
 				.andExpect(status().isCreated())
 				.andExpect(jsonPath("$.id").isNumber())
 				.andExpect(jsonTitle("NE"));
@@ -79,45 +79,45 @@ public class WindStatusControllerTest {
 
 	@Test
 	public void updateShouldReturnNotFoundForAnInvalidId() throws Exception {
-		update(WindStatus("NE", 5180l))
+		update(windStatus("NE", 5180l))
 				.andExpect(status().isNotFound());
 	}
 
 	@Test
 	public void updateShouldReturnBadRequestForInconsistentIds() throws Exception {
-		update(WindStatus("NE", 5180l), 123l)
+		update(windStatus("NE", 5180l), 123l)
 				.andExpect(status().isBadRequest());
 	}
 
 	@Test
 	public void updateShouldReturnBadRequestIfIdInBodyIsNull() throws Exception {
-		update(WindStatus("NE", null), 5180l)
+		update(windStatus("NE", null), 5180l)
 				.andExpect(status().isBadRequest());
 	}
 
 	@Test
 	public void updateShouldUpdateTheWindStatus() throws Exception {
-		create(WindStatus("A"));
-		WindStatus WindStatusUT = createAndReturn(WindStatus("B"));
-		create(WindStatus("C"));
+		create(windStatus("A"));
+		WindStatus windStatusUT = createAndReturn(windStatus("B"));
+		create(windStatus("C"));
 
-		WindStatusUT.setWindDirection("NE");
-		update(WindStatusUT)
+		windStatusUT.setWindDirection("NE");
+		update(windStatusUT)
 				.andExpect(status().isOk())
-				.andExpect(jsonTitle(WindStatusUT.getWindDirection()));
+				.andExpect(jsonTitle(windStatusUT.getWindDirection()));
 
-		findById(WindStatusUT.getId())
-				.andExpect(jsonTitle(WindStatusUT.getWindDirection()));
+		findById(windStatusUT.getId())
+				.andExpect(jsonTitle(windStatusUT.getWindDirection()));
 
 	}
 
 	@Test
 	public void deleteShouldDeleteTheSpecifiedWindStatus() throws Exception {
-		create(WindStatus("A"));
-		WindStatus WindStatusUT = createAndReturn(WindStatus("B"));
-		create(WindStatus("C"));
+		create(windStatus("A"));
+		WindStatus windStatusUT = createAndReturn(windStatus("B"));
+		create(windStatus("C"));
 
-		deleteById(WindStatusUT.getId());
+		deleteById(windStatusUT.getId());
 		findAll()
 				.andExpect(status().isOk())
 				.andExpect(jsonArrayLength(2));
@@ -131,8 +131,8 @@ public class WindStatusControllerTest {
 
 	@Test
 	public void deleteAllShouldDeleteAllWindStatus() throws Exception {
-		create(WindStatus("A"));
-		create(WindStatus("B"));
+		create(windStatus("A"));
+		create(windStatus("B"));
 		deleteAll()
 				.andExpect(status().isNoContent());
 		findAll()
@@ -145,7 +145,7 @@ public class WindStatusControllerTest {
 	}
 
 	private WindStatus createAndReturn(WindStatus WindStatus) throws Exception {
-		MockHttpServletResponse mockHttpServletResponse = create(WindStatus("B"))
+		MockHttpServletResponse mockHttpServletResponse = create(windStatus("B"))
 				.andReturn().getResponse();
 		return WindStatus(mockHttpServletResponse);
 	}
@@ -179,14 +179,14 @@ public class WindStatusControllerTest {
 		return CONTROLLER_BASE_PATH + "/" + (id == null ? "" : id);
 	}
 
-	private WindStatus WindStatus(String windDirection) {
+	private WindStatus windStatus(String windDirection) {
 		WindStatus WindStatus = new WindStatus();
 		WindStatus.setWindDirection(windDirection);
 		return WindStatus;
 	}
 
-	private WindStatus WindStatus(String windDirection, Long id) {
-		WindStatus WindStatus = WindStatus(windDirection);
+	private WindStatus windStatus(String windDirection, Long id) {
+		WindStatus WindStatus = windStatus(windDirection);
 		WindStatus.setId(id);
 		return WindStatus;
 	}

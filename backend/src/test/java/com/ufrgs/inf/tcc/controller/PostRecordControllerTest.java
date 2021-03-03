@@ -43,9 +43,9 @@ public class PostRecordControllerTest {
 
 	@Test
 	public void findAllShouldReturnAllCreatedPostRecords() throws Exception {
-		create(PostRecord("A"));
-		create(PostRecord("B"));
-		create(PostRecord("C"));
+		create(postRecord("A"));
+		create(postRecord("B"));
+		create(postRecord("C"));
 		findAll()
 				.andExpect(status().isOk())
 				.andExpect(jsonArrayLength(3));
@@ -58,19 +58,19 @@ public class PostRecordControllerTest {
 	}
 
 	public void findByIdReturnsThePostRecordWithTheSpecifiedId() throws Exception {
-		create(PostRecord("A"));
-		PostRecord PostRecordUT = createAndReturn(PostRecord("B"));
-		create(PostRecord("C"));
+		create(postRecord("A"));
+		PostRecord postRecordUT = createAndReturn(postRecord("B"));
+		create(postRecord("C"));
 
-		findById(PostRecordUT.getId())
+		findById(postRecordUT.getId())
 				.andExpect(status().isOk())
-				.andExpect(jsonTitle(PostRecordUT.getDescription()));
+				.andExpect(jsonTitle(postRecordUT.getDescription()));
 
 	}
 
 	@Test
 	public void createShouldSaveThePostRecordAndAssignAnId() throws Exception {
-		create(PostRecord("Hello World"))
+		create(postRecord("Hello World"))
 				.andExpect(status().isCreated())
 				.andExpect(jsonPath("$.id").isNumber())
 				.andExpect(jsonTitle("Hello World"));
@@ -78,45 +78,45 @@ public class PostRecordControllerTest {
 
 	@Test
 	public void updateShouldReturnNotFoundForAnInvalidId() throws Exception {
-		update(PostRecord("Hello World", 5180l))
+		update(postRecord("Hello World", 5180l))
 				.andExpect(status().isNotFound());
 	}
 
 	@Test
 	public void updateShouldReturnBadRequestForInconsistentIds() throws Exception {
-		update(PostRecord("Hello World", 5180l), 123l)
+		update(postRecord("Hello World", 5180l), 123l)
 				.andExpect(status().isBadRequest());
 	}
 
 	@Test
 	public void updateShouldReturnBadRequestIfIdInBodyIsNull() throws Exception {
-		update(PostRecord("Hello World", null), 5180l)
+		update(postRecord("Hello World", null), 5180l)
 				.andExpect(status().isBadRequest());
 	}
 
 	@Test
 	public void updateShouldUpdateThePostRecord() throws Exception {
-		create(PostRecord("A"));
-		PostRecord PostRecordUT = createAndReturn(PostRecord("B"));
-		create(PostRecord("C"));
+		create(postRecord("A"));
+		PostRecord postRecordUT = createAndReturn(postRecord("B"));
+		create(postRecord("C"));
 
-		PostRecordUT.setDescription("Hello World");
-		update(PostRecordUT)
+		postRecordUT.setDescription("Hello World");
+		update(postRecordUT)
 				.andExpect(status().isOk())
-				.andExpect(jsonTitle(PostRecordUT.getDescription()));
+				.andExpect(jsonTitle(postRecordUT.getDescription()));
 
-		findById(PostRecordUT.getId())
-				.andExpect(jsonTitle(PostRecordUT.getDescription()));
+		findById(postRecordUT.getId())
+				.andExpect(jsonTitle(postRecordUT.getDescription()));
 
 	}
 
 	@Test
 	public void deleteShouldDeleteTheSpecifiedPostRecord() throws Exception {
-		create(PostRecord("A"));
-		PostRecord PostRecordUT = createAndReturn(PostRecord("B"));
-		create(PostRecord("C"));
+		create(postRecord("A"));
+		PostRecord postRecordUT = createAndReturn(postRecord("B"));
+		create(postRecord("C"));
 
-		deleteById(PostRecordUT.getId());
+		deleteById(postRecordUT.getId());
 		findAll()
 				.andExpect(status().isOk())
 				.andExpect(jsonArrayLength(2));
@@ -130,32 +130,32 @@ public class PostRecordControllerTest {
 
 	@Test
 	public void deleteAllShouldDeleteAllPostRecords() throws Exception {
-		create(PostRecord("A"));
-		create(PostRecord("B"));
+		create(postRecord("A"));
+		create(postRecord("B"));
 		deleteAll()
 				.andExpect(status().isNoContent());
 		findAll()
 				.andExpect(jsonArrayLength(0));
 	}
 
-	private ResultActions create(PostRecord PostRecord) throws Exception {
+	private ResultActions create(PostRecord postRecord) throws Exception {
 		ObjectMapper objectMapper = new ObjectMapper();
-		return mockMvc.perform(post(CONTROLLER_BASE_PATH).content(objectMapper.writeValueAsString(PostRecord)).contentType(MediaType.APPLICATION_JSON));
+		return mockMvc.perform(post(CONTROLLER_BASE_PATH).content(objectMapper.writeValueAsString(postRecord)).contentType(MediaType.APPLICATION_JSON));
 	}
 
-	private PostRecord createAndReturn(PostRecord PostRecord) throws Exception {
-		MockHttpServletResponse mockHttpServletResponse = create(PostRecord("B"))
+	private PostRecord createAndReturn(PostRecord postRecord) throws Exception {
+		MockHttpServletResponse mockHttpServletResponse = create(postRecord("B"))
 				.andReturn().getResponse();
-		return PostRecord(mockHttpServletResponse);
+		return postRecord(mockHttpServletResponse);
 	}
 
-	private ResultActions update(PostRecord PostRecord) throws Exception {
-		return update(PostRecord, PostRecord.getId());
+	private ResultActions update(PostRecord postRecord) throws Exception {
+		return update(postRecord, postRecord.getId());
 	}
 
-	private ResultActions update(PostRecord PostRecord, Long id) throws Exception {
+	private ResultActions update(PostRecord postRecord, Long id) throws Exception {
 		ObjectMapper objectMapper = new ObjectMapper();
-		return mockMvc.perform(put(controllerBasePathWithId(id)).content(objectMapper.writeValueAsString(PostRecord)).contentType(MediaType.APPLICATION_JSON));
+		return mockMvc.perform(put(controllerBasePathWithId(id)).content(objectMapper.writeValueAsString(postRecord)).contentType(MediaType.APPLICATION_JSON));
 	}
 
 	private ResultActions findAll() throws Exception {
@@ -178,19 +178,19 @@ public class PostRecordControllerTest {
 		return CONTROLLER_BASE_PATH + "/" + (id == null ? "" : id);
 	}
 
-	private PostRecord PostRecord(String description) {
-		PostRecord PostRecord = new PostRecord();
-		PostRecord.setDescription(description);
-		return PostRecord;
+	private PostRecord postRecord(String description) {
+		PostRecord postRecord = new PostRecord();
+		postRecord.setDescription(description);
+		return postRecord;
 	}
 
-	private PostRecord PostRecord(String description, Long id) {
-		PostRecord PostRecord = PostRecord(description);
-		PostRecord.setId(id);
-		return PostRecord;
+	private PostRecord postRecord(String description, Long id) {
+		PostRecord postRecord = postRecord(description);
+		postRecord.setId(id);
+		return postRecord;
 	}
 
-	private PostRecord PostRecord(MockHttpServletResponse mockHttpServletResponse) throws IOException {
+	private PostRecord postRecord(MockHttpServletResponse mockHttpServletResponse) throws IOException {
 		ObjectMapper objectMapper = new ObjectMapper();
 		return objectMapper.readValue(mockHttpServletResponse.getContentAsString(), PostRecord.class);
 	}

@@ -16,64 +16,64 @@ import java.util.Optional;
 @Api(tags = { "reports" })
 public class BeachReportController {
 
-    private BeachReportRepository BeachReportRepository;
+    private BeachReportRepository beachReportRepository;
 
-	public BeachReportController(BeachReportRepository BeachReportRepository) {
-		this.BeachReportRepository = BeachReportRepository;
+	public BeachReportController(BeachReportRepository beachReportRepository) {
+		this.beachReportRepository = beachReportRepository;
 	}
 
 	@GetMapping
 	@ApiOperation(value = "Find all Reports", nickname = "findAll")
 	public Iterable<BeachReport> findAll() {
-		return BeachReportRepository.findAll();
+		return beachReportRepository.findAll();
 	}
 
 	@GetMapping("/{id}")
 	@ApiOperation(value = "Find Reports by id", nickname = "findById")
 	public BeachReport findById(@PathVariable("id") Long id) throws ObjectNotFoundException {
-		Optional<BeachReport> BeachReport = BeachReportRepository.findById(id);
-		if (!BeachReport.isPresent()) {
+		Optional<BeachReport> beachReport = beachReportRepository.findById(id);
+		if (!beachReport.isPresent()) {
 			throw new ObjectNotFoundException(BeachReport.class, id);
 		}
-		return BeachReport.get();
+		return beachReport.get();
 	}
 
 	@PostMapping
 	@ApiOperation(value = "Create Report", nickname = "create")
-	public ResponseEntity<BeachReport> create(@RequestBody BeachReport BeachReport) {
-		BeachReport = BeachReportRepository.save(BeachReport);
+	public ResponseEntity<BeachReport> create(@RequestBody BeachReport beachReport) {
+		beachReport = beachReportRepository.save(beachReport);
 		return ResponseEntity
-				.created(ServletUriComponentsBuilder.fromCurrentRequest().path("/" + BeachReport.getId()).build().toUri())
-				.body(BeachReport);
+				.created(ServletUriComponentsBuilder.fromCurrentRequest().path("/" + beachReport.getId()).build().toUri())
+				.body(beachReport);
 	}
 
 	@PutMapping("/{id}")
 	@ApiOperation(value = "Update Report", nickname = "update")
-	public BeachReport update(@RequestBody BeachReport BeachReport, @PathVariable("id") Long id) throws ObjectNotFoundException, RequestInconsistentException {
-		if (!id.equals(BeachReport.getId())) {
-			throw new RequestInconsistentException(String.format("Inconsistent IDs in url and body: url id: %d; body id: %d", BeachReport.getId(), id));
+	public BeachReport update(@RequestBody BeachReport beachReport, @PathVariable("id") Long id) throws ObjectNotFoundException, RequestInconsistentException {
+		if (!id.equals(beachReport.getId())) {
+			throw new RequestInconsistentException(String.format("Inconsistent IDs in url and body: url id: %d; body id: %d", beachReport.getId(), id));
 		}
-		if (!BeachReportRepository.existsById(id)) {
+		if (!beachReportRepository.existsById(id)) {
 			throw new ObjectNotFoundException(BeachReport.class, id);
 		}
-		return BeachReportRepository.save(BeachReport);
+		return beachReportRepository.save(beachReport);
 	}
 
 	@DeleteMapping("/{id}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	@ApiOperation(value = "Delete Report", nickname = "delete")
 	public void delete(@PathVariable("id") Long id) throws ObjectNotFoundException {
-		if (!BeachReportRepository.existsById(id)) {
+		if (!beachReportRepository.existsById(id)) {
 			throw new ObjectNotFoundException(BeachReport.class, id);
 		}
-		BeachReportRepository.deleteById(id);
+		beachReportRepository.deleteById(id);
 	}
 
 	@DeleteMapping
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	@ApiOperation(value = "Delete all Reports", nickname = "deleteAll")
 	public void deleteAll() {
-		BeachReportRepository.deleteAll();
+		beachReportRepository.deleteAll();
 	}
 
 }

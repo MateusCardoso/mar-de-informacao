@@ -16,64 +16,64 @@ import java.util.Optional;
 @Api(tags = { "windStatus" })
 public class WindStatusController {
 
-    private WindStatusRepository WindStatusRepository;
+    private WindStatusRepository windStatusRepository;
 
-	public WindStatusController(WindStatusRepository WindStatusRepository) {
-		this.WindStatusRepository = WindStatusRepository;
+	public WindStatusController(WindStatusRepository windStatusRepository) {
+		this.windStatusRepository = windStatusRepository;
 	}
 
 	@GetMapping
 	@ApiOperation(value = "Find all Wind Status", nickname = "findAll")
 	public Iterable<WindStatus> findAll() {
-		return WindStatusRepository.findAll();
+		return windStatusRepository.findAll();
 	}
 
 	@GetMapping("/{id}")
 	@ApiOperation(value = "Find Wind Status by id", nickname = "findById")
 	public WindStatus findById(@PathVariable("id") Long id) throws ObjectNotFoundException {
-		Optional<WindStatus> WindStatus = WindStatusRepository.findById(id);
-		if (!WindStatus.isPresent()) {
+		Optional<WindStatus> windStatus = windStatusRepository.findById(id);
+		if (!windStatus.isPresent()) {
 			throw new ObjectNotFoundException(WindStatus.class, id);
 		}
-		return WindStatus.get();
+		return windStatus.get();
 	}
 
 	@PostMapping
 	@ApiOperation(value = "Create Wind Status", nickname = "create")
-	public ResponseEntity<WindStatus> create(@RequestBody WindStatus WindStatus) {
-		WindStatus = WindStatusRepository.save(WindStatus);
+	public ResponseEntity<WindStatus> create(@RequestBody WindStatus windStatus) {
+		windStatus = windStatusRepository.save(windStatus);
 		return ResponseEntity
-				.created(ServletUriComponentsBuilder.fromCurrentRequest().path("/" + WindStatus.getId()).build().toUri())
-				.body(WindStatus);
+				.created(ServletUriComponentsBuilder.fromCurrentRequest().path("/" + windStatus.getId()).build().toUri())
+				.body(windStatus);
 	}
 
 	@PutMapping("/{id}")
 	@ApiOperation(value = "Update Wind Status", nickname = "update")
-	public WindStatus update(@RequestBody WindStatus WindStatus, @PathVariable("id") Long id) throws ObjectNotFoundException, RequestInconsistentException {
-		if (!id.equals(WindStatus.getId())) {
-			throw new RequestInconsistentException(String.format("Inconsistent IDs in url and body: url id: %d; body id: %d", WindStatus.getId(), id));
+	public WindStatus update(@RequestBody WindStatus windStatus, @PathVariable("id") Long id) throws ObjectNotFoundException, RequestInconsistentException {
+		if (!id.equals(windStatus.getId())) {
+			throw new RequestInconsistentException(String.format("Inconsistent IDs in url and body: url id: %d; body id: %d", windStatus.getId(), id));
 		}
-		if (!WindStatusRepository.existsById(id)) {
+		if (!windStatusRepository.existsById(id)) {
 			throw new ObjectNotFoundException(WindStatus.class, id);
 		}
-		return WindStatusRepository.save(WindStatus);
+		return windStatusRepository.save(windStatus);
 	}
 
 	@DeleteMapping("/{id}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	@ApiOperation(value = "Delete Wind Status", nickname = "delete")
 	public void delete(@PathVariable("id") Long id) throws ObjectNotFoundException {
-		if (!WindStatusRepository.existsById(id)) {
+		if (!windStatusRepository.existsById(id)) {
 			throw new ObjectNotFoundException(WindStatus.class, id);
 		}
-		WindStatusRepository.deleteById(id);
+		windStatusRepository.deleteById(id);
 	}
 
 	@DeleteMapping
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	@ApiOperation(value = "Delete all Wind Status", nickname = "deleteAll")
 	public void deleteAll() {
-		WindStatusRepository.deleteAll();
+		windStatusRepository.deleteAll();
 	}
 
 }

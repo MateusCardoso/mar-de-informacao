@@ -43,9 +43,9 @@ public class LinkControllerTest {
 
 	@Test
 	public void findAllShouldReturnAllCreatedLinks() throws Exception {
-		create(Link("A"));
-		create(Link("B"));
-		create(Link("C"));
+		create(link("A"));
+		create(link("B"));
+		create(link("C"));
 		findAll()
 				.andExpect(status().isOk())
 				.andExpect(jsonArrayLength(3));
@@ -58,19 +58,19 @@ public class LinkControllerTest {
 	}
 
 	public void findByIdReturnsTheLinkWithTheSpecifiedId() throws Exception {
-		create(Link("A"));
-		Link LinkUT = createAndReturn(Link("B"));
-		create(Link("C"));
+		create(link("A"));
+		Link linkUT = createAndReturn(link("B"));
+		create(link("C"));
 
-		findById(LinkUT.getId())
+		findById(linkUT.getId())
 				.andExpect(status().isOk())
-				.andExpect(jsonTitle(LinkUT.getLinkName()));
+				.andExpect(jsonTitle(linkUT.getLinkName()));
 
 	}
 
 	@Test
 	public void createShouldSaveTheLinkAndAssignAnId() throws Exception {
-		create(Link("Artigo"))
+		create(link("Artigo"))
 				.andExpect(status().isCreated())
 				.andExpect(jsonPath("$.id").isNumber())
 				.andExpect(jsonTitle("Artigo"));
@@ -78,45 +78,45 @@ public class LinkControllerTest {
 
 	@Test
 	public void updateShouldReturnNotFoundForAnInvalidId() throws Exception {
-		update(Link("Artigo", 5180l))
+		update(link("Artigo", 5180l))
 				.andExpect(status().isNotFound());
 	}
 
 	@Test
 	public void updateShouldReturnBadRequestForInconsistentIds() throws Exception {
-		update(Link("Artigo", 5180l), 123l)
+		update(link("Artigo", 5180l), 123l)
 				.andExpect(status().isBadRequest());
 	}
 
 	@Test
 	public void updateShouldReturnBadRequestIfIdInBodyIsNull() throws Exception {
-		update(Link("Artigo", null), 5180l)
+		update(link("Artigo", null), 5180l)
 				.andExpect(status().isBadRequest());
 	}
 
 	@Test
 	public void updateShouldUpdateTheLink() throws Exception {
-		create(Link("A"));
-		Link LinkUT = createAndReturn(Link("B"));
-		create(Link("C"));
+		create(link("A"));
+		Link linkUT = createAndReturn(link("B"));
+		create(link("C"));
 
-		LinkUT.setLinkName("Artigo");
-		update(LinkUT)
+		linkUT.setLinkName("Artigo");
+		update(linkUT)
 				.andExpect(status().isOk())
-				.andExpect(jsonTitle(LinkUT.getLinkName()));
+				.andExpect(jsonTitle(linkUT.getLinkName()));
 
-		findById(LinkUT.getId())
-				.andExpect(jsonTitle(LinkUT.getLinkName()));
+		findById(linkUT.getId())
+				.andExpect(jsonTitle(linkUT.getLinkName()));
 
 	}
 
 	@Test
 	public void deleteShouldDeleteTheSpecifiedLink() throws Exception {
-		create(Link("A"));
-		Link LinkUT = createAndReturn(Link("B"));
-		create(Link("C"));
+		create(link("A"));
+		Link linkUT = createAndReturn(link("B"));
+		create(link("C"));
 
-		deleteById(LinkUT.getId());
+		deleteById(linkUT.getId());
 		findAll()
 				.andExpect(status().isOk())
 				.andExpect(jsonArrayLength(2));
@@ -130,32 +130,32 @@ public class LinkControllerTest {
 
 	@Test
 	public void deleteAllShouldDeleteAllLinks() throws Exception {
-		create(Link("A"));
-		create(Link("B"));
+		create(link("A"));
+		create(link("B"));
 		deleteAll()
 				.andExpect(status().isNoContent());
 		findAll()
 				.andExpect(jsonArrayLength(0));
 	}
 
-	private ResultActions create(Link Link) throws Exception {
+	private ResultActions create(Link link) throws Exception {
 		ObjectMapper objectMapper = new ObjectMapper();
-		return mockMvc.perform(post(CONTROLLER_BASE_PATH).content(objectMapper.writeValueAsString(Link)).contentType(MediaType.APPLICATION_JSON));
+		return mockMvc.perform(post(CONTROLLER_BASE_PATH).content(objectMapper.writeValueAsString(link)).contentType(MediaType.APPLICATION_JSON));
 	}
 
-	private Link createAndReturn(Link Link) throws Exception {
-		MockHttpServletResponse mockHttpServletResponse = create(Link("B"))
+	private Link createAndReturn(Link link) throws Exception {
+		MockHttpServletResponse mockHttpServletResponse = create(link("B"))
 				.andReturn().getResponse();
 		return Link(mockHttpServletResponse);
 	}
 
-	private ResultActions update(Link Link) throws Exception {
-		return update(Link, Link.getId());
+	private ResultActions update(Link link) throws Exception {
+		return update(link, link.getId());
 	}
 
-	private ResultActions update(Link Link, Long id) throws Exception {
+	private ResultActions update(Link link, Long id) throws Exception {
 		ObjectMapper objectMapper = new ObjectMapper();
-		return mockMvc.perform(put(controllerBasePathWithId(id)).content(objectMapper.writeValueAsString(Link)).contentType(MediaType.APPLICATION_JSON));
+		return mockMvc.perform(put(controllerBasePathWithId(id)).content(objectMapper.writeValueAsString(link)).contentType(MediaType.APPLICATION_JSON));
 	}
 
 	private ResultActions findAll() throws Exception {
@@ -178,16 +178,16 @@ public class LinkControllerTest {
 		return CONTROLLER_BASE_PATH + "/" + (id == null ? "" : id);
 	}
 
-	private Link Link(String linkName) {
-		Link Link = new Link();
-		Link.setLinkName(linkName);
-		return Link;
+	private Link link(String linkName) {
+		Link link = new Link();
+		link.setLinkName(linkName);
+		return link;
 	}
 
-	private Link Link(String linkName, Long id) {
-		Link Link = Link(linkName);
-		Link.setId(id);
-		return Link;
+	private Link link(String linkName, Long id) {
+		Link link = link(linkName);
+		link.setId(id);
+		return link;
 	}
 
 	private Link Link(MockHttpServletResponse mockHttpServletResponse) throws IOException {

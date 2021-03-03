@@ -4,8 +4,10 @@ import javax.persistence.*;
 
 import java.util.List;
 import java.util.Objects;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
+@JsonIgnoreProperties(value = {"links","tags"})
 public class PostRecord {
 
 	@Id
@@ -18,6 +20,13 @@ public class PostRecord {
 
 	@OneToMany(mappedBy = "postRecord")
 	private List<Link> links;
+
+	@ManyToMany
+	@JoinTable(name 		= "Post_Tag",
+		joinColumns 		= @JoinColumn(name = "postId ", referencedColumnName = "postId"),
+		inverseJoinColumns 	= @JoinColumn(name = "tagId", referencedColumnName = "tagId")
+	)
+	private List<Tag> tags;
 
 	public PostRecord() {
 
@@ -53,8 +62,16 @@ public class PostRecord {
 		this.beachReport = beachReport;
 	}
 
-	public List<Link> getLinks(){
-		return links;
+	// public List<Link> getLinks(){
+	// 	return links;
+	// }
+
+	public List<Tag> getTags(){
+		return tags;
+	}
+
+	public void setTags(List<Tag> tags) {
+		this.tags = tags;
 	}
 
 	@Override

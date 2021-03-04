@@ -1,15 +1,32 @@
 package com.ufrgs.inf.tcc.model;
 
 import javax.persistence.*;
+
+import java.util.List;
 import java.util.Objects;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
+@JsonIgnoreProperties(value = {"links","tags","beachReport"})
 public class PostRecord {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long postId;
 	private String description;
+
+	@OneToOne(mappedBy = "postRecord")
+	private BeachReport beachReport;
+
+	@OneToMany(mappedBy = "postRecord")
+	private List<Link> links;
+
+	@ManyToMany
+	@JoinTable(name 		= "Post_Tag",
+		joinColumns 		= @JoinColumn(name = "postId ", referencedColumnName = "postId"),
+		inverseJoinColumns 	= @JoinColumn(name = "tagId", referencedColumnName = "tagId")
+	)
+	private List<Tag> tags;
 
 	public PostRecord() {
 
@@ -35,6 +52,26 @@ public class PostRecord {
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+
+	public BeachReport getReport(){
+		return beachReport;
+	}
+
+	public void setReport(BeachReport beachReport){
+		this.beachReport = beachReport;
+	}
+
+	// public List<Link> getLinks(){
+	// 	return links;
+	// }
+
+	public List<Tag> getTags(){
+		return tags;
+	}
+
+	public void setTags(List<Tag> tags) {
+		this.tags = tags;
 	}
 
 	@Override
@@ -63,4 +100,3 @@ public class PostRecord {
 				'}';
 	}
 }
-

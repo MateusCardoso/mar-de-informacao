@@ -62,9 +62,9 @@ public class PostRecord {
 		this.beachReport = beachReport;
 	}
 
-	// public List<Link> getLinks(){
-	// 	return links;
-	// }
+	public List<Link> getLinks(){
+		return links;
+	}
 
 	public List<Tag> getTags(){
 		return tags;

@@ -26,7 +26,7 @@ services:
   backend:
     image: maven:3.5-jdk-8
     command: mvn clean spring-boot:run -Dmaven.clean.failOnError=false
-    command: mvn --settings .m2/settings.xml clean spring-boot:run -Dmaven.clean.failOnError=false
+    # command: mvn --settings .m2/settings.xml clean spring-boot:run -Dmaven.clean.failOnError=false
     working_dir: /usr/src/app
     restart: always
     ports:
@@ -35,6 +35,9 @@ services:
       - ./backend/src:/usr/src/app/src
       - ./backend/.m2:/usr/src/app/.m2
       - ./backend/pom.xml:/usr/src/app/pom.xml
+      - ./backend/package.json:/usr/src/app/package.json
+      - ./backend/node:/usr/src/app/node
+      - ./backend/node_modules:/usr/src/app/node_modules
       - m2:/root/.m2
     environment:
       SPRING_PROFILES_ACTIVE: "postgres"

@@ -7,12 +7,13 @@ import {
 } from 'semantic-ui-react'
 
 import {
-  PostText,
   BeachReportSection,
   WindStatusSection,
   TagDropdown,
   LinkTableSection
 } from "./createComponents"
+
+import PostText from "./postText"
 
 const style = {
   h1: {
@@ -30,23 +31,55 @@ const style = {
   },
 }
 
-const NewPost = () => (
-  <div>
-    <Header as='h1' content='Entrar novo Post' style={style.h1} textAlign='left' />
-    <Form>
-      <Grid columns={2} stackable>
-        <PostText></PostText>
-        <BeachReportSection></BeachReportSection>
-        <WindStatusSection></WindStatusSection>
-        <TagDropdown></TagDropdown>
-        <LinkTableSection></LinkTableSection>
-        
-        <Grid.Row>
-          <Form.Field control={Button}>Salvar</Form.Field>
-        </Grid.Row>
-      </Grid>
-    </Form>
-  </div>
-)
+class NewPost extends React.Component{
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      postId: null
+    }
+    const requestOptions = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ title: 'React POST Request Example' })
+    };
+    fetch('http://localhost:8080/api/v1/posts', requestOptions)
+      .then(response => response.json())
+      .then(data => this.setState({ postId: data.postId }));
+  }
+
+//   async componentDidMount() {
+//     const requestOptions = {
+//         method: 'POST',
+//         headers: { 'Content-Type': 'application/json' },
+//         body: JSON.stringify({ description: 'React POST Request Example' })
+//     };
+//     const response = await fetch('http://localhost:8080/api/v1/posts', requestOptions);
+//     const data = await response.json();
+//     this.setState({ postId: data.postId });
+// }
+
+  render() {
+    return (
+      <div>
+        <Header as='h1' content='Entrar novo Post' style={style.h1} textAlign='left' />
+        <Form>
+          <Grid columns={2} stackable>
+            <PostText></PostText>
+            <BeachReportSection></BeachReportSection>
+            <WindStatusSection></WindStatusSection>
+            <TagDropdown></TagDropdown>
+            <LinkTableSection></LinkTableSection>
+            
+            <Grid.Row>
+              <Form.Field control={Button}>Salvar</Form.Field>
+            </Grid.Row>
+          </Grid>
+        </Form>
+      </div>
+    )
+  }
+
+}
 
 export default NewPost

@@ -13,7 +13,7 @@
     "url": "https://github.com/MateusCardoso/mar-de-informacao"
   },
   "scripts": {
-    "start": "react-scripts start &"
+    "start": "react-scripts start"
   },
   "dependencies": {
     "react": "^16.14.0",

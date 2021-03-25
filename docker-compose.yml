@@ -26,7 +26,6 @@ services:
   backend:
     image: maven:3.5-jdk-8
     command: mvn clean spring-boot:run -Dmaven.clean.failOnError=false
-    # command: mvn --settings .m2/settings.xml clean spring-boot:run -Dmaven.clean.failOnError=false
     working_dir: /usr/src/app
     restart: always
     ports:
@@ -51,7 +50,6 @@ services:
       - 8084:3000
     volumes:
       - ./frontend/src:/usr/src/app/src
-      # - ./frontend/node_modules:/usr/src/app/node_modules
       - ./frontend/package.json:/usr/src/app/package.json
       - ./frontend/public:/usr/src/app/public
       - ./frontend/static:/usr/src/app/static

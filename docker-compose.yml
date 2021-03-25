@@ -48,7 +48,7 @@ services:
     working_dir: /usr/src/app
     restart: always
     ports:
-      - 8084:8080
+      - 8084:3000
     volumes:
       - ./frontend/src:/usr/src/app/src
       # - ./frontend/node_modules:/usr/src/app/node_modules

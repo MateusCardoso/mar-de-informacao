@@ -38,26 +38,18 @@ class NewPost extends React.Component{
     this.state = {
       postId: null
     }
-    const requestOptions = {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ title: 'React POST Request Example' })
-    };
-    fetch('http://localhost:8080/api/v1/posts', requestOptions)
-      .then(response => response.json())
-      .then(data => this.setState({ postId: data.postId }));
   }
 
-//   async componentDidMount() {
-//     const requestOptions = {
-//         method: 'POST',
-//         headers: { 'Content-Type': 'application/json' },
-//         body: JSON.stringify({ description: 'React POST Request Example' })
-//     };
-//     const response = await fetch('http://localhost:8080/api/v1/posts', requestOptions);
-//     const data = await response.json();
-//     this.setState({ postId: data.postId });
-// }
+  async componentDidMount() {
+    const requestOptions = {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ description: 'React POST Request Example' })
+    };
+    const response = await fetch(process.env.REACT_APP_API_URL+'/posts', requestOptions);
+    const data = await response.json();
+    this.setState({ postId: data.postId });
+}
 
   render() {
     return (

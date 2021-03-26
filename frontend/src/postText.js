@@ -15,10 +15,10 @@ class PostText extends TextArea{
         return(
             <Grid.Column>
                 <Header as='h4' content='Descriçao do Post:' textAlign='left' />
-                <Form>
+                <Form.Field>
                     <Label>Texto:</Label>
                     <TextArea placeholder='Texto do Post...' style={{ minHeight: 200 }}/>
-                </Form>
+                </Form.Field>
             </Grid.Column>
         )
     }

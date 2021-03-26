@@ -58,71 +58,55 @@ const stars = [
 ]
 
 const FishingDropdown = () => (
-    <Form>
-        <Form.Field>
-            <Label>Nota para Pescaria</Label>
-            <Dropdown
-                placeholder='Nota...'
-                fluid
-                selection
-                options={stars}
-            />
-        </Form.Field>
-    </Form>
-)
-
-const PostText = () => (
-    <Grid.Column>
-        <Header as='h4' content='Descriçao do Post:' textAlign='left' />
-        <Form>
-            <Label>Texto:</Label>
-            <TextArea placeholder='Texto do Post...' style={{ minHeight: 200 }}/>
-        </Form>
-    </Grid.Column>
+    <Form.Field>
+        <Label>Nota para Pescaria</Label>
+        <Dropdown
+            placeholder='Nota...'
+            fluid
+            selection
+            options={stars}
+        />
+    </Form.Field>
 )
 
 const TemperatureInput = () => (
-    <Form>
+    <Form.Field>
         <Label>Temperatura</Label>
         <Input fluid
-        label={{ basic: true, content: '°C' }}
-        labelPosition='right'
-        placeholder='Graus...'
-    />
-    </Form>
+            label={{ basic: true, content: '°C' }}
+            labelPosition='right'
+            placeholder='Graus...'
+        />
+    </Form.Field>
 )
 
 const WaterQualityInput = () => (
-    <Form>
-        <Form.Field>
-            <Label>Qualidade da Agua</Label>
-            <Input fluid
-                placeholder='Qualidade...'
-            />
-        </Form.Field>
-    </Form>
+    <Form.Field>
+        <Label>Qualidade da Agua</Label>
+        <Input fluid
+            placeholder='Qualidade...'
+        />
+    </Form.Field>
 )
 
 const WindDirectionInput = () => (
-    <Form>
-        <Form.Field>
-            <Label>Direçao do Vento</Label>
-            <Input fluid
-                placeholder='Direçao...'
-            />
-        </Form.Field>
-    </Form>
+    <Form.Field>
+        <Label>Direçao do Vento</Label>
+        <Input fluid
+            placeholder='Direçao...'
+        />
+    </Form.Field>
 )
 
 const WindVelocityInput = () => (
-    <Form>
+    <Form.Field>
         <Label>Velocidade do Vento</Label>
         <Input fluid
-        label={{ basic: true, content: 'Km/h' }}
-        labelPosition='right'
-        placeholder='Velocidade...'
-    />
-    </Form>
+            label={{ basic: true, content: 'Km/h' }}
+            labelPosition='right'
+            placeholder='Velocidade...'
+        />
+    </Form.Field>
 )
 
 const tags = [
@@ -145,7 +129,6 @@ const tags = [
 const TagDropdown = () => (
     <Grid.Column>
         <Header as='h4' content='Categoria do Post:' textAlign='left' style={style.h4} />
-        <Form>
             <Form.Field>
                 <Label>Tags de Busca</Label>
                 <Dropdown
@@ -159,29 +142,24 @@ const TagDropdown = () => (
                     placeholder='Tags...'
                 />
             </Form.Field>
-        </Form>
     </Grid.Column>
     
   )
 
 const LinkNameInput = () => (
-    <Form>
-        <Form.Field>
-            <Input fluid
-                placeholder='Nome...'
-            />
-        </Form.Field>
-    </Form>
+    <Form.Field>
+        <Input fluid
+            placeholder='Nome...'
+        />
+    </Form.Field>
 )
 
 const LinkURLInput = () => (
-    <Form>
-        <Form.Field>
-            <Input fluid
-                placeholder='URL...'
-            />
-        </Form.Field>
-    </Form>
+    <Form.Field>
+        <Input fluid
+            placeholder='URL...'
+        />
+    </Form.Field>
 )
 
 const LinkTableSection = () => (
@@ -241,7 +219,6 @@ const WindStatusSection = () => (
 )
 
 export {
-    PostText,
     BeachReportSection,
     WindStatusSection,
     LinkTableSection,

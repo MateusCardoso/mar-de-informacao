@@ -2,6 +2,7 @@ import 'semantic-ui-css/semantic.min.css'
 import React from "react";
 import ReactDOM from "react-dom";
 import { Container} from "semantic-ui-react";
+require('dotenv').config();
 
 import NewPost from "./newPost"
 

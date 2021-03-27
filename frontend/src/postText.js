@@ -11,6 +11,18 @@ class PostText extends TextArea{
         super(props);
     }
 
+    async save(postId) {
+        const requestOptions = {
+            method: 'PATCH',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ description: postId })
+        };
+        const response = await fetch(process.env.REACT_APP_API_URL+'/posts/'+postId, requestOptions)
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+    }
+
     render() {
         return(
             <Grid.Column>

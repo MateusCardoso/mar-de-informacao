@@ -1,6 +1,5 @@
 import React from 'react'
 import {
-  Button,
   Form,
   Grid,
   Header
@@ -14,6 +13,7 @@ import {
 } from "./createComponents"
 
 import PostText from "./postText"
+import SavePostButton from "./savePostButton"
 
 const style = {
   h1: {
@@ -37,19 +37,32 @@ class NewPost extends React.Component{
     super(props);
     this.state = {
       postId: null
-    }
+    };
+    this.updatePost=this.updatePost.bind(this);
   }
 
   async componentDidMount() {
     const requestOptions = {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ description: 'React POST Request Example' })
+        body: JSON.stringify({})
     };
     const response = await fetch(process.env.REACT_APP_API_URL+'/posts', requestOptions);
     const data = await response.json();
-    this.setState({ postId: data.postId });
-}
+    this.setState({ postId: data.id });
+  }
+
+  updatePost() {
+    const requestOptions = {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ id: this.state.postId, description: this.state.postId })
+    };
+    fetch(process.env.REACT_APP_API_URL+'/posts/'+this.state.postId, requestOptions)
+    .catch((error) => {
+        console.error('Error:', error);
+    });
+  }
 
   render() {
     return (
@@ -62,10 +75,8 @@ class NewPost extends React.Component{
             <WindStatusSection></WindStatusSection>
             <TagDropdown></TagDropdown>
             <LinkTableSection></LinkTableSection>
+            <SavePostButton savePost={this.updatePost}></SavePostButton>
             
-            <Grid.Row>
-              <Form.Field control={Button}>Salvar</Form.Field>
-            </Grid.Row>
           </Grid>
         </Form>
       </div>

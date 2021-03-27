@@ -38,7 +38,6 @@ class NewPost extends React.Component{
     this.state = {
       postId: null
     };
-    this.updatePost=this.updatePost.bind(this);
   }
 
   async componentDidMount() {
@@ -52,18 +51,6 @@ class NewPost extends React.Component{
     this.setState({ postId: data.id });
   }
 
-  updatePost() {
-    const requestOptions = {
-      method: 'PATCH',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ id: this.state.postId, description: this.state.postId })
-    };
-    fetch(process.env.REACT_APP_API_URL+'/posts/'+this.state.postId, requestOptions)
-    .catch((error) => {
-        console.error('Error:', error);
-    });
-  }
-
   render() {
     return (
       <div>
@@ -75,7 +62,7 @@ class NewPost extends React.Component{
             <WindStatusSection></WindStatusSection>
             <TagDropdown></TagDropdown>
             <LinkTableSection></LinkTableSection>
-            <SavePostButton savePost={this.updatePost}></SavePostButton>
+            <SavePostButton postId={this.state.postId}></SavePostButton>
             
           </Grid>
         </Form>

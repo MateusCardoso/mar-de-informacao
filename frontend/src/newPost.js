@@ -36,8 +36,14 @@ class NewPost extends React.Component{
   constructor(props) {
     super(props);
     this.state = {
-      postId: null
+      postId: null,
+      description: null
     };
+    this.updateDescription = this.updateDescription.bind(this);
+  }
+
+  updateDescription(evt) {
+    this.setState({description: evt.target.value})
   }
 
   async componentDidMount() {
@@ -57,12 +63,12 @@ class NewPost extends React.Component{
         <Header as='h1' content='Entrar novo Post' style={style.h1} textAlign='left' />
         <Form>
           <Grid columns={2} stackable>
-            <PostText></PostText>
+            <PostText onChange={this.updateDescription} description={this.state.description}></PostText>
             <BeachReportSection></BeachReportSection>
             <WindStatusSection></WindStatusSection>
             <TagDropdown></TagDropdown>
             <LinkTableSection></LinkTableSection>
-            <SavePostButton postId={this.state.postId}></SavePostButton>
+            <SavePostButton postId={this.state.postId} description={this.state.description}></SavePostButton>
             
           </Grid>
         </Form>

@@ -6,14 +6,14 @@ import {
 class SavePostButton extends Button{
     constructor(props){
         super(props);
-        this.updatePost=this.updatePost.bind(this);
+        this.updatePost = this.updatePost.bind(this);
     }
 
     updatePost() {
         const requestOptions = {
           method: 'PATCH',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ id: this.props.postId, description: this.props.postId })
+          body: JSON.stringify({ id: this.props.postId, description: this.props.description })
         };
         fetch(process.env.REACT_APP_API_URL+'/posts/'+this.props.postId, requestOptions)
         .catch((error) => {
@@ -24,7 +24,7 @@ class SavePostButton extends Button{
     render() {
         return(
             <Grid.Row>
-              <Button label='Salvar' onClick={this.updatePost}></Button>
+              <Button onClick={this.updatePost}>Salvar</Button>
             </Grid.Row>
         )
     }

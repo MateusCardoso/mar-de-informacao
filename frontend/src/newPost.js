@@ -37,12 +37,12 @@ class NewPost extends React.Component{
     super(props);
     this.state = {
       postId: null,
-      description: null,
+      description: '',
       beachReport: {
         reportId: null,
-        waterQuality: null,
-        temperature: null,
-        fishingConditions: null
+        waterQuality: '',
+        temperature: '',
+        fishingConditions: ''
       }
     };
     this.updateDescription = this.updateDescription.bind(this);
@@ -53,15 +53,16 @@ class NewPost extends React.Component{
     this.setState({description: evt.target.value})
   }
 
-  updateBeachReport(beachReport) {
+  updateBeachReport(name,value) {
+    let beachReport = this.state.beachReport;
+    beachReport[name] = value;
     this.setState({beachReport: beachReport})
   }
 
   async componentDidMount() {
-    const postId = this.createPostRecord();
-    const reportId = this.createBeachreport(postId);
+    const postId = await this.createPostRecord();
 
-    this.setState({ postId: postId, beachReport: {reportId: reportId} });
+    this.setState({ postId: postId });
   }
 
   async createPostRecord(){
@@ -75,18 +76,6 @@ class NewPost extends React.Component{
     return (data.id);
   }
 
-  async createBeachreport(postId){
-    const requestOptions = {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({postId: postId})
-    };
-
-    const response = await fetch(process.env.REACT_APP_API_URL+'/reports', requestOptions);
-    const data = await response.json();
-    return (data.id);
-  }
-
   render() {
     return (
       <div>
@@ -94,7 +83,7 @@ class NewPost extends React.Component{
         <Form>
           <Grid columns={2} stackable>
             <PostText onChange={this.updateDescription} description={this.state.description}></PostText>
-            <BeachReport updateBeachReport={this.updateBeachReport} beachReport={this.state.beachReport}></BeachReport>
+            <BeachReport updateBeachReport={this.updateBeachReport} postId={this.state.postId}></BeachReport>
             <WindStatusSection></WindStatusSection>
             <TagDropdown></TagDropdown>
             <LinkTableSection></LinkTableSection>

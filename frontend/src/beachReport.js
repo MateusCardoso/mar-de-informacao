@@ -39,11 +39,44 @@ const stars = [
 class BeachReport extends React.Component{
     constructor(props){
         super(props);
-        this.updateWaterQuality = this.updateWaterQuality.bind(this);
+        this.state = {
+            reportId: null,
+            waterQuality: '',
+            temperature: '',
+            fishingConditions: ''
+        }
+
+        this.handleInputChange = this.handleInputChange.bind(this);
     }
 
-    updateWaterQuality(evt) {
-        this.props.updateBeachReport({waterQuality: evt.target.value});
+    async componentDidMount(){
+        const reportId = await this.createBeachreport();
+        this.setState({ reportId: reportId });
+        this.props.updateBeachReport('reportId', reportId)
+    }
+
+    async createBeachreport(){
+        const postId = await this.props.postId;
+        const requestOptions = {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({postId: postId})
+        };
+    
+        const response = await fetch(process.env.REACT_APP_API_URL+'/reports', requestOptions);
+        const data = await response.json();
+        return (data.id);
+      }
+
+    handleInputChange(evt) {
+        const value = evt.target.value;
+        const name = evt.target.name;
+
+        this.setState({
+            [name]: value
+        });
+
+        this.props.updateBeachReport(name,value);
     }
 
     render() {
@@ -53,26 +86,33 @@ class BeachReport extends React.Component{
                 <Form.Field>
                     <Label>Qualidade da Agua</Label>
                     <Input fluid 
+                        name='waterQuality'
                         placeholder='Qualidade...'
-                        onChange={this.updateWaterQuality}
-                        value={this.props.beachReport.waterQuality}
+                        onChange={this.handleInputChange}
+                        value={this.state.waterQuality}
                     />
                 </Form.Field>
                 <Form.Field>
                     <Label>Temperatura</Label>
                     <Input fluid
+                        name='temperature'
                         label={{ basic: true, content: '°C' }}
                         labelPosition='right'
                         placeholder='Graus...'
+                        onChange={this.handleInputChange}
+                        value={this.state.temperature}
                     />
                 </Form.Field>
                 <Form.Field>
                     <Label>Nota para Pescaria</Label>
                     <Dropdown
+                        name='fishingConditions'
                         placeholder='Nota...'
                         fluid
                         selection
                         options={stars}
+                        onChange={this.handleInputChange}
+                        value={this.state.fishingConditions}
                     />
                 </Form.Field>
             </Grid.Column>

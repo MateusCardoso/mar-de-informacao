@@ -15,7 +15,8 @@ public class PostRecord {
 	private Long postId;
 	private String description;
 
-	@OneToOne(mappedBy = "postRecord")
+	@OneToOne(cascade=CascadeType.ALL)
+	@JoinColumn(name = "reportId")
 	private BeachReport beachReport;
 
 	@OneToMany(mappedBy = "postRecord")

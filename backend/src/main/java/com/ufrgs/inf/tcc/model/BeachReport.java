@@ -18,8 +18,7 @@ public class BeachReport {
 	private String waterQuality;
     private Integer fishingConditions;
 
-    @OneToOne
-	@JoinColumn(name = "postId")
+	@OneToOne(mappedBy = "beachReport")
     private PostRecord postRecord;
 
 	@OneToOne(mappedBy = "beachReport")

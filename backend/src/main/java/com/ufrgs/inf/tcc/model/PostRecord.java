@@ -15,7 +15,8 @@ public class PostRecord {
 	private Long postId;
 	private String description;
 
-	@OneToOne(mappedBy = "postRecord")
+	@OneToOne(cascade=CascadeType.ALL)
+	@JoinColumn(name = "reportId")
 	private BeachReport beachReport;
 
 	@OneToMany(mappedBy = "postRecord")
@@ -62,9 +63,9 @@ public class PostRecord {
 		this.beachReport = beachReport;
 	}
 
-	// public List<Link> getLinks(){
-	// 	return links;
-	// }
+	public List<Link> getLinks(){
+		return links;
+	}
 
 	public List<Tag> getTags(){
 		return tags;

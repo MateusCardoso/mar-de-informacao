@@ -47,7 +47,7 @@ public class BeachReportController {
 				.body(beachReport);
 	}
 
-	@PutMapping("/{id}")
+	@PatchMapping("/{id}")
 	@ApiOperation(value = "Update Report", nickname = "update")
 	public BeachReport update(@RequestBody BeachReport beachReport, @PathVariable("id") Long id) throws ObjectNotFoundException, RequestInconsistentException {
 		if (!id.equals(beachReport.getId())) {

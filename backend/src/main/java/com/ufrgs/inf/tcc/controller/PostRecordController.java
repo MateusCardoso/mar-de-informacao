@@ -47,7 +47,7 @@ public class PostRecordController {
 				.body(postRecord);
 	}
 
-	@PutMapping("/{id}")
+	@PatchMapping("/{id}")
 	@ApiOperation(value = "Update Post", nickname = "update")
 	public PostRecord update(@RequestBody PostRecord postRecord, @PathVariable("id") Long id) throws ObjectNotFoundException, RequestInconsistentException {
 		if (!id.equals(postRecord.getId())) {

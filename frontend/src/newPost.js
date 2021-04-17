@@ -54,26 +54,30 @@ class NewPost extends React.Component{
   }
 
   updateBeachReport(name,value) {
-    let beachReport = this.state.beachReport;
-    beachReport[name] = value;
-    this.setState({beachReport: beachReport})
+    this.setState({beachReport: {
+      [name]: value
+    }})
   }
 
   async componentDidMount() {
-    const postId = await this.createPostRecord();
-
-    this.setState({ postId: postId });
+    const entityIds = await this.createPostRecord();
+    this.setState({ 
+      postId: entityIds.postId,
+      beachReport: {reportId: entityIds.reportId}
+    });
   }
 
   async createPostRecord(){
     const requestOptions = {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({})
+      body: JSON.stringify({
+        report: {}
+      })
     };
     const response = await fetch(process.env.REACT_APP_API_URL+'/posts', requestOptions);
     const data = await response.json();
-    return (data.id);
+    return ({postId: data.id, reportId: data.report.id});
   }
 
   render() {

@@ -49,25 +49,6 @@ class BeachReport extends React.Component{
         this.handleInputChange = this.handleInputChange.bind(this);
     }
 
-    async componentDidMount(){
-        const reportId = await this.createBeachreport();
-        this.setState({ reportId: reportId });
-        this.props.updateBeachReport('reportId', reportId)
-    }
-
-    async createBeachreport(){
-        const postId = await this.props.postId;
-        const requestOptions = {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({postId: postId})
-        };
-    
-        const response = await fetch(process.env.REACT_APP_API_URL+'/reports', requestOptions);
-        const data = await response.json();
-        return (data.id);
-      }
-
     handleInputChange(evt) {
         const value = evt.target.value;
         const name = evt.target.name;

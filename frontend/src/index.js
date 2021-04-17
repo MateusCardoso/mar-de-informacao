@@ -4,7 +4,7 @@ import ReactDOM from "react-dom";
 import { Container} from "semantic-ui-react";
 require('dotenv').config();
 
-import NewPost from "./newPost"
+import PageRouter from "./pageRouter"
 
 const App = ({ children }) => (
   <Container style={{ margin: 20 }}>
@@ -16,7 +16,7 @@ const App = ({ children }) => (
 
 ReactDOM.render(
   <App>
-    <NewPost />
+    <PageRouter />
   </App>,
   document.getElementById("root")
 );

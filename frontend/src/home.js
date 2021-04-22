@@ -1,6 +1,5 @@
 import React from 'react'
 import {
-  Form,
   Grid,
   Header, 
   Card,
@@ -45,7 +44,7 @@ function Create(){
 
 function Search(){
     return(
-        <Card href='/Create' fluid>
+        <Card href='/Search' fluid>
             <Card.Content>
                 <Grid columns={2} fluid>
                     <Grid.Column verticalAlign='middle'>

@@ -6,6 +6,7 @@ import {
   } from "react-router-dom";
 
   import NewPost from "./newPost"
+  import DisplayPost from "./displayPost"
   import Home from "./home"
 
 export default function PageRouter(){
@@ -15,6 +16,9 @@ export default function PageRouter(){
                 <Switch>
                     <Route path="/Create">
                         <NewPost />
+                    </Route>
+                    <Route path="/Display">
+                        <DisplayPost />
                     </Route>
                     <Route path="/">
                         <Home />

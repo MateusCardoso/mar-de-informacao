@@ -54,9 +54,9 @@ class NewPost extends React.Component{
   }
 
   updateBeachReport(name,value) {
-    this.setState({beachReport: {
-      [name]: value
-    }})
+    var updatedReport = this.state.beachReport;
+    updatedReport[name] = value;
+    this.setState({beachReport: updatedReport})
   }
 
   async componentDidMount() {

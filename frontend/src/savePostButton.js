@@ -17,6 +17,12 @@ class SavePostButton extends Button{
             body: JSON.stringify({ 
                 id: postId, 
                 description: this.props.description,
+                beachReport: {
+                    id: this.props.beachReport.reportId,
+                    waterQuality: this.props.beachReport.waterQuality,
+                    temperature: this.props.beachReport.temperature,
+                    fishingConditions: this.props.beachReport.fishingConditions
+                  }
             })
         };
         fetch(process.env.REACT_APP_API_URL+'/posts/'+postId, requestOptions)

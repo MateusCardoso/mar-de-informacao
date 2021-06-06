@@ -11,24 +11,32 @@ class SavePostButton extends Button{
 
     async updatePost() {
         const postId = await this.props.postId;
-        const requestOptions = {
+        const requestOptionsUpdateDescription = {
             method: 'PATCH',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ 
                 id: postId, 
                 description: this.props.description,
-                beachReport: {
-                    id: this.props.beachReport.reportId,
-                    waterQuality: this.props.beachReport.waterQuality,
-                    temperature: this.props.beachReport.temperature,
-                    fishingConditions: this.props.beachReport.fishingConditions
-                  }
             })
         };
-        fetch(process.env.REACT_APP_API_URL+'/posts/'+postId, requestOptions)
-            .catch((error) => {
-                console.error('Error:', error);
-            });        
+        const reportId = await this.props.beachReport.reportId;
+        const requestOptionsUpdateBeachReport = {
+            method: 'PATCH',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ 
+                id: reportId,
+                waterQuality: this.props.beachReport.waterQuality,
+                temperature: this.props.beachReport.temperature,
+                fishingConditions: this.props.beachReport.fishingConditions
+            })
+        };
+        try{
+            fetch(process.env.REACT_APP_API_URL+'/posts/'+postId, requestOptionsUpdateDescription),
+            fetch(process.env.REACT_APP_API_URL+'/reports/'+reportId, requestOptionsUpdateBeachReport)
+        }
+        catch(error){
+            console.error('Error:', error);
+        };   
     }
     
     render() {

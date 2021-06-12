@@ -7,7 +7,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.util.Objects;
 
 @Entity
-@JsonIgnoreProperties(value = {"postRecord","windStatus"})
+@JsonIgnoreProperties(value = {"postRecord"})
 public class BeachReport {
 
 
@@ -21,7 +21,8 @@ public class BeachReport {
 	@OneToOne(mappedBy = "beachReport")
     private PostRecord postRecord;
 
-	@OneToOne(mappedBy = "beachReport")
+	@OneToOne(cascade=CascadeType.ALL)
+	@JoinColumn(name = "windId")
 	private WindStatus windStatus; 
 
 	public BeachReport() {
@@ -68,6 +69,14 @@ public class BeachReport {
 		this.fishingConditions = fishingConditions;
 	}
 
+	public WindStatus getWindStatus(){
+		return windStatus;
+	}
+
+	public void setWindStatus(WindStatus windStatus){
+		this.windStatus = windStatus;
+	}
+
 	public PostRecord getPostRecord() {
 		return postRecord;
 	}
@@ -88,8 +97,7 @@ public class BeachReport {
 		return Objects.equals(reportId, that.reportId) &&
 			    Objects.equals(temperature, that.temperature) &&
                 Objects.equals(waterQuality, that.waterQuality) &&
-                Objects.equals(fishingConditions, that.fishingConditions) &&
-				Objects.equals(postRecord, that.postRecord);
+                Objects.equals(fishingConditions, that.fishingConditions);
 	}
 
 	@Override

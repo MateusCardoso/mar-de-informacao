@@ -15,8 +15,7 @@ public class WindStatus {
 	private String windDirection;
     private Double windVelocity;
 
-    @OneToOne
-    @JoinColumn(name = "reportId")
+	@OneToOne(mappedBy = "windStatus")
     private BeachReport beachReport;
 
 	public WindStatus() {
@@ -54,11 +53,11 @@ public class WindStatus {
 		this.windVelocity = windVelocity;
 	}
 
-	public BeachReport getBeachReport() {
+	public BeachReport getBeachReport(){
 		return beachReport;
 	}
 
-	public void setBeachReport(BeachReport beachReport) {
+	public void setBeachReport(BeachReport beachReport){
 		this.beachReport = beachReport;
 	}
 
@@ -73,8 +72,7 @@ public class WindStatus {
 		WindStatus that = (WindStatus) o;
 		return Objects.equals(windId, that.windId) &&
 			    Objects.equals(windDirection, that.windDirection) &&
-                Objects.equals(windVelocity, that.windVelocity) &&
-				Objects.equals(beachReport, that.beachReport);
+                Objects.equals(windVelocity, that.windVelocity);
 	}
 
 	@Override

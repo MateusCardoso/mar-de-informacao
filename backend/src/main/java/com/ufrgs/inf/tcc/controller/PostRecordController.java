@@ -74,8 +74,8 @@ public class PostRecordController {
 		}
 		Optional<PostRecord> dbPostRecord = postRecordRepository.findById(id);
 		PostRecord oldPostRecord = dbPostRecord.get();
-		BeachReport beachReport = postRecord.getReport();
-		BeachReport oldBeachReport = oldPostRecord.getReport();
+		BeachReport beachReport = postRecord.getBeachReport();
+		BeachReport oldBeachReport = oldPostRecord.getBeachReport();
 		oldBeachReport.setFishingConditions(beachReport.getFishingConditions());
 		oldBeachReport.setTemperature(beachReport.getTemperature());
 		oldBeachReport.setWaterQuality(beachReport.getWaterQuality());

@@ -43,6 +43,11 @@ class NewPost extends React.Component{
         waterQuality: '',
         temperature: '',
         fishingConditions: ''
+      },
+      windStatus: {
+        windId: null,
+	      windDirection: '',
+        windVelocity: ''
       }
     };
     this.updateDescription = this.updateDescription.bind(this);
@@ -63,7 +68,8 @@ class NewPost extends React.Component{
     const entityIds = await this.createPostRecord();
     this.setState({ 
       postId: entityIds.postId,
-      beachReport: {reportId: entityIds.reportId}
+      beachReport: {reportId: entityIds.reportId},
+      windStatus:{windId: entityIds.windId}
     });
   }
 
@@ -72,12 +78,14 @@ class NewPost extends React.Component{
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        report: {}
+        beachReport: {
+          windStatus: {}
+        },
       })
     };
     const response = await fetch(process.env.REACT_APP_API_URL+'/posts', requestOptions);
     const data = await response.json();
-    return ({postId: data.id, reportId: data.report.id});
+    return ({postId: data.id, reportId: data.beachReport.id, windId: data.windId});
   }
 
   render() {

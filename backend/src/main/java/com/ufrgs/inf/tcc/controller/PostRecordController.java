@@ -1,6 +1,5 @@
 package com.ufrgs.inf.tcc.controller;
 
-import com.ufrgs.inf.tcc.model.BeachReport;
 import com.ufrgs.inf.tcc.model.PostRecord;
 import com.ufrgs.inf.tcc.repository.PostRecordRepository;
 import io.swagger.annotations.Api;
@@ -60,25 +59,6 @@ public class PostRecordController {
 		Optional<PostRecord> dbPostRecord = postRecordRepository.findById(id);
 		PostRecord oldPostRecord = dbPostRecord.get();
 		oldPostRecord.setDescription(postRecord.getDescription());
-		return postRecordRepository.save(oldPostRecord);
-	}
-
-	@PatchMapping("/{id}/beachReport")
-	@ApiOperation(value = "Update Post", nickname = "update")
-	public PostRecord update(@RequestBody PostRecord postRecord, @PathVariable("id") Long id) throws ObjectNotFoundException, RequestInconsistentException {
-		if (!id.equals(postRecord.getId())) {
-			throw new RequestInconsistentException(String.format("Inconsistent IDs in url and body: url id: %d; body id: %d", postRecord.getId(), id));
-		}
-		if (!postRecordRepository.existsById(id)) {
-			throw new ObjectNotFoundException(PostRecord.class, id);
-		}
-		Optional<PostRecord> dbPostRecord = postRecordRepository.findById(id);
-		PostRecord oldPostRecord = dbPostRecord.get();
-		BeachReport beachReport = postRecord.getBeachReport();
-		BeachReport oldBeachReport = oldPostRecord.getBeachReport();
-		oldBeachReport.setFishingConditions(beachReport.getFishingConditions());
-		oldBeachReport.setTemperature(beachReport.getTemperature());
-		oldBeachReport.setWaterQuality(beachReport.getWaterQuality());
 		return postRecordRepository.save(oldPostRecord);
 	}
 

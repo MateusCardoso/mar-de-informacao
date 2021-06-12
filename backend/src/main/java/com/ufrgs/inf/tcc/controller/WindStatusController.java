@@ -56,6 +56,10 @@ public class WindStatusController {
 		if (!windStatusRepository.existsById(id)) {
 			throw new ObjectNotFoundException(WindStatus.class, id);
 		}
+		Optional<WindStatus> dbWindStatus = windStatusRepository.findById(id);
+		WindStatus oldWindStatus = dbWindStatus.get();
+		oldWindStatus.setWindDirection(windStatus.getWindDirection());
+		oldWindStatus.setWindVelocity(windStatus.getWindVelocity());
 		return windStatusRepository.save(windStatus);
 	}
 

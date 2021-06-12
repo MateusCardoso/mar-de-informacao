@@ -6,7 +6,6 @@ import {
 } from 'semantic-ui-react'
 
 import {
-  WindStatusSection,
   TagDropdown,
   LinkTableSection
 } from "./createComponents"
@@ -14,6 +13,7 @@ import {
 import PostText from "./postText"
 import SavePostButton from "./savePostButton"
 import BeachReport from "./beachReport"
+import WindStatus from './windStatus'
 
 const style = {
   h1: {
@@ -52,6 +52,7 @@ class NewPost extends React.Component{
     };
     this.updateDescription = this.updateDescription.bind(this);
     this.updateBeachReport = this.updateBeachReport.bind(this);
+    this.updateWindStatus = this.updateWindStatus.bind(this);
   }
 
   updateDescription(evt) {
@@ -62,6 +63,12 @@ class NewPost extends React.Component{
     var updatedReport = this.state.beachReport;
     updatedReport[name] = value;
     this.setState({beachReport: updatedReport})
+  }
+
+  updateWindStatus(name,value) {
+    var updatedWindStatus = this.state.windStatus;
+    updatedWindStatus[name] = value;
+    this.setState({windStatus: updatedWindStatus})
   }
 
   async componentDidMount() {
@@ -95,8 +102,8 @@ class NewPost extends React.Component{
         <Form>
           <Grid columns={2} stackable>
             <PostText onChange={this.updateDescription} description={this.state.description}></PostText>
-            <BeachReport updateBeachReport={this.updateBeachReport} postId={this.state.postId}></BeachReport>
-            <WindStatusSection></WindStatusSection>
+            <BeachReport updateBeachReport={this.updateBeachReport}></BeachReport>
+            <WindStatus updateWindStatus={this.updateWindStatus}></WindStatus>
             <TagDropdown></TagDropdown>
             <LinkTableSection></LinkTableSection>
             <SavePostButton 

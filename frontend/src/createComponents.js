@@ -3,7 +3,6 @@ import {
     Dropdown, 
     Form, 
     Label,
-    TextArea,
     Input,
     Grid,
     Header,
@@ -28,26 +27,6 @@ const style = {
       marginBottom: '300px',
     },
   }
-
-const WindDirectionInput = () => (
-    <Form.Field>
-        <Label>Direçao do Vento</Label>
-        <Input fluid
-            placeholder='Direçao...'
-        />
-    </Form.Field>
-)
-
-const WindVelocityInput = () => (
-    <Form.Field>
-        <Label>Velocidade do Vento</Label>
-        <Input fluid
-            label={{ basic: true, content: 'Km/h' }}
-            labelPosition='right'
-            placeholder='Velocidade...'
-        />
-    </Form.Field>
-)
 
 const tags = [
     {
@@ -141,26 +120,7 @@ const LinkTableSection = () => (
     </Grid.Column>
 )
 
-const BeachReportSection = () => (
-    <Grid.Column>
-        <Header as='h4' content='Reporte do Mar:' textAlign='left' />
-        <WaterQualityInput></WaterQualityInput>
-        <TemperatureInput></TemperatureInput>
-        <FishingDropdown></FishingDropdown>
-    </Grid.Column>
-)
-
-const WindStatusSection = () => (
-    <Grid.Column>
-        <Header as='h4' content='Vento:' textAlign='left' />
-        <WindDirectionInput></WindDirectionInput>
-        <WindVelocityInput></WindVelocityInput>
-    </Grid.Column>
-)
-
 export {
-    BeachReportSection,
-    WindStatusSection,
     LinkTableSection,
     TagDropdown
 } 

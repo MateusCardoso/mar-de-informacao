@@ -47,7 +47,7 @@ public class WindStatusController {
 				.body(windStatus);
 	}
 
-	@PutMapping("/{id}")
+	@PatchMapping("/{id}")
 	@ApiOperation(value = "Update Wind Status", nickname = "update")
 	public WindStatus update(@RequestBody WindStatus windStatus, @PathVariable("id") Long id) throws ObjectNotFoundException, RequestInconsistentException {
 		if (!id.equals(windStatus.getId())) {

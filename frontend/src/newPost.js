@@ -85,7 +85,7 @@ class NewPost extends React.Component{
     };
     const response = await fetch(process.env.REACT_APP_API_URL+'/posts', requestOptions);
     const data = await response.json();
-    return ({postId: data.id, reportId: data.beachReport.id, windId: data.windId});
+    return ({postId: data.id, reportId: data.beachReport.id, windId: data.beachReport.windStatus.id});
   }
 
   render() {
@@ -103,6 +103,7 @@ class NewPost extends React.Component{
               postId={this.state.postId} 
               description={this.state.description}
               beachReport={this.state.beachReport}
+              windStatus={this.state.windStatus}
             >
             </SavePostButton>
             

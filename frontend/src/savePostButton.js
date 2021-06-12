@@ -30,9 +30,20 @@ class SavePostButton extends Button{
                 fishingConditions: this.props.beachReport.fishingConditions
             })
         };
+        const windId = await this.props.windStatus.windId;
+        const requestOptionsUpdateWindStatus = {
+            method: 'PATCH',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ 
+                id: windId,
+                windDirection: this.props.windStatus.windDirection,
+                windVelocity: this.props.windStatus.windVelocity
+            })
+        };
         try{
             fetch(process.env.REACT_APP_API_URL+'/posts/'+postId, requestOptionsUpdateDescription),
-            fetch(process.env.REACT_APP_API_URL+'/reports/'+reportId, requestOptionsUpdateBeachReport)
+            fetch(process.env.REACT_APP_API_URL+'/reports/'+reportId, requestOptionsUpdateBeachReport),
+            fetch(process.env.REACT_APP_API_URL+'/windStatus/'+windId, requestOptionsUpdateWindStatus)
         }
         catch(error){
             console.error('Error:', error);

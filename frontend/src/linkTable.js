@@ -26,7 +26,8 @@ class LinkTable extends React.Component{
             links.map((link)=>
                 <Link 
                     key={link.tableLine} 
-                    tableLine={link.tableLine} 
+                    tableLine={link.tableLine}
+                    linkId={link.linkId}
                     name={link.name}
                     url={link.url}
                 ></Link>
@@ -39,6 +40,7 @@ class LinkTable extends React.Component{
         links.push({
             key: lastLine,
             tableLine: lastLine,
+            linkId: null,
             name: '',
             url: ''
         });

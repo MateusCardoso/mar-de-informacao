@@ -12,6 +12,7 @@ class Link extends React.Component{
         this.state = {
             key: props.key,
             tableLine: props.tableLine,
+            linkId: props.linkId,
             name: props.name,
             url: props.url,
             toBeDeleted: false

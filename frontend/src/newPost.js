@@ -6,14 +6,14 @@ import {
 } from 'semantic-ui-react'
 
 import {
-  TagDropdown,
-  LinkTableSection
-} from "./createComponents"
+  TagDropdown
+} from './createComponents'
 
-import PostText from "./postText"
-import SavePostButton from "./savePostButton"
-import BeachReport from "./beachReport"
+import PostText from './postText'
+import SavePostButton from './savePostButton'
+import BeachReport from './beachReport'
 import WindStatus from './windStatus'
+import LinkTable from './linkTable'
 
 const style = {
   h1: {
@@ -48,11 +48,13 @@ class NewPost extends React.Component{
         windId: null,
 	      windDirection: '',
         windVelocity: ''
-      }
+      },
+      links: []
     };
     this.updateDescription = this.updateDescription.bind(this);
     this.updateBeachReport = this.updateBeachReport.bind(this);
     this.updateWindStatus = this.updateWindStatus.bind(this);
+    this.updateLinks = this.updateLinks.bind(this);
   }
 
   updateDescription(evt) {
@@ -69,6 +71,10 @@ class NewPost extends React.Component{
     var updatedWindStatus = this.state.windStatus;
     updatedWindStatus[name] = value;
     this.setState({windStatus: updatedWindStatus})
+  }
+
+  updateLinks(links){
+    this.setState({links: links});
   }
 
   async componentDidMount() {
@@ -105,12 +111,13 @@ class NewPost extends React.Component{
             <BeachReport updateBeachReport={this.updateBeachReport}></BeachReport>
             <WindStatus updateWindStatus={this.updateWindStatus}></WindStatus>
             <TagDropdown></TagDropdown>
-            <LinkTableSection></LinkTableSection>
-            <SavePostButton 
-              postId={this.state.postId} 
+            <LinkTable updateLinks={this.updateLinks}></LinkTable>
+            <SavePostButton
+              postId={this.state.postId}
               description={this.state.description}
               beachReport={this.state.beachReport}
               windStatus={this.state.windStatus}
+              links={this.state.links}
             >
             </SavePostButton>
             

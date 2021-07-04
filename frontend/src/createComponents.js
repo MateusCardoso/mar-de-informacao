@@ -122,5 +122,6 @@ const LinkTableSection = () => (
 
 export {
     LinkTableSection,
-    TagDropdown
+    TagDropdown,
+    LinkNameInput
 } 

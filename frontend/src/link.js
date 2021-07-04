@@ -13,7 +13,7 @@ class Link extends React.Component{
             key: props.key,
             tableLine: props.tableLine,
             linkId: props.linkId,
-            name: props.name,
+            linkName: props.linkName,
             url: props.url,
             toBeDeleted: false
         }
@@ -29,6 +29,8 @@ class Link extends React.Component{
         this.setState({
             [name]: value
         });
+
+        this.props.updateLink(this.state.tableLine, name, value);
     }
 
     toggleLineToDelete(){
@@ -45,7 +47,7 @@ class Link extends React.Component{
                         <Input
                             fluid
                             disabled={this.state.toBeDeleted}
-                            name='name'
+                            name='linkName'
                             placeholder='Nome...'
                             value={this.state.name}
                             onChange={this.handleInputChange}

@@ -18,7 +18,7 @@ class LinkTable extends React.Component{
         }
 
         this.addLink = this.addLink.bind(this);
-        this.updateLink = this.updateLink.bind(this);
+        this.updateLinkData = this.updateLinkData.bind(this);
     }
 
     renderLinks(props){
@@ -31,7 +31,7 @@ class LinkTable extends React.Component{
                     linkId={link.linkId}
                     linkName={link.linkName}
                     url={link.url}
-                    updateLink={this.updateLink}
+                    updateLinkData={this.updateLinkData}
                 ></Link>
         ))
     }
@@ -50,10 +50,10 @@ class LinkTable extends React.Component{
             links: links,
             lastLine: lastLine + 1
         });
-        this.props.updateLinks(links);
+        this.props.updateLinksTable(links);
     }
 
-    updateLink(tableLine,name,value){
+    updateLinkData(tableLine,name,value){
         var linkToUpdate = this.state.links.find(link => link.tableLine === tableLine);
         linkToUpdate[name] = value;
     }

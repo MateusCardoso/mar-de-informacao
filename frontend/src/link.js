@@ -30,7 +30,7 @@ class Link extends React.Component{
             [name]: value
         });
 
-        this.props.updateLink(this.state.tableLine, name, value);
+        this.props.updateLinkData(this.state.tableLine, name, value);
     }
 
     toggleLineToDelete(){
@@ -68,11 +68,11 @@ class Link extends React.Component{
                 </Table.Cell>
                 <Table.Cell collapsing={true}>
                     <Button
-                    name='delete'
-                    icon={this.state.toBeDeleted ? 'repeat' : 'delete'}
-                    negative={!(this.state.toBeDeleted)}
-                    positive={(this.state.toBeDeleted)}
-                    onClick={this.toggleLineToDelete}
+                        name='delete'
+                        icon={this.state.toBeDeleted ? 'repeat' : 'delete'}
+                        negative={!(this.state.toBeDeleted)}
+                        positive={(this.state.toBeDeleted)}
+                        onClick={this.toggleLineToDelete}
                     >
                     </Button>
                 </Table.Cell>

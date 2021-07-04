@@ -54,7 +54,7 @@ class NewPost extends React.Component{
     this.updateDescription = this.updateDescription.bind(this);
     this.updateBeachReport = this.updateBeachReport.bind(this);
     this.updateWindStatus = this.updateWindStatus.bind(this);
-    this.updateLinks = this.updateLinks.bind(this);
+    this.updateLinksTable = this.updateLinksTable.bind(this);
   }
 
   updateDescription(evt) {
@@ -73,7 +73,7 @@ class NewPost extends React.Component{
     this.setState({windStatus: updatedWindStatus})
   }
 
-  updateLinks(links){
+  updateLinksTable(links){
     this.setState({links: links});
   }
 
@@ -111,7 +111,7 @@ class NewPost extends React.Component{
             <BeachReport updateBeachReport={this.updateBeachReport}></BeachReport>
             <WindStatus updateWindStatus={this.updateWindStatus}></WindStatus>
             <TagDropdown></TagDropdown>
-            <LinkTable updateLinks={this.updateLinks}></LinkTable>
+            <LinkTable updateLinksTable={this.updateLinksTable}></LinkTable>
             <SavePostButton
               postId={this.state.postId}
               description={this.state.description}

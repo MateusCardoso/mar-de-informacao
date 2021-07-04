@@ -19,6 +19,7 @@ class LinkTable extends React.Component{
 
         this.addLink = this.addLink.bind(this);
         this.updateLinkData = this.updateLinkData.bind(this);
+        this.updatecreateLinkLinkData = this.createLink.bind(this);
     }
 
     renderLinks(props){
@@ -39,13 +40,16 @@ class LinkTable extends React.Component{
     addLink(){
         var links = this.state.links;
         const lastLine = this.state.lastLine;
-        links.push({
+        const newLink = {
+            linkId: null,
             key: lastLine,
             tableLine: lastLine,
-            linkId: null,
             linkName: '',
             url: ''
-        });
+        }
+        const newLinkId = this.createLink(newLink); 
+        newLink.linkId = newLinkId;
+        links.push(newLink);
         this.setState({
             links: links,
             lastLine: lastLine + 1
@@ -62,7 +66,21 @@ class LinkTable extends React.Component{
         this.setState({
             links: []
         });
-      }
+    }
+
+    async createLink(link){
+        const requestOptions = {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                tableLine: link.tableLine
+            })
+        };
+        const response = await fetch(process.env.REACT_APP_API_URL+'/links', requestOptions);
+        const data = await response.json();
+        return (data.id);
+        
+    }
 
     render() {
         return(

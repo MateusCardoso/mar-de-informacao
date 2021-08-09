@@ -26,7 +26,24 @@ class SavePostButton extends Button{
         }
         catch(error){
             console.error('Error:', error);
-        };   
+        };
+        
+        await this.updateLinks();
+    }
+
+    async updateLinks(){
+        const links = this.props.links;
+
+        for(const link of links){
+            let linkId = await link.linkId;
+            var requestOptionsLink = this.buildRequestOptions('PATCH', this.requestBodyForLink(linkId,link));
+            try{
+                fetch(process.env.REACT_APP_API_URL+'/links/'+linkId, requestOptionsLink)
+            }
+            catch(error){
+                console.error('Error:', error);
+            }
+        }
     }
 
     buildRequestOptions(method,body){
@@ -63,6 +80,18 @@ class SavePostButton extends Button{
                 id: id,
                 windDirection: this.props.windStatus.windDirection,
                 windVelocity: this.props.windStatus.windVelocity
+            })
+        )
+    }
+
+    requestBodyForLink(id,link){
+        return (
+            JSON.stringify({ 
+                id: id,
+                key: link.key,
+                tableLine: link.tableLine,
+                linkName: link.linkName,
+                url: link.url
             })
         )
     }

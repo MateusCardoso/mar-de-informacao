@@ -11,35 +11,14 @@ class SavePostButton extends Button{
 
     async updatePost() {
         const postId = await this.props.postId;
-        const requestOptionsUpdateDescription = {
-            method: 'PATCH',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ 
-                id: postId, 
-                description: this.props.description,
-            })
-        };
+        const requestOptionsUpdateDescription = this.buildRequestOptions('PATCH',this.requestBodyForPost(postId));
+
         const reportId = await this.props.beachReport.reportId;
-        const requestOptionsUpdateBeachReport = {
-            method: 'PATCH',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ 
-                id: reportId,
-                waterQuality: this.props.beachReport.waterQuality,
-                temperature: this.props.beachReport.temperature,
-                fishingConditions: this.props.beachReport.fishingConditions
-            })
-        };
+        const requestOptionsUpdateBeachReport = this.buildRequestOptions('PATCH',this.requestBodyForBeachReport(reportId));
+
         const windId = await this.props.windStatus.windId;
-        const requestOptionsUpdateWindStatus = {
-            method: 'PATCH',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ 
-                id: windId,
-                windDirection: this.props.windStatus.windDirection,
-                windVelocity: this.props.windStatus.windVelocity
-            })
-        };
+        const requestOptionsUpdateWindStatus = this.buildRequestOptions('PATCH',this.requestBodyForWindStatus(windId));
+        
         try{
             fetch(process.env.REACT_APP_API_URL+'/posts/'+postId, requestOptionsUpdateDescription),
             fetch(process.env.REACT_APP_API_URL+'/reports/'+reportId, requestOptionsUpdateBeachReport),
@@ -48,6 +27,44 @@ class SavePostButton extends Button{
         catch(error){
             console.error('Error:', error);
         };   
+    }
+
+    buildRequestOptions(method,body){
+        return {
+            method: method,
+            headers: { 'Content-Type': 'application/json' },
+            body: body
+        };
+    }
+
+    requestBodyForPost(id){
+        return (
+            JSON.stringify({ 
+                id: id, 
+                description: this.props.description
+            })
+        )
+    }
+
+    requestBodyForBeachReport(id){
+        return (
+            JSON.stringify({ 
+                id: id,
+                waterQuality: this.props.beachReport.waterQuality,
+                temperature: this.props.beachReport.temperature,
+                fishingConditions: this.props.beachReport.fishingConditions
+            })
+        )
+    }
+
+    requestBodyForWindStatus(id){
+        return (
+            JSON.stringify({ 
+                id: id,
+                windDirection: this.props.windStatus.windDirection,
+                windVelocity: this.props.windStatus.windVelocity
+            })
+        )
     }
     
     render() {

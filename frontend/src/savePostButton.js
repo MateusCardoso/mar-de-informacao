@@ -36,7 +36,8 @@ class SavePostButton extends Button{
 
         for(const link of links){
             let linkId = await link.linkId;
-            var requestOptionsLink = this.buildRequestOptions('PATCH', this.requestBodyForLink(linkId,link));
+            let restMethod = link.toBeDeleted ? 'DELETE' : 'PATCH';
+            var requestOptionsLink = this.buildRequestOptions(restMethod, this.requestBodyForLink(linkId,link));
             try{
                 fetch(process.env.REACT_APP_API_URL+'/links/'+linkId, requestOptionsLink)
             }

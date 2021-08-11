@@ -34,9 +34,11 @@ class Link extends React.Component{
     }
 
     toggleLineToDelete(){
+        const value = !(this.state.toBeDeleted);
         this.setState({
-            toBeDeleted: !(this.state.toBeDeleted)
-        })
+            toBeDeleted: value
+        });
+        this.props.updateLinkData(this.state.tableLine, 'toBeDeleted', value);
     }
 
     render() {

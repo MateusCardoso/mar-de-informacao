@@ -56,7 +56,7 @@ class LinkTable extends React.Component{
     }
 
     updateLinkData(tableLine,name,value){
-        var linkToUpdate = this.state.links.find(link => link.tableLine === tableLine);
+        var linkToUpdate = this.props.links.find(link => link.tableLine === tableLine);
         linkToUpdate[name] = value;
     }
 

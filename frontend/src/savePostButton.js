@@ -32,8 +32,8 @@ class SavePostButton extends Button{
     }
 
     async updateLinks(){
-        const links = this.props.links;
-
+        var links = this.props.links;
+        var remainingLinks = [];
         for(const link of links){
             let linkId = await link.linkId;
             let restMethod = link.toBeDeleted ? 'DELETE' : 'PATCH';
@@ -44,7 +44,11 @@ class SavePostButton extends Button{
             catch(error){
                 console.error('Error:', error);
             }
+            if(!link.toBeDeleted){
+                remainingLinks.push(link);
+            }
         }
+        this.props.updateLinksTable(remainingLinks);
     }
 
     buildRequestOptions(method,body){

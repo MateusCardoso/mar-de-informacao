@@ -54,6 +54,7 @@ class NewPost extends React.Component{
     this.updateDescription = this.updateDescription.bind(this);
     this.updateBeachReport = this.updateBeachReport.bind(this);
     this.updateWindStatus = this.updateWindStatus.bind(this);
+    this.updateLinksTable = this.updateLinksTable.bind(this);
   }
 
   updateDescription(evt) {
@@ -70,6 +71,10 @@ class NewPost extends React.Component{
     var updatedWindStatus = this.state.windStatus;
     updatedWindStatus[name] = value;
     this.setState({windStatus: updatedWindStatus})
+  }
+
+  updateLinksTable(links){
+    this.setState({links: links});
   }
 
   async componentDidMount() {
@@ -113,6 +118,7 @@ class NewPost extends React.Component{
               beachReport={this.state.beachReport}
               windStatus={this.state.windStatus}
               links={this.state.links}
+              updateLinksTable={this.updateLinksTable}
             >
             </SavePostButton>
             

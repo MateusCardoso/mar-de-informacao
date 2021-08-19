@@ -50,7 +50,6 @@ class LinkTable extends React.Component{
         newLink.linkId = newLinkId;
         links.push(newLink);
         this.setState({
-            links: links,
             lastLine: lastLine + 1
         });
     }

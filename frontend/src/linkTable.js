@@ -13,7 +13,6 @@ class LinkTable extends React.Component{
     constructor(props){
         super(props);
         this.state = {
-            links: [],
             lastLine: 0
         }
 
@@ -38,7 +37,7 @@ class LinkTable extends React.Component{
     }
 
     addLink(){
-        var links = this.state.links;
+        var links = this.props.links;
         const lastLine = this.state.lastLine;
         const newLink = {
             linkId: null,
@@ -54,18 +53,11 @@ class LinkTable extends React.Component{
             links: links,
             lastLine: lastLine + 1
         });
-        this.props.updateLinksTable(links);
     }
 
     updateLinkData(tableLine,name,value){
         var linkToUpdate = this.state.links.find(link => link.tableLine === tableLine);
         linkToUpdate[name] = value;
-    }
-
-    async componentDidMount() {
-        this.setState({
-            links: []
-        });
     }
 
     async createLink(link){
@@ -96,7 +88,7 @@ class LinkTable extends React.Component{
                     </Table.Header>
                     
                     <Table.Body children>
-                        {this.renderLinks(this.state.links)}
+                        {this.renderLinks(this.props.links)}
                     </Table.Body>
 
                     <Table.Footer>

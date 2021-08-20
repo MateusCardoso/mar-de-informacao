@@ -5,15 +5,12 @@ import {
   Header
 } from 'semantic-ui-react'
 
-import {
-  TagDropdown
-} from './createComponents'
-
 import PostText from './postText'
 import SavePostButton from './savePostButton'
 import BeachReport from './beachReport'
 import WindStatus from './windStatus'
 import LinkTable from './linkTable'
+import TagMultiselect from './tagMultiselect'
 
 const style = {
   h1: {
@@ -110,7 +107,7 @@ class NewPost extends React.Component{
             <PostText onChange={this.updateDescription} description={this.state.description}></PostText>
             <BeachReport updateBeachReport={this.updateBeachReport}></BeachReport>
             <WindStatus updateWindStatus={this.updateWindStatus}></WindStatus>
-            <TagDropdown></TagDropdown>
+            <TagMultiselect></TagMultiselect>
             <LinkTable links={this.state.links}></LinkTable>
             <SavePostButton
               postId={this.state.postId}

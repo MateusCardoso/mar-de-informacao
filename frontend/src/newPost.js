@@ -46,12 +46,14 @@ class NewPost extends React.Component{
 	      windDirection: '',
         windVelocity: ''
       },
-      links: []
+      links: [],
+      tags: []
     };
     this.updateDescription = this.updateDescription.bind(this);
     this.updateBeachReport = this.updateBeachReport.bind(this);
     this.updateWindStatus = this.updateWindStatus.bind(this);
     this.updateLinksTable = this.updateLinksTable.bind(this);
+    this.updateTagsList = this.updateTagsList.bind(this);
   }
 
   updateDescription(evt) {
@@ -72,6 +74,10 @@ class NewPost extends React.Component{
 
   updateLinksTable(links){
     this.setState({links: links});
+  }
+
+  updateTagsList(tags){
+    this.setState({tags: tags});
   }
 
   async componentDidMount() {
@@ -107,7 +113,7 @@ class NewPost extends React.Component{
             <PostText onChange={this.updateDescription} description={this.state.description}></PostText>
             <BeachReport updateBeachReport={this.updateBeachReport}></BeachReport>
             <WindStatus updateWindStatus={this.updateWindStatus}></WindStatus>
-            <TagMultiselect></TagMultiselect>
+            <TagMultiselect updateTagsList={this.updateTagsList}></TagMultiselect>
             <LinkTable links={this.state.links}></LinkTable>
             <SavePostButton
               postId={this.state.postId}
@@ -115,6 +121,7 @@ class NewPost extends React.Component{
               beachReport={this.state.beachReport}
               windStatus={this.state.windStatus}
               links={this.state.links}
+              tags={this.state.tags}
               updateLinksTable={this.updateLinksTable}
             >
             </SavePostButton>

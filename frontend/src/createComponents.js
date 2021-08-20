@@ -3,13 +3,8 @@ import {
     Dropdown, 
     Form, 
     Label,
-    Input,
     Grid,
-    Header,
-    Container,
-    Table, 
-    Button, 
-    Icon 
+    Header
 } from 'semantic-ui-react'
 
 const style = {
@@ -65,63 +60,6 @@ const TagDropdown = () => (
     
   )
 
-const LinkNameInput = () => (
-    <Form.Field>
-        <Input fluid
-            placeholder='Nome...'
-        />
-    </Form.Field>
-)
-
-const LinkURLInput = () => (
-    <Form.Field>
-        <Input fluid
-            placeholder='URL...'
-        />
-    </Form.Field>
-)
-
-const LinkTableSection = () => (
-    <Grid.Column>
-        <Header as='h4' content='Links:' style={style.h4} textAlign='left' />
-        <Container>
-            <Table celled>
-                <Table.Header>
-                    <Table.Row>
-                        <Table.HeaderCell>Nome do Link</Table.HeaderCell>
-                        <Table.HeaderCell>URL</Table.HeaderCell>
-                    </Table.Row>
-                </Table.Header>
-
-            <Table.Body>
-                <Table.Row>
-                    <Table.Cell><LinkNameInput></LinkNameInput></Table.Cell>
-                    <Table.Cell><LinkURLInput></LinkURLInput></Table.Cell>
-                </Table.Row>
-            </Table.Body>
-
-            <Table.Footer fullWidth>
-              <Table.Row>
-                <Table.HeaderCell colSpan='4'>
-                    <Button
-                    floated='right'
-                    icon
-                    labelPosition='left'
-                    primary
-                    size='small'
-                    >
-                    <Icon name='world' /> Adicionar Link
-                    </Button>
-                </Table.HeaderCell>
-              </Table.Row>
-            </Table.Footer>
-          </Table>
-        </Container>
-    </Grid.Column>
-)
-
 export {
-    LinkTableSection,
-    TagDropdown,
-    LinkNameInput
+    TagDropdown    
 } 

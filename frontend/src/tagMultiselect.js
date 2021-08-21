@@ -5,94 +5,78 @@ import {
     Form,
     Label,
     Dropdown
-    // Table,
-    // Button,
-    // Icon
 } from 'semantic-ui-react';
-
-// import Link from './link';
-
-const tags = [
-    {
-      key: '1',
-      text: 'Pescaria',
-      value: '1',
-    },
-    {
-      key: '2',
-      text: 'Lixo no Mar',
-      value: '2',
-    },
-    {
-        key: '3',
-        text: 'Animais',
-        value: '3',
-    }
-]
 
 class TagMultiselect extends React.Component{
     constructor(props){
         super(props);
-        // this.state = {
-        //     lastLine: 0
-        // }
+        this.state = {
+            selectedTags: [],
+            options: []
+        }
 
-        // this.addLink = this.addLink.bind(this);
-        // this.updateLinkData = this.updateLinkData.bind(this);
-        // this.updatecreateLinkLinkData = this.createLink.bind(this);
+        this.selectTag = this.selectTag.bind(this);
+        this.addTag = this.addTag.bind(this);
     }
 
-    // renderLinks(props){
-    //     const links = props;
-    //     return(
-    //         links.map((link)=>
-    //             <Link 
-    //                 key={link.tableLine} 
-    //                 tableLine={link.tableLine}
-    //                 linkId={link.linkId}
-    //                 linkName={link.linkName}
-    //                 url={link.url}
-    //                 updateLinkData={this.updateLinkData}
-    //             ></Link>
-    //     ))
-    // }
+    async componentDidMount() {
+        const requestOptions = {
+            method: 'GET'
+        };
+        const response = await fetch(process.env.REACT_APP_API_URL+'/tags', requestOptions);
+        const data = await response.json();
+        var options = [];
+        for(const tag of data){
+            options.push({
+                id: tag.id,
+                text: tag.tagName,
+                value: tag.tagName
+            })
+        }
+        this.setState({
+            options: options
+        });
+    }
 
-    // addLink(){
-    //     var links = this.props.links;
-    //     const lastLine = this.state.lastLine;
-    //     const newLink = {
-    //         linkId: null,
-    //         key: lastLine,
-    //         tableLine: lastLine,
-    //         linkName: '',
-    //         url: ''
-    //     }
-    //     const newLinkId = this.createLink(newLink); 
-    //     newLink.linkId = newLinkId;
-    //     links.push(newLink);
-    //     this.setState({
-    //         lastLine: lastLine + 1
-    //     });
-    // }
+    selectTag(evt){
+        const options = this.state.options;
+        const targetId = Number(evt.target.id);
+        const tagWithId = options.find(x => x.id === targetId );
+        if(tagWithId !== undefined){
+            this.state.selectedTags.push({
+                tagId: tagWithId.id,
+                tagName: tagWithId.value
+            });
+            this.props.updateTagsList(this.state.selectedTags);
+        }
+    }
 
-    // updateLinkData(tableLine,name,value){
-    //     var linkToUpdate = this.props.links.find(link => link.tableLine === tableLine);
-    //     linkToUpdate[name] = value;
-    // }
+    async addTag(_evt,data){
+        var newTag = {
+            tagId: null,
+            tagName: data.value
+        };
+        newTag.tagId = await this.createTag(newTag);
+        this.state.options.push({
+            id: newTag.tagId,
+            text: data.value,
+            value: data.value
+        });
+        this.state.selectedTags.push(newTag);
+    }
 
-    // async createLink(link){
-    //     const requestOptions = {
-    //         method: 'POST',
-    //         headers: { 'Content-Type': 'application/json' },
-    //         body: JSON.stringify({
-    //             tableLine: link.tableLine
-    //         })
-    //     };
-    //     const response = await fetch(process.env.REACT_APP_API_URL+'/links', requestOptions);
-    //     const data = await response.json();
-    //     return (data.id);
-        
-    // }
+    async createTag(tag){
+        const requestOptions = {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                tagName: tag.tagName
+            })
+        };
+        const response = await fetch(process.env.REACT_APP_API_URL+'/tags', requestOptions);
+        const data = await response.json();
+        return (data.id);  
+    }
 
     render() {
         return(
@@ -107,7 +91,9 @@ class TagMultiselect extends React.Component{
                         multiple
                         search
                         selection
-                        options={tags}
+                        options={this.state.options}
+                        onAddItem={this.addTag}
+                        onChange={this.selectTag}
                         placeholder='Tags...'
                     />
                 </Form.Field>

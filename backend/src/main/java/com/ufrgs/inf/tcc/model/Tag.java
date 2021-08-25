@@ -16,7 +16,7 @@ public class Tag {
 	private Long tagId;
 	private String tagName;
 
-    @ManyToMany(mappedBy = "tags")
+    @ManyToMany(mappedBy = "tags", fetch = FetchType.EAGER)
 	private List<PostRecord> postRecords;
 
 	public Tag() {

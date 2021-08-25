@@ -22,7 +22,7 @@ public class PostRecord {
 	@OneToMany(mappedBy = "postRecord")
 	private List<Link> links;
 
-	@ManyToMany
+	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name 		= "Post_Tag",
 		joinColumns 		= @JoinColumn(name = "postId ", referencedColumnName = "postId"),
 		inverseJoinColumns 	= @JoinColumn(name = "tagId", referencedColumnName = "tagId")

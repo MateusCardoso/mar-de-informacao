@@ -63,6 +63,7 @@ class TagMultiselect extends React.Component{
             value: data.value
         });
         this.state.selectedTags.push(newTag);
+        this.props.updateTagsList(this.state.selectedTags);
     }
 
     async createTag(tag){

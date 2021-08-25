@@ -18,9 +18,13 @@ class SavePostButton extends Button{
 
         const windId = await this.props.windStatus.windId;
         const requestOptionsUpdateWindStatus = this.buildRequestOptions('PATCH',this.requestBodyForWindStatus(windId));
+
+        const tagIds = await this.getTagIds();
+        const requestOptionsUpdateTags = this.buildRequestOptions('PATCH');
         
         try{
             fetch(process.env.REACT_APP_API_URL+'/posts/'+postId, requestOptionsUpdateDescription),
+            fetch(process.env.REACT_APP_API_URL+'/posts/'+postId+'/tags?tagIds='+tagIds, requestOptionsUpdateTags),
             fetch(process.env.REACT_APP_API_URL+'/reports/'+reportId, requestOptionsUpdateBeachReport),
             fetch(process.env.REACT_APP_API_URL+'/windStatus/'+windId, requestOptionsUpdateWindStatus)
         }
@@ -49,6 +53,16 @@ class SavePostButton extends Button{
             }
         }
         this.props.updateLinksTable(remainingLinks);
+    }
+
+    async getTagIds(){
+        const tags = this.props.tags;
+        var tagIds = [];
+        for(const tag of tags){
+            let tagId = await tag.tagId;
+            tagIds.push(tagId);
+        }
+        return(tagIds.join());
     }
 
     buildRequestOptions(method,body){

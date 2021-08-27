@@ -39,16 +39,34 @@ class TagMultiselect extends React.Component{
     }
 
     selectTag(evt){
-        const options = this.state.options;
-        const targetId = Number(evt.target.id);
-        const tagWithId = options.find(x => x.id === targetId );
-        if(tagWithId !== undefined){
-            this.state.selectedTags.push({
-                tagId: tagWithId.id,
-                tagName: tagWithId.value
-            });
-            this.props.updateTagsList(this.state.selectedTags);
+        if(evt.target.attributes.role !== undefined && evt.target.attributes.role.nodeValue === 'option'){
+            const options = this.state.options;
+            const targetId = Number(evt.target.id);
+            const tagWithId = options.find(x => x.id === targetId );
+            if(tagWithId !== undefined){
+                this.state.selectedTags.push({
+                    tagId: tagWithId.id,
+                    tagName: tagWithId.value
+                });
+            }
+        }else if(evt.target.parentNode.attributes.role !== undefined && evt.target.parentNode.attributes.role.nodeValue === 'option'){
+            const options = this.state.options;
+            const targetId = Number(evt.target.parentNode.id);
+            const tagWithId = options.find(x => x.id === targetId );
+            if(tagWithId !== undefined){
+                this.state.selectedTags.push({
+                    tagId: tagWithId.id,
+                    tagName: tagWithId.value
+                });
+            }
+        }else if(evt.target.className === 'dropdown icon clear'){
+            this.state.selectedTags = [];
+        }else if(evt.target.className === 'delete icon'){
+            const tagName = evt.target.parentNode.innerText;
+            const currentTags = this.state.selectedTags;
+            this.state.selectedTags = currentTags.filter(x => x.tagName !== tagName);
         }
+        this.props.updateTagsList(this.state.selectedTags);
     }
 
     async addTag(_evt,data){

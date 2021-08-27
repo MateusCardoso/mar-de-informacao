@@ -98,10 +98,10 @@ public class PostRecordController {
 			if (!newTags.contains(tag)){
 				List<PostRecord> relatedPosts = tag.getPostRecords();
 				relatedPosts.remove(postRecord);
-				currentTags.remove(tag);
 				tagsToRemoveRelation.add(tag);
 			}
 		}
+		currentTags.removeAll(tagsToRemoveRelation);
 		tagRepository.saveAll(tagsToRemoveRelation);
 				
 		return postRecordRepository.save(postRecord);

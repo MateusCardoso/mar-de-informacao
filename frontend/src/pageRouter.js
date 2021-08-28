@@ -1,13 +1,13 @@
 import {
     BrowserRouter as Router,
     Switch,
-    Route,
-    Link
+    Route
   } from "react-router-dom";
 
   import NewPost from "./newPost"
   import DisplayPost from "./displayPost"
   import Home from "./home"
+  import SearchPost from "./searchPost";
 
 export default function PageRouter(){
     return (
@@ -19,6 +19,9 @@ export default function PageRouter(){
                     </Route>
                     <Route path="/Display">
                         <DisplayPost />
+                    </Route>
+                    <Route path="/Search">
+                        <SearchPost />
                     </Route>
                     <Route path="/">
                         <Home />

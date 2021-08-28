@@ -27,9 +27,9 @@ export default function Home(){
 
 function Create(){
     return(
-        <Card href='/Create' fluid centered>
+        <Card href='/Create' centered>
             <Card.Content>
-                <Grid columns={2} fluid>
+                <Grid columns={2}>
                     <Grid.Column verticalAlign='middle'>
                         <Icon color='black' name='newspaper outline' circular size='huge' />
                     </Grid.Column>
@@ -44,9 +44,9 @@ function Create(){
 
 function Search(){
     return(
-        <Card href='/Search' fluid>
+        <Card href='/Search'>
             <Card.Content>
-                <Grid columns={2} fluid>
+                <Grid columns={2}>
                     <Grid.Column verticalAlign='middle'>
                         <Icon color='black' name='zoom' circular size='huge' />
                     </Grid.Column>
@@ -61,9 +61,9 @@ function Search(){
 
 function Display(){
     return(
-        <Card href='/Display' fluid>
+        <Card href='/Display'>
             <Card.Content>
-                <Grid columns={2} fluid>
+                <Grid columns={2}>
                     <Grid.Column verticalAlign='middle'>
                         <Icon color='black' name='folder open' circular size='huge' />
                     </Grid.Column>

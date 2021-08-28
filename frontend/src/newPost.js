@@ -5,15 +5,12 @@ import {
   Header
 } from 'semantic-ui-react'
 
-import {
-  WindStatusSection,
-  TagDropdown,
-  LinkTableSection
-} from "./createComponents"
-
-import PostText from "./postText"
-import SavePostButton from "./savePostButton"
-import BeachReport from "./beachReport"
+import PostText from './postText'
+import SavePostButton from './savePostButton'
+import BeachReport from './beachReport'
+import WindStatus from './windStatus'
+import LinkTable from './linkTable'
+import TagMultiselect from './tagMultiselect'
 
 const style = {
   h1: {
@@ -43,10 +40,20 @@ class NewPost extends React.Component{
         waterQuality: '',
         temperature: '',
         fishingConditions: ''
-      }
+      },
+      windStatus: {
+        windId: null,
+	      windDirection: '',
+        windVelocity: ''
+      },
+      links: [],
+      tags: []
     };
     this.updateDescription = this.updateDescription.bind(this);
     this.updateBeachReport = this.updateBeachReport.bind(this);
+    this.updateWindStatus = this.updateWindStatus.bind(this);
+    this.updateLinksTable = this.updateLinksTable.bind(this);
+    this.updateTagsList = this.updateTagsList.bind(this);
   }
 
   updateDescription(evt) {
@@ -54,16 +61,31 @@ class NewPost extends React.Component{
   }
 
   updateBeachReport(name,value) {
-    this.setState({beachReport: {
-      [name]: value
-    }})
+    var updatedReport = this.state.beachReport;
+    updatedReport[name] = value;
+    this.setState({beachReport: updatedReport})
+  }
+
+  updateWindStatus(name,value) {
+    var updatedWindStatus = this.state.windStatus;
+    updatedWindStatus[name] = value;
+    this.setState({windStatus: updatedWindStatus})
+  }
+
+  updateLinksTable(links){
+    this.setState({links: links});
+  }
+
+  updateTagsList(tags){
+    this.setState({tags: tags});
   }
 
   async componentDidMount() {
     const entityIds = await this.createPostRecord();
     this.setState({ 
       postId: entityIds.postId,
-      beachReport: {reportId: entityIds.reportId}
+      beachReport: {reportId: entityIds.reportId},
+      windStatus:{windId: entityIds.windId}
     });
   }
 
@@ -72,12 +94,14 @@ class NewPost extends React.Component{
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        report: {}
+        beachReport: {
+          windStatus: {}
+        },
       })
     };
     const response = await fetch(process.env.REACT_APP_API_URL+'/posts', requestOptions);
     const data = await response.json();
-    return ({postId: data.id, reportId: data.report.id});
+    return ({postId: data.id, reportId: data.beachReport.id, windId: data.beachReport.windStatus.id});
   }
 
   render() {
@@ -87,14 +111,18 @@ class NewPost extends React.Component{
         <Form>
           <Grid columns={2} stackable>
             <PostText onChange={this.updateDescription} description={this.state.description}></PostText>
-            <BeachReport updateBeachReport={this.updateBeachReport} postId={this.state.postId}></BeachReport>
-            <WindStatusSection></WindStatusSection>
-            <TagDropdown></TagDropdown>
-            <LinkTableSection></LinkTableSection>
-            <SavePostButton 
-              postId={this.state.postId} 
+            <BeachReport updateBeachReport={this.updateBeachReport}></BeachReport>
+            <WindStatus updateWindStatus={this.updateWindStatus}></WindStatus>
+            <TagMultiselect updateTagsList={this.updateTagsList}></TagMultiselect>
+            <LinkTable links={this.state.links}></LinkTable>
+            <SavePostButton
+              postId={this.state.postId}
               description={this.state.description}
               beachReport={this.state.beachReport}
+              windStatus={this.state.windStatus}
+              links={this.state.links}
+              tags={this.state.tags}
+              updateLinksTable={this.updateLinksTable}
             >
             </SavePostButton>
             

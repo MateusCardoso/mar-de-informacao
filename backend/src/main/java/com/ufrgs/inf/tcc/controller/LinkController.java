@@ -47,7 +47,7 @@ public class LinkController {
 				.body(link);
 	}
 
-	@PutMapping("/{id}")
+	@PatchMapping("/{id}")
 	@ApiOperation(value = "Update Link", nickname = "update")
 	public Link update(@RequestBody Link link, @PathVariable("id") Long id) throws ObjectNotFoundException, RequestInconsistentException {
 		if (!id.equals(link.getId())) {

@@ -15,6 +15,7 @@ public class Link {
 	private Long linkId;
 	private String linkName;
     private String url;
+	private int tableLine;
 
     @ManyToOne
     @JoinColumn(name = "postId")
@@ -24,11 +25,12 @@ public class Link {
 
 	}
 
-	public Link(Long linkId, String linkName, String url) {
+	public Link(Long linkId, String linkName, String url, int tableLine) {
 		this();
 		this.linkId = linkId;
 		this.linkName = linkName;
         this.url = url;
+		this.tableLine = tableLine;
 	}
 
 	public Long getId() {
@@ -55,6 +57,14 @@ public class Link {
 		this.url = url;
 	}
 
+	public int getTableLine() {
+		return tableLine;
+	}
+
+    public void setTableLine(int tableLine) {
+		this.tableLine = tableLine;
+	}
+
 	public PostRecord getPostRecord() {
 		return postRecord;
 	}
@@ -74,12 +84,13 @@ public class Link {
 		Link that = (Link) o;
 		return Objects.equals(linkId, that.linkId) &&
 			    Objects.equals(linkName, that.linkName) &&
+				Objects.equals(tableLine, that.tableLine) &&
                 Objects.equals(url, that.url);
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(linkId, linkName, url);
+		return Objects.hash(linkId, linkName, url, tableLine);
 	}
 
 	@Override
@@ -88,6 +99,7 @@ public class Link {
 				"linkId=" + linkId +
 				", linkName='" + linkName + '\'' +
                 ", url='" + url + '\'' +
+				", tableLine='" + tableLine + '\'' +
 				'}';
 	}   
 }

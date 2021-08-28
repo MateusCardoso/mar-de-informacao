@@ -7,7 +7,7 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
-@JsonIgnoreProperties(value = {"links","tags","beachReport"})
+@JsonIgnoreProperties(value = {"links","tags"})
 public class PostRecord {
 
 	@Id
@@ -22,7 +22,7 @@ public class PostRecord {
 	@OneToMany(mappedBy = "postRecord")
 	private List<Link> links;
 
-	@ManyToMany
+	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name 		= "Post_Tag",
 		joinColumns 		= @JoinColumn(name = "postId ", referencedColumnName = "postId"),
 		inverseJoinColumns 	= @JoinColumn(name = "tagId", referencedColumnName = "tagId")
@@ -55,11 +55,11 @@ public class PostRecord {
 		this.description = description;
 	}
 
-	public BeachReport getReport(){
+	public BeachReport getBeachReport(){
 		return beachReport;
 	}
 
-	public void setReport(BeachReport beachReport){
+	public void setBeachReport(BeachReport beachReport){
 		this.beachReport = beachReport;
 	}
 

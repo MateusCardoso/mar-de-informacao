@@ -7,7 +7,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.util.Objects;
 
 @Entity
-@JsonIgnoreProperties(value = {"postRecord","windStatus"})
+@JsonIgnoreProperties(value = {"postRecord"})
 public class BeachReport {
 
 
@@ -16,24 +16,23 @@ public class BeachReport {
 	private Long reportId;
     private Double temperature;
 	private String waterQuality;
-    private Integer fishingConditions;
 
 	@OneToOne(mappedBy = "beachReport")
     private PostRecord postRecord;
 
-	@OneToOne(mappedBy = "beachReport")
+	@OneToOne(cascade=CascadeType.ALL)
+	@JoinColumn(name = "windId")
 	private WindStatus windStatus; 
 
 	public BeachReport() {
 
 	}
 
-	public BeachReport(Long reportId, Double temperature, String waterQuality, Integer fishingConditions) {
+	public BeachReport(Long reportId, Double temperature, String waterQuality) {
 		this();
 		this.reportId = reportId;
 		this.temperature = temperature;
         this.waterQuality = waterQuality;
-        this.fishingConditions = fishingConditions;
 	}
 
 	public Long getId() {
@@ -60,12 +59,12 @@ public class BeachReport {
 		this.waterQuality = waterQuality;
 	}
 
-    public Integer getFishingConditions() {
-		return fishingConditions;
+	public WindStatus getWindStatus(){
+		return windStatus;
 	}
 
-	public void setFishingConditions(Integer fishingConditions) {
-		this.fishingConditions = fishingConditions;
+	public void setWindStatus(WindStatus windStatus){
+		this.windStatus = windStatus;
 	}
 
 	public PostRecord getPostRecord() {
@@ -87,14 +86,12 @@ public class BeachReport {
 		BeachReport that = (BeachReport) o;
 		return Objects.equals(reportId, that.reportId) &&
 			    Objects.equals(temperature, that.temperature) &&
-                Objects.equals(waterQuality, that.waterQuality) &&
-                Objects.equals(fishingConditions, that.fishingConditions) &&
-				Objects.equals(postRecord, that.postRecord);
+                Objects.equals(waterQuality, that.waterQuality);
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(reportId, temperature, waterQuality, fishingConditions);
+		return Objects.hash(reportId, temperature, waterQuality);
 	}
 
 	@Override
@@ -103,7 +100,6 @@ public class BeachReport {
 				"reportId=" + reportId +
 				", temperature='" + temperature + '\'' +
                 ", waterQuality='" + waterQuality + '\'' +
-                ", fishingConditions='" + fishingConditions + '\'' +
 				'}';
 	}
     

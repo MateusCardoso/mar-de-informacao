@@ -4,17 +4,16 @@ import {
     Header,
     Label,
     Form,
-    Input
+    Input,
 } from "semantic-ui-react";
 
-class BeachReport extends React.Component{
+class WindStatus extends React.Component{
     constructor(props){
         super(props);
         this.state = {
-            reportId: null,
-            waterQuality: '',
-            temperature: '',
-            fishingConditions: ''
+            windId: null,
+	        windDirection: '',
+            windVelocity: ''
         }
 
         this.handleInputChange = this.handleInputChange.bind(this);
@@ -28,35 +27,35 @@ class BeachReport extends React.Component{
             [name]: value
         });
 
-        this.props.updateBeachReport(name,value);
+        this.props.updateWindStatus(name,value);
     }
 
     render() {
         return(
             <Grid.Column>
-                <Header as='h4' content='Reporte do Mar:' textAlign='left' />
+                <Header as='h4' content='Vento:' textAlign='left' />
                 <Form.Field>
-                    <Label>Qualidade da Agua</Label>
-                    <Input fluid 
-                        name='waterQuality'
-                        placeholder='Qualidade...'
+                    <Label>Direçao do Vento</Label>
+                    <Input fluid
+                        name='windDirection'
+                        placeholder='Direçao...'
                         onChange={this.handleInputChange}
-                        value={this.state.waterQuality}
+                        value={this.state.windDirection}
                     />
                 </Form.Field>
                 <Form.Field>
-                    <Label>Temperatura</Label>
+                    <Label>Velocidade do Vento</Label>
                     <Input fluid
-                        name='temperature'
-                        label={{ basic: true, content: '°C' }}
+                        name='windVelocity'
+                        label={{ basic: true, content: 'Km/h' }}
                         labelPosition='right'
-                        placeholder='Graus...'
+                        placeholder='Velocidade...'
                         onChange={this.handleInputChange}
-                        value={this.state.temperature}
+                        value={this.state.windVelocity}
                     />
                 </Form.Field>
             </Grid.Column>
         )
     }
 }
- export default BeachReport
+ export default WindStatus

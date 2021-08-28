@@ -3,13 +3,16 @@ import {
   Grid,
   Header, 
   Card,
-  Icon
+  Icon,
+  Segment
 } from 'semantic-ui-react'
 
 export default function Home(){
     return(
         <div>
-            <Header size='huge' style={{ minHeight: 50}} > Pagina Inicial</Header>
+            <Segment padded='very' inverted color='grey'>
+                <Header size='huge'>Pagina Inicial</Header>
+            </Segment>
             <Grid columns={3} stackable >
                 <Grid.Column>
                     <Create/>
@@ -27,7 +30,7 @@ export default function Home(){
 
 function Create(){
     return(
-        <Card href='/Create' centered>
+        <Card href='/Create' fluid centered>
             <Card.Content>
                 <Grid columns={2}>
                     <Grid.Column verticalAlign='middle'>
@@ -44,7 +47,7 @@ function Create(){
 
 function Search(){
     return(
-        <Card href='/Search'>
+        <Card href='/Search' fluid centered>
             <Card.Content>
                 <Grid columns={2}>
                     <Grid.Column verticalAlign='middle'>
@@ -61,7 +64,7 @@ function Search(){
 
 function Display(){
     return(
-        <Card href='/Display'>
+        <Card href='/Display' fluid centered>
             <Card.Content>
                 <Grid columns={2}>
                     <Grid.Column verticalAlign='middle'>

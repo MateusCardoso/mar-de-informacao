@@ -14,7 +14,7 @@ class SearchPost extends React.Component{
         return(
             <div>
                 <Segment padded='very' inverted color='grey'>
-                <Header as='h1' content='Buscar Posts' textAlign='left' />
+                    <Header as='h1' content='Buscar Posts' textAlign='left' />
                 </Segment>
             </div>
         );

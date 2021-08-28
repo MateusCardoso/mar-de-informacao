@@ -2,7 +2,8 @@ import React from 'react'
 import {
   Form,
   Grid,
-  Header
+  Header,
+  Segment
 } from 'semantic-ui-react'
 
 import PostText from './postText'
@@ -107,7 +108,9 @@ class NewPost extends React.Component{
   render() {
     return (
       <div>
-        <Header as='h1' content='Entrar novo Post' style={style.h1} textAlign='left' />
+        <Segment padded='very' inverted color='grey'>
+          <Header as='h1'>Entrar novo Post</Header>
+        </Segment>
         <Form>
           <Grid columns={2} stackable>
             <PostText onChange={this.updateDescription} description={this.state.description}></PostText>

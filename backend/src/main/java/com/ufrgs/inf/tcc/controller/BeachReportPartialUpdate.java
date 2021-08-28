@@ -5,7 +5,6 @@ public class BeachReportPartialUpdate {
 	private Long reportId;
     private Double temperature;
 	private String waterQuality;
-    private Integer fishingConditions;
 
     public Long getId() {
 		return reportId;
@@ -30,12 +29,5 @@ public class BeachReportPartialUpdate {
 	public void setWaterQuality(String waterQuality) {
 		this.waterQuality = waterQuality;
 	}
-
-    public Integer getFishingConditions() {
-		return fishingConditions;
-	}
-
-	public void setFishingConditions(Integer fishingConditions) {
-		this.fishingConditions = fishingConditions;
-	}
+	
 }

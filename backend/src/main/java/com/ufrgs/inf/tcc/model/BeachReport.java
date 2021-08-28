@@ -16,7 +16,6 @@ public class BeachReport {
 	private Long reportId;
     private Double temperature;
 	private String waterQuality;
-    private Integer fishingConditions;
 
 	@OneToOne(mappedBy = "beachReport")
     private PostRecord postRecord;
@@ -29,12 +28,11 @@ public class BeachReport {
 
 	}
 
-	public BeachReport(Long reportId, Double temperature, String waterQuality, Integer fishingConditions) {
+	public BeachReport(Long reportId, Double temperature, String waterQuality) {
 		this();
 		this.reportId = reportId;
 		this.temperature = temperature;
         this.waterQuality = waterQuality;
-        this.fishingConditions = fishingConditions;
 	}
 
 	public Long getId() {
@@ -59,14 +57,6 @@ public class BeachReport {
 
 	public void setWaterQuality(String waterQuality) {
 		this.waterQuality = waterQuality;
-	}
-
-    public Integer getFishingConditions() {
-		return fishingConditions;
-	}
-
-	public void setFishingConditions(Integer fishingConditions) {
-		this.fishingConditions = fishingConditions;
 	}
 
 	public WindStatus getWindStatus(){
@@ -96,13 +86,12 @@ public class BeachReport {
 		BeachReport that = (BeachReport) o;
 		return Objects.equals(reportId, that.reportId) &&
 			    Objects.equals(temperature, that.temperature) &&
-                Objects.equals(waterQuality, that.waterQuality) &&
-                Objects.equals(fishingConditions, that.fishingConditions);
+                Objects.equals(waterQuality, that.waterQuality);
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(reportId, temperature, waterQuality, fishingConditions);
+		return Objects.hash(reportId, temperature, waterQuality);
 	}
 
 	@Override
@@ -111,7 +100,6 @@ public class BeachReport {
 				"reportId=" + reportId +
 				", temperature='" + temperature + '\'' +
                 ", waterQuality='" + waterQuality + '\'' +
-                ", fishingConditions='" + fishingConditions + '\'' +
 				'}';
 	}
     

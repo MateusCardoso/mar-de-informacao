@@ -58,7 +58,6 @@ public class BeachReportController {
 		}
 		Optional<BeachReport> dbBeachReport = beachReportRepository.findById(id);
 		BeachReport oldBeachReport = dbBeachReport.get();
-		oldBeachReport.setFishingConditions(beachReport.getFishingConditions());
 		oldBeachReport.setTemperature(beachReport.getTemperature());
 		oldBeachReport.setWaterQuality(beachReport.getWaterQuality());
 		return beachReportRepository.save(oldBeachReport);

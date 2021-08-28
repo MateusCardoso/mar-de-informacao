@@ -4,37 +4,8 @@ import {
     Header,
     Label,
     Form,
-    Input,
-    Dropdown
+    Input
 } from "semantic-ui-react";
-
-const stars = [
-    {
-      key: '1',
-      text: '1',
-      value: '1',
-    },
-    {
-      key: '2',
-      text: '2',
-      value: '2',
-    },
-    {
-      key: '3',
-      text: '3',
-      value: '3',
-    },
-    {
-      key: '4',
-      text: '4',
-      value: '4',
-    },
-    {
-      key: '5',
-      text: '5',
-      value: '5',
-    },
-  ]
 
 class BeachReport extends React.Component{
     constructor(props){
@@ -82,18 +53,6 @@ class BeachReport extends React.Component{
                         placeholder='Graus...'
                         onChange={this.handleInputChange}
                         value={this.state.temperature}
-                    />
-                </Form.Field>
-                <Form.Field>
-                    <Label>Nota para Pescaria</Label>
-                    <Dropdown
-                        name='fishingConditions'
-                        placeholder='Nota...'
-                        fluid
-                        selection
-                        options={stars}
-                        onChange={this.handleInputChange}
-                        value={this.state.fishingConditions}
                     />
                 </Form.Field>
             </Grid.Column>

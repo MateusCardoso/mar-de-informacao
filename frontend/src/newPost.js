@@ -116,7 +116,7 @@ class NewPost extends React.Component{
             <PostText onChange={this.updateDescription} description={this.state.description}></PostText>
             <BeachReport updateBeachReport={this.updateBeachReport}></BeachReport>
             <WindStatus updateWindStatus={this.updateWindStatus}></WindStatus>
-            <TagMultiselect updateTagsList={this.updateTagsList}></TagMultiselect>
+            <TagMultiselect updateTagsList={this.updateTagsList} allowAdditions={true}></TagMultiselect>
             <LinkTable links={this.state.links}></LinkTable>
             <SavePostButton
               postId={this.state.postId}

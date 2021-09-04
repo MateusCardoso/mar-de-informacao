@@ -1,19 +1,23 @@
 import React from 'react'
 import {
   Header,
-  Pagination,
   Segment,
   Table,
-  TableCell
+  Grid,
+  Button
 } from 'semantic-ui-react'
+
+import TagMultiselect from './tagMultiselect';
 
 class SearchPost extends React.Component{
 
     constructor(props){
         super(props);
         this.state = {
-            posts: []
+            posts: [],
+            tags: []
         }
+        this.updateTagsList = this.updateTagsList.bind(this);
     }
 
     async componentDidMount() {
@@ -34,6 +38,18 @@ class SearchPost extends React.Component{
         });
     }
 
+    updateTagsList(tags){
+        this.setState({tags: tags});
+    }
+
+    renderFilters(){
+        return(
+        <Grid columns={4}> 
+            <TagMultiselect updateTagsList={this.updateTagsList} allowAdditions={false} noHeader={true}></TagMultiselect>
+        </Grid>
+        )
+    }
+
     renderPosts(props){
         const posts = props;
         return(
@@ -51,8 +67,13 @@ class SearchPost extends React.Component{
                 <Segment padded='very' inverted color='grey'>
                     <Header as='h1' content='Buscar Posts' textAlign='left' />
                 </Segment>
-                <Segment>
+                <Segment fluid>
                     <Header as='h4' content='Filtros:' textAlign='left' />
+                    {this.renderFilters()}
+                    <Segment vertical>
+                        <Button >Procurar</Button>
+                    </Segment>
+
                 </Segment>
                 <Segment>
                     <Table selectable>
@@ -67,11 +88,6 @@ class SearchPost extends React.Component{
                             {this.renderPosts(this.state.posts)}
                         </Table.Body>
 
-                        <Table.Footer>
-                            <Pagination>
-
-                            </Pagination>
-                        </Table.Footer>
                     </Table>
                 </Segment>
             </div>

@@ -13,8 +13,7 @@ class BeachReport extends React.Component{
         this.state = {
             reportId: null,
             waterQuality: '',
-            temperature: '',
-            fishingConditions: ''
+            temperature: ''
         }
 
         this.handleInputChange = this.handleInputChange.bind(this);

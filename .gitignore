@@ -4,4 +4,4 @@
 .env
 */frontend/package-lock.json
 .vscode
-.log
+*.log

@@ -8,6 +8,7 @@ import {
 } from 'semantic-ui-react'
 
 import TagMultiselect from './tagMultiselect';
+import FindPostsButton from './findPostsButton';
 
 class SearchPost extends React.Component{
 
@@ -18,9 +19,18 @@ class SearchPost extends React.Component{
             tags: []
         }
         this.updateTagsList = this.updateTagsList.bind(this);
+        this.updatePostsList = this.updatePostsList.bind(this);
+        this.getAllPosts = this.getAllPosts.bind(this);
     }
 
     async componentDidMount() {
+        const posts = await this.getAllPosts();
+        this.setState({
+            posts: posts
+        });
+    }
+
+    async getAllPosts(){
         const requestOptions = {
             method: 'GET'
         };
@@ -33,13 +43,15 @@ class SearchPost extends React.Component{
                 description: post.description
             })
         }
-        this.setState({
-            posts: posts
-        });
+        return(posts);
     }
 
     updateTagsList(tags){
         this.setState({tags: tags});
+    }
+
+    updatePostsList(posts){
+        this.setState({posts: posts});
     }
 
     renderFilters(){
@@ -71,7 +83,12 @@ class SearchPost extends React.Component{
                     <Header as='h4' content='Filtros:' textAlign='left' />
                     {this.renderFilters()}
                     <Segment vertical>
-                        <Button >Procurar</Button>
+                        <FindPostsButton
+                            tags={this.state.tags}
+                            updatePostsList={this.updatePostsList}
+                            resetPostList={this.getAllPosts}
+                        >
+                        </FindPostsButton>
                     </Segment>
 
                 </Segment>

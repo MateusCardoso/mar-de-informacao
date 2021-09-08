@@ -9,6 +9,7 @@ import {
 
 import TagMultiselect from './tagMultiselect';
 import FindPostsButton from './findPostsButton';
+import fieldLabels from './fieldLabel';
 
 class SearchPost extends React.Component{
 
@@ -40,7 +41,11 @@ class SearchPost extends React.Component{
         for(const post of data){
             posts.push({
                 id: post.id,
-                description: post.description
+                description: post.description,
+                waterQuality: post.beachReport.waterQuality,
+                temperature: post.beachReport.temperature,
+                windDirection: post.beachReport.windStatus.windDirection,
+                windVelocity: post.beachReport.windStatus.windVelocity
             })
         }
         return(posts);
@@ -69,6 +74,10 @@ class SearchPost extends React.Component{
                 <Table.Row>
                     <Table.Cell content={post.id}></Table.Cell>
                     <Table.Cell content={post.description}></Table.Cell>
+                    <Table.Cell content={post.waterQuality}></Table.Cell>
+                    <Table.Cell content={post.temperature}></Table.Cell>
+                    <Table.Cell content={post.windDirection}></Table.Cell>
+                    <Table.Cell content={post.windVelocity}></Table.Cell>
                 </Table.Row>
         ))
     }
@@ -96,8 +105,12 @@ class SearchPost extends React.Component{
                     <Table selectable>
                         <Table.Header>
                             <Table.Row>
-                                <Table.HeaderCell>Titulo do Post</Table.HeaderCell>
-                                <Table.HeaderCell>Descriçao do Post</Table.HeaderCell>
+                                <Table.HeaderCell>{fieldLabels.postTitle}</Table.HeaderCell>
+                                <Table.HeaderCell>{fieldLabels.postDescription}</Table.HeaderCell>
+                                <Table.HeaderCell>{fieldLabels.waterQuality}</Table.HeaderCell>
+                                <Table.HeaderCell>{fieldLabels.temperature}</Table.HeaderCell>
+                                <Table.HeaderCell>{fieldLabels.windDirection}</Table.HeaderCell>
+                                <Table.HeaderCell>{fieldLabels.windVelocity}</Table.HeaderCell>
                             </Table.Row>
                         </Table.Header>
 

@@ -10,6 +10,7 @@ import {
 import TagMultiselect from './tagMultiselect';
 import FindPostsButton from './findPostsButton';
 import fieldLabels from './fieldLabel';
+import SearchColumnsButton from './searchColumnsButton';
 
 class SearchPost extends React.Component{
 
@@ -17,10 +18,14 @@ class SearchPost extends React.Component{
         super(props);
         this.state = {
             posts: [],
-            tags: []
+            tags: [],
+            columns: []
         }
         this.updateTagsList = this.updateTagsList.bind(this);
         this.updatePostsList = this.updatePostsList.bind(this);
+        this.updateColumnsList = this.updateColumnsList.bind(this);
+        this.renderHeaderColumns = this.renderHeaderColumns.bind(this);
+        this.renderColumns = this.renderColumns.bind(this);
         this.getAllPosts = this.getAllPosts.bind(this);
     }
 
@@ -59,6 +64,10 @@ class SearchPost extends React.Component{
         this.setState({posts: posts});
     }
 
+    updateColumnsList(columns){
+        this.setState({columns: columns})
+    }
+
     renderFilters(){
         return(
         <Grid columns={4}> 
@@ -67,18 +76,28 @@ class SearchPost extends React.Component{
         )
     }
 
-    renderPosts(props){
-        const posts = props;
+    renderPosts(posts){
         return(
             posts.map((post)=>
                 <Table.Row>
                     <Table.Cell content={post.id}></Table.Cell>
                     <Table.Cell content={post.description}></Table.Cell>
-                    <Table.Cell content={post.waterQuality}></Table.Cell>
-                    <Table.Cell content={post.temperature}></Table.Cell>
-                    <Table.Cell content={post.windDirection}></Table.Cell>
-                    <Table.Cell content={post.windVelocity}></Table.Cell>
+                    {this.renderColumns(post)}
                 </Table.Row>
+        ))
+    }
+
+    renderHeaderColumns(){
+        return(
+            this.state.columns.map((column)=>
+                <Table.HeaderCell content={column.columnName}></Table.HeaderCell>   
+        ))
+    }
+
+    renderColumns(post){
+        return(
+            this.state.columns.map((column)=>
+                <Table.Cell content={post[column.columnTechnicalName]}></Table.Cell>   
         ))
     }
 
@@ -102,15 +121,18 @@ class SearchPost extends React.Component{
 
                 </Segment>
                 <Segment>
+                    <Segment vertical secondary textAlign='right'>
+                        <SearchColumnsButton
+                            updateColumns={this.updateColumnsList}
+                        >
+                        </SearchColumnsButton>
+                    </Segment>
                     <Table selectable>
                         <Table.Header>
                             <Table.Row>
                                 <Table.HeaderCell>{fieldLabels.postTitle}</Table.HeaderCell>
                                 <Table.HeaderCell>{fieldLabels.postDescription}</Table.HeaderCell>
-                                <Table.HeaderCell>{fieldLabels.waterQuality}</Table.HeaderCell>
-                                <Table.HeaderCell>{fieldLabels.temperature}</Table.HeaderCell>
-                                <Table.HeaderCell>{fieldLabels.windDirection}</Table.HeaderCell>
-                                <Table.HeaderCell>{fieldLabels.windVelocity}</Table.HeaderCell>
+                                {this.renderHeaderColumns()}
                             </Table.Row>
                         </Table.Header>
 

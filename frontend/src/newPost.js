@@ -39,8 +39,7 @@ class NewPost extends React.Component{
       beachReport: {
         reportId: null,
         waterQuality: '',
-        temperature: '',
-        fishingConditions: ''
+        temperature: ''
       },
       windStatus: {
         windId: null,

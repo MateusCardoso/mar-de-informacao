@@ -17,7 +17,7 @@ export default function PageRouter(){
                     <Route path="/Create">
                         <NewPost />
                     </Route>
-                    <Route path="/Display">
+                    <Route path="/Display/:postId">
                         <DisplayPost />
                     </Route>
                     <Route path="/Search">

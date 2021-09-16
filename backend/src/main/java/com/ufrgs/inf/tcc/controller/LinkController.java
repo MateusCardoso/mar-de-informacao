@@ -79,6 +79,8 @@ public class LinkController {
 		if (!linkRepository.existsById(id)) {
 			throw new ObjectNotFoundException(Link.class, id);
 		}
+		Link currentLink = linkRepository.findById(id).get();
+		link.setPostRecord(currentLink.getPostRecord());
 		return linkRepository.save(link);
 	}
 

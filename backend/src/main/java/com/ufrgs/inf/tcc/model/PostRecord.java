@@ -67,6 +67,10 @@ public class PostRecord {
 		return links;
 	}
 
+	public void setLinks(List<Link> links){
+		this.links = links;
+	}
+
 	public List<Tag> getTags(){
 		return tags;
 	}

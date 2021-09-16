@@ -1,11 +1,13 @@
 package com.ufrgs.inf.tcc.controller;
 
+import com.ufrgs.inf.tcc.model.Link;
 import com.ufrgs.inf.tcc.model.PostRecord;
 import com.ufrgs.inf.tcc.repository.PostRecordRepository;
 import com.ufrgs.inf.tcc.model.Tag;
 import com.ufrgs.inf.tcc.repository.TagRepository;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -42,6 +44,16 @@ public class PostRecordController {
 			throw new ObjectNotFoundException(PostRecord.class, id);
 		}
 		return postRecord.get();
+	}
+
+	@GetMapping("/{id}/links")
+	@ApiOperation(value = "Get Links from Post", nickname = "linkFromPost")
+	public Iterable<Link> linkFromPost(@PathVariable("id") Long id) throws ObjectNotFoundException {
+		Optional<PostRecord> postRecord = postRecordRepository.findById(id);
+		if (!postRecord.isPresent()) {
+			throw new ObjectNotFoundException(PostRecord.class, id);
+		}
+		return postRecordRepository.findLinksFromPost(id);
 	}
 
 	@PostMapping

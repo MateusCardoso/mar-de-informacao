@@ -1,7 +1,10 @@
 package com.ufrgs.inf.tcc.controller;
 
 import com.ufrgs.inf.tcc.model.Link;
+import com.ufrgs.inf.tcc.model.PostRecord;
 import com.ufrgs.inf.tcc.repository.LinkRepository;
+import com.ufrgs.inf.tcc.repository.PostRecordRepository;
+
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.http.HttpStatus;
@@ -9,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -17,9 +21,11 @@ import java.util.Optional;
 public class LinkController {
     
     private LinkRepository linkRepository;
+	private PostRecordRepository postRecordRepository;
 
-	public LinkController(LinkRepository linkRepository) {
+	public LinkController(LinkRepository linkRepository, PostRecordRepository postRecordRepository) {
 		this.linkRepository = linkRepository;
+		this.postRecordRepository = postRecordRepository;
 	}
 
 	@GetMapping
@@ -42,6 +48,23 @@ public class LinkController {
 	@ApiOperation(value = "Create Link", nickname = "create")
 	public ResponseEntity<Link> create(@RequestBody Link link) {
 		link = linkRepository.save(link);
+		return ResponseEntity
+				.created(ServletUriComponentsBuilder.fromCurrentRequest().path("/" + link.getId()).build().toUri())
+				.body(link);
+	}
+
+	@PostMapping("/postId={postId}")
+	@ApiOperation(value = "Create Link under Post", nickname = "createOnPost")
+	public ResponseEntity<Link> createOnPost(@PathVariable("postId") Long postId, @RequestBody Link link) {
+		link = linkRepository.save(link);
+		PostRecord postRecord = postRecordRepository.findById(postId).get();
+		List<Link> currentLinks = postRecordRepository.findLinksFromPost(postId);
+		currentLinks.add(link);
+		postRecord.setLinks(currentLinks);
+		link.setPostRecord(postRecord);
+		
+		link = linkRepository.save(link);
+		postRecordRepository.save(postRecord);
 		return ResponseEntity
 				.created(ServletUriComponentsBuilder.fromCurrentRequest().path("/" + link.getId()).build().toUri())
 				.body(link);

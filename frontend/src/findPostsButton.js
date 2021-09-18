@@ -14,7 +14,7 @@ class FindPostsButton extends Button{
         const requestOptionsUpdateTags = this.buildRequestOptions('GET');
         
         if( tagIds !== ""){
-            const response = await fetch(process.env.REACT_APP_API_URL+'/posts/tags?tagIds='+tagIds, requestOptionsUpdateTags);
+            const response = await fetch(process.env.REACT_APP_API_URL+'/posts/byTags?tagIds='+tagIds, requestOptionsUpdateTags);
             const data = await response.json();
             this.props.updatePostsList(data);
         }else{

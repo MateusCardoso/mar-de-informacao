@@ -119,7 +119,7 @@ public class PostRecordController {
 		return postRecordRepository.save(postRecord);
 	}
 
-	@GetMapping("/tags")
+	@GetMapping("/byTags")
 	@ApiOperation(value = "Get by Tag Relations", nickname = "get related")
 	public Iterable<PostRecord> getPostsByTags(@RequestParam("tagIds") List<Long> tagIds){		
 		return postRecordRepository.findAllWithTags(tagIds);

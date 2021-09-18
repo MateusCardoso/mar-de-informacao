@@ -89,6 +89,8 @@ function DisplayPost(){
                                 <DisplayTags tags={tags.tags}></DisplayTags>
                             </Segment>
                         </Segment>
+                    </Grid.Column>
+                    <Grid.Column>
                         <Segment basic>
                             <Header as='h3'>Situaçao do Mar</Header>
                             <Segment>
@@ -120,6 +122,8 @@ function DisplayPost(){
                                 </Segment>
                             </Segment>
                         </Segment>
+                    </Grid.Column>
+                    <Grid.Column>
                         <Segment basic>
                             <Header as='h3'>Precipitaçao</Header>
                             <Segment>

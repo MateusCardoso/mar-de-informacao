@@ -14,6 +14,7 @@ public class PostRecord {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long postId;
 	private String title;
+	@Column(length = 2048)
 	private String description;
 
 	@OneToOne(cascade=CascadeType.ALL)

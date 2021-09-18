@@ -80,7 +80,9 @@ class SearchPost extends React.Component{
         return(
             posts.map((post)=>
                 <Table.Row key={post.id}>
-                    <Table.Cell content={post.id}></Table.Cell>
+                    <Table.Cell selectable>
+                        <a href={"/Display/" + post.id}>{post.id}</a>
+                    </Table.Cell>
                     <Table.Cell content={post.description}></Table.Cell>
                     {this.renderColumns(post)}
                 </Table.Row>
@@ -127,7 +129,7 @@ class SearchPost extends React.Component{
                         >
                         </SearchColumnsButton>
                     </Segment>
-                    <Table selectable>
+                    <Table>
                         <Table.Header>
                             <Table.Row>
                                 <Table.HeaderCell>{fieldLabels.postTitle}</Table.HeaderCell>

@@ -79,7 +79,7 @@ class SearchPost extends React.Component{
     renderPosts(posts){
         return(
             posts.map((post)=>
-                <Table.Row>
+                <Table.Row key={post.id}>
                     <Table.Cell content={post.id}></Table.Cell>
                     <Table.Cell content={post.description}></Table.Cell>
                     {this.renderColumns(post)}
@@ -107,7 +107,7 @@ class SearchPost extends React.Component{
                 <Segment padded='very' inverted color='grey'>
                     <Header as='h1' content='Buscar Posts' textAlign='left' />
                 </Segment>
-                <Segment fluid>
+                <Segment fluid='true'>
                     <Header as='h4' content='Filtros:' textAlign='left' />
                     {this.renderFilters()}
                     <Segment vertical>

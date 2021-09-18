@@ -90,14 +90,14 @@ class SearchPost extends React.Component{
     renderHeaderColumns(){
         return(
             this.state.columns.map((column)=>
-                <Table.HeaderCell content={column.columnName}></Table.HeaderCell>   
+                <Table.HeaderCell key={this.state.columns.indexOf(column)} content={column.columnName}></Table.HeaderCell>   
         ))
     }
 
     renderColumns(post){
         return(
             this.state.columns.map((column)=>
-                <Table.Cell content={post[column.columnTechnicalName]}></Table.Cell>   
+                <Table.Cell key={this.state.columns.indexOf(column)} content={post[column.columnTechnicalName]}></Table.Cell>   
         ))
     }
 

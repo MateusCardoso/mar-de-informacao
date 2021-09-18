@@ -1,11 +1,13 @@
 package com.ufrgs.inf.tcc.controller;
 
+import com.ufrgs.inf.tcc.model.Link;
 import com.ufrgs.inf.tcc.model.PostRecord;
 import com.ufrgs.inf.tcc.repository.PostRecordRepository;
 import com.ufrgs.inf.tcc.model.Tag;
 import com.ufrgs.inf.tcc.repository.TagRepository;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -44,6 +46,16 @@ public class PostRecordController {
 		return postRecord.get();
 	}
 
+	@GetMapping("/{id}/links")
+	@ApiOperation(value = "Get Links from Post", nickname = "linkFromPost")
+	public Iterable<Link> linkFromPost(@PathVariable("id") Long id) throws ObjectNotFoundException {
+		Optional<PostRecord> postRecord = postRecordRepository.findById(id);
+		if (!postRecord.isPresent()) {
+			throw new ObjectNotFoundException(PostRecord.class, id);
+		}
+		return postRecordRepository.findLinksFromPost(id);
+	}
+
 	@PostMapping
 	@ApiOperation(value = "Create Post", nickname = "create")
 	public ResponseEntity<PostRecord> create(@RequestBody PostRecord postRecord) {
@@ -65,6 +77,7 @@ public class PostRecordController {
 		Optional<PostRecord> dbPostRecord = postRecordRepository.findById(id);
 		PostRecord oldPostRecord = dbPostRecord.get();
 		oldPostRecord.setDescription(postRecord.getDescription());
+		oldPostRecord.setTitle(postRecord.getTitle());
 		return postRecordRepository.save(oldPostRecord);
 	}
 
@@ -105,6 +118,18 @@ public class PostRecordController {
 		tagRepository.saveAll(tagsToRemoveRelation);
 				
 		return postRecordRepository.save(postRecord);
+	}
+
+	@GetMapping("/byTags")
+	@ApiOperation(value = "Get by Tag Relations", nickname = "get related")
+	public Iterable<PostRecord> getPostsByTags(@RequestParam("tagIds") List<Long> tagIds){		
+		return postRecordRepository.findAllWithTags(tagIds);
+	}
+
+	@GetMapping("/{id}/tags")
+	@ApiOperation(value = "Get Post Tags", nickname = "get tags")
+	public Iterable<Tag> getTagsFromPost(@PathVariable("id") Long id){		
+		return postRecordRepository.findTagsFromPost(id);
 	}
 
 	@DeleteMapping("/{id}")

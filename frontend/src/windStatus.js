@@ -7,6 +7,8 @@ import {
     Input,
 } from "semantic-ui-react";
 
+import fieldLabels from './fieldLabel';
+
 class WindStatus extends React.Component{
     constructor(props){
         super(props);
@@ -35,7 +37,7 @@ class WindStatus extends React.Component{
             <Grid.Column>
                 <Header as='h4' content='Vento:' textAlign='left' />
                 <Form.Field>
-                    <Label>Direçao do Vento</Label>
+                    <Label>{fieldLabels.windDirection}</Label>
                     <Input fluid
                         name='windDirection'
                         placeholder='Direçao...'
@@ -44,7 +46,7 @@ class WindStatus extends React.Component{
                     />
                 </Form.Field>
                 <Form.Field>
-                    <Label>Velocidade do Vento</Label>
+                    <Label>{fieldLabels.windVelocity}</Label>
                     <Input fluid
                         name='windVelocity'
                         label={{ basic: true, content: 'Km/h' }}

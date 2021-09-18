@@ -76,7 +76,8 @@ class SavePostButton extends Button{
     requestBodyForPost(id){
         return (
             JSON.stringify({ 
-                id: id, 
+                id: id,
+                title: this.props.title, 
                 description: this.props.description
             })
         )

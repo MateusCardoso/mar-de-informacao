@@ -97,25 +97,33 @@ class TagMultiselect extends React.Component{
         return (data.id);  
     }
 
+    renderHeader(){
+        if(this.props.noHeader !== true){
+            return(
+                <Header as='h4' content='Categoria do Post:' textAlign='left'/>
+            )
+        }
+    }
+
     render() {
         return(
         <Grid.Column>
-            <Header as='h4' content='Categoria do Post:' textAlign='left'/>
-                <Form.Field>
-                    <Label>Tags de Busca</Label>
-                    <Dropdown
-                        allowAdditions
-                        clearable
-                        fluid
-                        multiple
-                        search
-                        selection
-                        options={this.state.options}
-                        onAddItem={this.addTag}
-                        onChange={this.selectTag}
-                        placeholder='Tags...'
-                    />
-                </Form.Field>
+            {this.renderHeader()}
+            <Form.Field>
+                <Label>Tags de Busca</Label>
+                <Dropdown
+                    allowAdditions={this.props.allowAdditions}
+                    clearable
+                    fluid
+                    multiple
+                    search
+                    selection
+                    options={this.state.options}
+                    onAddItem={this.addTag}
+                    onChange={this.selectTag}
+                    placeholder='Tags...'
+                />
+            </Form.Field>
         </Grid.Column>
         )
     }

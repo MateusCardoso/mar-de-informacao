@@ -13,6 +13,8 @@ public class PostRecord {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long postId;
+	private String title;
+	@Column(length = 2048)
 	private String description;
 
 	@OneToOne(cascade=CascadeType.ALL)
@@ -33,9 +35,10 @@ public class PostRecord {
 
 	}
 
-	public PostRecord(Long postId, String description) {
+	public PostRecord(Long postId, String description, String title) {
 		this();
 		this.postId = postId;
+		this.title = title;
 		this.description = description;
 	}
 
@@ -45,6 +48,14 @@ public class PostRecord {
 
 	public void setId(Long postId) {
 		this.postId = postId;
+	}
+
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
 	}
 
 	public String getDescription() {
@@ -67,6 +78,10 @@ public class PostRecord {
 		return links;
 	}
 
+	public void setLinks(List<Link> links){
+		this.links = links;
+	}
+
 	public List<Tag> getTags(){
 		return tags;
 	}
@@ -85,18 +100,20 @@ public class PostRecord {
 		}
 		PostRecord that = (PostRecord) o;
 		return Objects.equals(postId, that.postId) &&
+				Objects.equals(title, that.title) &&
 			    Objects.equals(description, that.description);
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(postId, description);
+		return Objects.hash(postId, title, description);
 	}
 
 	@Override
 	public String toString() {
 		return "PostRecord{" +
 				"postId=" + postId +
+				", title='" + title + '\'' +
 				", description='" + description + '\'' +
 				'}';
 	}

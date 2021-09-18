@@ -67,7 +67,7 @@ class LinkTable extends React.Component{
                 tableLine: link.tableLine
             })
         };
-        const response = await fetch(process.env.REACT_APP_API_URL+'/links', requestOptions);
+        const response = await fetch(process.env.REACT_APP_API_URL+'/links/postId='+this.props.postId, requestOptions);
         const data = await response.json();
         return (data.id);
         

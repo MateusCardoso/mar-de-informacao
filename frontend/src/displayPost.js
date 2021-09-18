@@ -9,6 +9,7 @@ import {
 import { useParams } from 'react-router';
 
 import DisplayLinks from './displayLinks';
+import DisplayTags from './displayTags';
 
 function DisplayPost(){
 
@@ -46,7 +47,16 @@ function DisplayPost(){
         post.links = data;
         setPost(post);
     }, [postId]);
-    
+
+    const retrieveTags = useCallback(async ()=>{
+        const requestOptions = {
+            method: 'GET'
+        };
+        const response = await fetch(process.env.REACT_APP_API_URL+'/posts/'+postId+'/tags', requestOptions);
+        const data = await response.json();
+        post.tags = data;
+        setPost(post);
+    }, [postId]);
     
     useEffect(()=>{
         retrievePost();
@@ -55,6 +65,10 @@ function DisplayPost(){
     useEffect(()=>{
         retrieveLinks();
     }, [retrieveLinks]);
+    
+    useEffect(()=>{
+        retrieveTags();
+    }, [retrieveTags]);
 
     return <div>
             <Segment padded='very' inverted color='grey'>
@@ -70,7 +84,9 @@ function DisplayPost(){
                     </Grid.Column>
                     <Grid.Column>
                         <Segment basic>{post.description}
-                            <Segment basic>Tags: </Segment>
+                            <Segment basic>Tags: 
+                                <DisplayTags tags={post.tags}></DisplayTags>
+                            </Segment>
                         </Segment>
                         <Segment basic>
                             <Header as='h3'>Situaçao do Mar</Header>

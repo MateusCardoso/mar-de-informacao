@@ -24,8 +24,14 @@ function DisplayPost(){
                 windDirection: '',
                 windVelocity: ''
             }
-        },
-        links: [],
+        }
+    });
+
+    const [links, setLinks] = useState({
+        links: []
+    });
+
+    const [tags, setTags] = useState({
         tags: []
     });
     
@@ -45,8 +51,7 @@ function DisplayPost(){
         };
         const response = await fetch(process.env.REACT_APP_API_URL+'/posts/'+postId+'/links', requestOptions);
         const data = await response.json();
-        post.links = data;
-        setPost(post);
+        setLinks({links: data});
     }, [postId]);
 
     const retrieveTags = useCallback(async ()=>{
@@ -55,21 +60,14 @@ function DisplayPost(){
         };
         const response = await fetch(process.env.REACT_APP_API_URL+'/posts/'+postId+'/tags', requestOptions);
         const data = await response.json();
-        post.tags = data;
-        setPost(post);
+        setTags({tags: data});
     }, [postId]);
     
     useEffect(()=>{
-        retrievePost();
-    }, [retrievePost]);
-    
-    useEffect(()=>{
-        retrieveLinks();
-    }, [retrieveLinks]);
-    
-    useEffect(()=>{
+        retrievePost(),
+        retrieveLinks(),
         retrieveTags();
-    }, [retrieveTags]);
+    }, [retrievePost]);
 
     return <div>
             <Segment padded='very' inverted color='grey'>
@@ -85,10 +83,10 @@ function DisplayPost(){
                     </Grid.Column>
                     <Grid.Column>
                         <Segment basic>
-                            <Header as='h2'>{post.title}</Header>
+                            <Header as='h1'>{post.title}</Header>
                             {post.description}
                             <Segment basic>Tags: 
-                                <DisplayTags tags={post.tags}></DisplayTags>
+                                <DisplayTags tags={tags.tags}></DisplayTags>
                             </Segment>
                         </Segment>
                         <Segment basic>
@@ -180,7 +178,7 @@ function DisplayPost(){
             </Segment>
             <Segment>
                 <Header as='h3'>Links:</Header>
-                <DisplayLinks links={post.links}></DisplayLinks>
+                <DisplayLinks links={links.links}></DisplayLinks>
             </Segment>
         </div>;
 }

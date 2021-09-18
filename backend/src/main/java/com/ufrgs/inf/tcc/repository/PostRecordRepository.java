@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.ufrgs.inf.tcc.model.Link;
 import com.ufrgs.inf.tcc.model.PostRecord;
+import com.ufrgs.inf.tcc.model.Tag;
 
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
@@ -16,6 +17,11 @@ public interface PostRecordRepository extends CrudRepository<PostRecord, Long> {
     @Query("SELECT DISTINCT post FROM PostRecord post INNER JOIN post.tags tag WHERE tag.id IN :tagIds")
     List<PostRecord> findAllWithTags( 
         @Param("tagIds") Iterable<Long> tagIds );
+    
+    @Query("SELECT tag FROM Tag tag INNER JOIN tag.postRecords post WHERE post.id = :postId")
+    List<Tag> findTagsFromPost(
+        @Param("postId") Long postId
+    );
 
     @Query("SELECT link FROM Link link INNER JOIN link.postRecord post WHERE post.id = :postId")
     List<Link> findLinksFromPost(

@@ -125,6 +125,12 @@ public class PostRecordController {
 		return postRecordRepository.findAllWithTags(tagIds);
 	}
 
+	@GetMapping("/{id}/tags")
+	@ApiOperation(value = "Get Post Tags", nickname = "get tags")
+	public Iterable<Tag> getTagsFromPost(@PathVariable("id") Long id){		
+		return postRecordRepository.findTagsFromPost(id);
+	}
+
 	@DeleteMapping("/{id}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	@ApiOperation(value = "Delete Post", nickname = "delete")

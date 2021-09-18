@@ -16,7 +16,7 @@ class DisplayLinks extends React.Component{
         else{
             return (
                 links.map((link)=>
-                <List.Item>
+                <List.Item key={link.tableLine}>
                     <List.Icon name='linkify' />
                     <List.Content>
                         <a href={link.url}>{link.linkName}</a>

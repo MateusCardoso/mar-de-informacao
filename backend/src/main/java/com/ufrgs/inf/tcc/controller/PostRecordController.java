@@ -77,6 +77,7 @@ public class PostRecordController {
 		Optional<PostRecord> dbPostRecord = postRecordRepository.findById(id);
 		PostRecord oldPostRecord = dbPostRecord.get();
 		oldPostRecord.setDescription(postRecord.getDescription());
+		oldPostRecord.setTitle(postRecord.getTitle());
 		return postRecordRepository.save(oldPostRecord);
 	}
 

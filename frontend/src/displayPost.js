@@ -15,6 +15,7 @@ function DisplayPost(){
 
     const [post, setPost] = useState({
         postId: null,
+        title: '',
         description: '',
         beachReport: {
             waterQuality: '',
@@ -83,7 +84,9 @@ function DisplayPost(){
                         </Segment>
                     </Grid.Column>
                     <Grid.Column>
-                        <Segment basic>{post.description}
+                        <Segment basic>
+                            <Header as='h2'>{post.title}</Header>
+                            {post.description}
                             <Segment basic>Tags: 
                                 <DisplayTags tags={post.tags}></DisplayTags>
                             </Segment>

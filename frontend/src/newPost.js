@@ -35,6 +35,7 @@ class NewPost extends React.Component{
     super(props);
     this.state = {
       postId: null,
+      title: '',
       description: '',
       beachReport: {
         reportId: null,
@@ -49,15 +50,17 @@ class NewPost extends React.Component{
       links: [],
       tags: []
     };
-    this.updateDescription = this.updateDescription.bind(this);
+    this.updatePostText = this.updatePostText.bind(this);
     this.updateBeachReport = this.updateBeachReport.bind(this);
     this.updateWindStatus = this.updateWindStatus.bind(this);
     this.updateLinksTable = this.updateLinksTable.bind(this);
     this.updateTagsList = this.updateTagsList.bind(this);
   }
 
-  updateDescription(evt) {
-    this.setState({description: evt.target.value})
+  updatePostText(name, value) {
+    var updatedState = this.state;
+    updatedState[name] = value;
+    this.setState(updatedState);
   }
 
   updateBeachReport(name,value) {
@@ -112,13 +115,14 @@ class NewPost extends React.Component{
         </Segment>
         <Form>
           <Grid columns={2} stackable>
-            <PostText onChange={this.updateDescription} description={this.state.description}></PostText>
+            <PostText updatePostText={this.updatePostText} description={this.state.description}></PostText>
             <BeachReport updateBeachReport={this.updateBeachReport}></BeachReport>
             <WindStatus updateWindStatus={this.updateWindStatus}></WindStatus>
             <TagMultiselect updateTagsList={this.updateTagsList} allowAdditions={true}></TagMultiselect>
             <LinkTable links={this.state.links} postId={this.state.postId}></LinkTable>
             <SavePostButton
               postId={this.state.postId}
+              title={this.state.title}
               description={this.state.description}
               beachReport={this.state.beachReport}
               windStatus={this.state.windStatus}

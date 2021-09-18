@@ -46,6 +46,7 @@ class SearchPost extends React.Component{
         for(const post of data){
             posts.push({
                 id: post.id,
+                title: post.title,
                 description: post.description,
                 waterQuality: post.beachReport.waterQuality,
                 temperature: post.beachReport.temperature,
@@ -81,7 +82,7 @@ class SearchPost extends React.Component{
             posts.map((post)=>
                 <Table.Row key={post.id}>
                     <Table.Cell selectable>
-                        <a href={"/Display/" + post.id}>{post.id}</a>
+                        <a href={"/Display/" + post.id}>{post.title}</a>
                     </Table.Cell>
                     <Table.Cell content={post.description}></Table.Cell>
                     {this.renderColumns(post)}

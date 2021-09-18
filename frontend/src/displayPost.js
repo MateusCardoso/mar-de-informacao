@@ -8,6 +8,8 @@ import {
 
 import { useParams } from 'react-router';
 
+import DisplayLinks from './displayLinks';
+
 function DisplayPost(){
 
     const [post, setPost] = useState({
@@ -34,10 +36,25 @@ function DisplayPost(){
         const data = await response.json();
         setPost(data);
     }, [postId]);
+
+    const retrieveLinks = useCallback(async ()=>{
+        const requestOptions = {
+            method: 'GET'
+        };
+        const response = await fetch(process.env.REACT_APP_API_URL+'/posts/'+postId+'/links', requestOptions);
+        const data = await response.json();
+        post.links = data;
+        setPost(post);
+    }, [postId]);
+    
     
     useEffect(()=>{
         retrievePost();
     }, [retrievePost]);
+    
+    useEffect(()=>{
+        retrieveLinks();
+    }, [retrieveLinks]);
 
     return <div>
             <Segment padded='very' inverted color='grey'>
@@ -144,6 +161,7 @@ function DisplayPost(){
             </Segment>
             <Segment>
                 <Header as='h3'>Links:</Header>
+                <DisplayLinks links={post.links}></DisplayLinks>
             </Segment>
         </div>;
 }

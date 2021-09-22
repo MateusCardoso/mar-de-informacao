@@ -8,6 +8,7 @@ import {
   import DisplayPost from "./displayPost"
   import Home from "./home"
   import SearchPost from "./searchPost";
+  import EditPost from "./editPost";
 
 export default function PageRouter(){
     return (
@@ -16,6 +17,9 @@ export default function PageRouter(){
                 <Switch>
                     <Route path="/Create">
                         <NewPost />
+                    </Route>
+                    <Route path="/Edit/:postId">
+                        <EditPost />
                     </Route>
                     <Route path="/Display/:postId">
                         <DisplayPost />

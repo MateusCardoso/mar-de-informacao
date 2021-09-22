@@ -13,10 +13,10 @@ class SavePostButton extends Button{
         const postId = await this.props.postId;
         const requestOptionsUpdateDescription = this.buildRequestOptions('PATCH',this.requestBodyForPost(postId));
 
-        const reportId = await this.props.beachReport.reportId;
+        const reportId = await this.props.beachReport.id;
         const requestOptionsUpdateBeachReport = this.buildRequestOptions('PATCH',this.requestBodyForBeachReport(reportId));
 
-        const windId = await this.props.windStatus.windId;
+        const windId = await this.props.windStatus.id;
         const requestOptionsUpdateWindStatus = this.buildRequestOptions('PATCH',this.requestBodyForWindStatus(windId));
 
         const tagIds = await this.getTagIds();

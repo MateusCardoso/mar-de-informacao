@@ -39,7 +39,7 @@ class SavePostButton extends Button{
         var links = this.props.links;
         var remainingLinks = [];
         for(const link of links){
-            let linkId = await link.linkId;
+            let linkId = await link.id;
             let restMethod = link.toBeDeleted ? 'DELETE' : 'PATCH';
             var requestOptionsLink = this.buildRequestOptions(restMethod, this.requestBodyForLink(linkId,link));
             try{
@@ -59,7 +59,7 @@ class SavePostButton extends Button{
         const tags = this.props.tags;
         var tagIds = [];
         for(const tag of tags){
-            let tagId = await tag.tagId;
+            let tagId = await tag.id;
             tagIds.push(tagId);
         }
         return(tagIds.join());

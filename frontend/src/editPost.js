@@ -99,7 +99,7 @@ function EditPost(){
     }
     
     const updateTagsList = (tags) => {
-        setTags(tags);
+        setTags({tags: tags});
     }
 
     return <div>

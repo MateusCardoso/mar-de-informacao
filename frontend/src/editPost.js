@@ -76,10 +76,11 @@ function EditPost(){
         retrieveTags();
     }, [retrievePost]);
 
-    const updatePostText = (name, value) => {
-        var updatedState = post;
-        updatedState[name] = value;
-        setPost(updatedState);
+    const updatePostText = (name,value) => {
+        setPost({
+            ...post, 
+            [name]: value
+        })
     }
     
     const updateBeachReport = (name,value) => {
@@ -108,7 +109,7 @@ function EditPost(){
         </Segment>
         <Form>
           <Grid columns={2} stackable>
-            <PostText updatePostText={updatePostText}></PostText>
+            <PostText updatePostText={updatePostText} post={post}></PostText>
             <BeachReport updateBeachReport={updateBeachReport}></BeachReport>
             <WindStatus updateWindStatus={updateWindStatus}></WindStatus>
             <TagMultiselect updateTagsList={updateTagsList} allowAdditions={true}></TagMultiselect>

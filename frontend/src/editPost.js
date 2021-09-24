@@ -94,9 +94,17 @@ function EditPost(){
     }
     
     const updateWindStatus = (name,value) => {
-        var updatedState = post;
-        updatedState.beachReport.windStatus[name] = value;
-        setPost(updatedState);
+        setPost({
+            ...post, 
+            beachReport: { 
+                ...post.beachReport,
+                windStatus: {
+                    ...post.beachReport.windStatus,
+                    [name]:value
+                }
+                
+            }
+        })
     }
     
     const updateLinksTable = (links) => {
@@ -115,7 +123,7 @@ function EditPost(){
           <Grid columns={2} stackable>
             <PostText updatePostText={updatePostText} post={post}></PostText>
             <BeachReport updateBeachReport={updateBeachReport} beachReport={post.beachReport}></BeachReport>
-            <WindStatus updateWindStatus={updateWindStatus}></WindStatus>
+            <WindStatus updateWindStatus={updateWindStatus} windStatus={post.beachReport.windStatus}></WindStatus>
             <TagMultiselect updateTagsList={updateTagsList} allowAdditions={true}></TagMultiselect>
             <LinkTable links={links.links} postId={post.id}></LinkTable>
             <SavePostButton

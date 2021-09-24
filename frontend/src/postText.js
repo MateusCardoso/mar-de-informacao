@@ -18,11 +18,22 @@ function PostText (props){
                 <Header as='h4' content='Descriçao do Post:' textAlign='left' />
                 <Form.Field>
                     <Label>Titulo:</Label>
-                    <TextArea name='title' placeholder='Titulo do Post...' onChange={handleInputChange} value={props.post.title}/>
+                    <TextArea 
+                        name='title' 
+                        placeholder='Titulo do Post...' 
+                        onChange={handleInputChange} 
+                        value={props.post.title || ''}
+                    />
                 </Form.Field>
                 <Form.Field>
                     <Label>Texto:</Label>
-                    <TextArea name='description' placeholder='Texto do Post...' style={{ minHeight: 200 }} onChange={handleInputChange} value={props.post.description}/>
+                    <TextArea 
+                        name='description' 
+                        placeholder='Texto do Post...' 
+                        style={{ minHeight: 200 }} 
+                        onChange={handleInputChange} 
+                        value={props.post.description || ''}
+                    />
                 </Form.Field>
             </Grid.Column>;
 }

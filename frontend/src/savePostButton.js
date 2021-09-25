@@ -36,14 +36,12 @@ class SavePostButton extends Button{
     }
 
     async updateLinks(){
-        var links = this.props.links;
         var remainingLinks = [];
-        for(const link of links){
-            let linkId = await link.id;
+        for(const link of this.props.links){
             let restMethod = link.toBeDeleted ? 'DELETE' : 'PATCH';
-            var requestOptionsLink = this.buildRequestOptions(restMethod, this.requestBodyForLink(linkId,link));
+            var requestOptionsLink = this.buildRequestOptions(restMethod, this.requestBodyForLink(link.id,link));
             try{
-                fetch(process.env.REACT_APP_API_URL+'/links/'+linkId, requestOptionsLink)
+                fetch(process.env.REACT_APP_API_URL+'/links/'+link.id, requestOptionsLink)
             }
             catch(error){
                 console.error('Error:', error);

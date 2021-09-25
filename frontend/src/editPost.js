@@ -33,13 +33,8 @@ function EditPost(){
         }
     });
 
-    const [links, setLinks] = useState({
-        links: []
-    });
-
-    const [tags, setTags] = useState({
-        tags: []
-    });
+    const [links, setLinks] = useState([]);
+    const [tags, setTags] = useState([]);
     
     let {postId} = useParams();
     
@@ -58,7 +53,7 @@ function EditPost(){
         };
         const response = await fetch(process.env.REACT_APP_API_URL+'/posts/'+postId+'/links', requestOptions);
         const data = await response.json();
-        setLinks({links: data});
+        setLinks(data);
     }, [postId]);
 
     const retrieveTags = useCallback(async ()=>{
@@ -67,7 +62,7 @@ function EditPost(){
         };
         const response = await fetch(process.env.REACT_APP_API_URL+'/posts/'+postId+'/tags', requestOptions);
         const data = await response.json();
-        setTags({tags: data});
+        setTags(data);
     }, [postId]);
     
     useEffect(()=>{
@@ -108,11 +103,11 @@ function EditPost(){
     }
     
     const updateLinksTable = (links) => {
-        setLinks({links: links});
+        setLinks(links);
     }
     
     const updateTagsList = (tags) => {
-        setTags({tags: tags});
+        setTags(tags);
     }
 
     return <div>
@@ -121,19 +116,19 @@ function EditPost(){
         </Segment>
         <Form>
           <Grid columns={2} stackable>
-            <PostText updatePostText={updatePostText} post={post}></PostText>
-            <BeachReport updateBeachReport={updateBeachReport} beachReport={post.beachReport}></BeachReport>
-            <WindStatus updateWindStatus={updateWindStatus} windStatus={post.beachReport.windStatus}></WindStatus>
-            <TagMultiselect updateTagsList={updateTagsList} allowAdditions={true}></TagMultiselect>
-            <LinkTable links={links.links} postId={post.id}></LinkTable>
+            <PostText updatePostText={updatePostText}           post={post}></PostText>
+            <BeachReport updateBeachReport={updateBeachReport}  beachReport={post.beachReport}></BeachReport>
+            <WindStatus updateWindStatus={updateWindStatus}     windStatus={post.beachReport.windStatus}></WindStatus>
+            <TagMultiselect updateTagsList={updateTagsList}     tags={tags} allowAdditions={true}></TagMultiselect>
+            <LinkTable updateLinksTable={updateLinksTable}      links={links} postId={post.id}></LinkTable>
             <SavePostButton
               postId={post.id}
               title={post.title}
               description={post.description}
               beachReport={post.beachReport}
               windStatus={post.beachReport.windStatus}
-              links={links.links}
-              tags={tags.tags}
+              links={links}
+              tags={tags}
               updateLinksTable={updateLinksTable}
             >
             </SavePostButton>

@@ -3,24 +3,20 @@ import {
     Button
 } from "semantic-ui-react";
 
-class SavePostButton extends Button{
-    constructor(props){
-        super(props);
-        this.updatePost = this.updatePost.bind(this);
-    }
+function SavePostButton (props){
+    
+    const updatePost = async () => {
+        const postId = await props.post.id;
+        const requestOptionsUpdateDescription = buildRequestOptions('PATCH',requestBodyForPost(props.post));
 
-    async updatePost() {
-        const postId = await this.props.postId;
-        const requestOptionsUpdateDescription = this.buildRequestOptions('PATCH',this.requestBodyForPost(postId));
+        const reportId = await props.post.beachReport.id;
+        const requestOptionsUpdateBeachReport = buildRequestOptions('PATCH',requestBodyForBeachReport(props.post.beachReport));
 
-        const reportId = await this.props.beachReport.id;
-        const requestOptionsUpdateBeachReport = this.buildRequestOptions('PATCH',this.requestBodyForBeachReport(reportId));
+        const windId = await props.post.beachReport.windStatus.id;
+        const requestOptionsUpdateWindStatus = buildRequestOptions('PATCH',requestBodyForWindStatus(props.post.beachReport.windStatus));
 
-        const windId = await this.props.windStatus.id;
-        const requestOptionsUpdateWindStatus = this.buildRequestOptions('PATCH',this.requestBodyForWindStatus(windId));
-
-        const tagIds = await this.getTagIds();
-        const requestOptionsUpdateTags = this.buildRequestOptions('PATCH');
+        const tagIds = await getTagIds();
+        const requestOptionsUpdateTags = buildRequestOptions('PATCH');
         
         try{
             fetch(process.env.REACT_APP_API_URL+'/posts/'+postId, requestOptionsUpdateDescription),
@@ -32,14 +28,14 @@ class SavePostButton extends Button{
             console.error('Error:', error);
         };
         
-        await this.updateLinks();
+        await updateLinks();
     }
 
-    async updateLinks(){
+    const updateLinks = async () => {
         var remainingLinks = [];
-        for(const link of this.props.links){
+        for(const link of props.links){
             let restMethod = link.toBeDeleted ? 'DELETE' : 'PATCH';
-            var requestOptionsLink = this.buildRequestOptions(restMethod, this.requestBodyForLink(link.id,link));
+            var requestOptionsLink = buildRequestOptions(restMethod, requestBodyForLink(link));
             try{
                 fetch(process.env.REACT_APP_API_URL+'/links/'+link.id, requestOptionsLink)
             }
@@ -50,11 +46,11 @@ class SavePostButton extends Button{
                 remainingLinks.push(link);
             }
         }
-        this.props.updateLinksTable(remainingLinks);
+        props.updateLinksTable(remainingLinks);
     }
 
-    async getTagIds(){
-        const tags = this.props.tags;
+    const getTagIds = async () => {
+        const tags = props.tags;
         var tagIds = [];
         for(const tag of tags){
             let tagId = await tag.id;
@@ -63,7 +59,7 @@ class SavePostButton extends Button{
         return(tagIds.join());
     }
 
-    buildRequestOptions(method,body){
+    const buildRequestOptions = (method,body) => {
         return {
             method: method,
             headers: { 'Content-Type': 'application/json' },
@@ -71,41 +67,41 @@ class SavePostButton extends Button{
         };
     }
 
-    requestBodyForPost(id){
+    const requestBodyForPost = (post) => {
         return (
             JSON.stringify({ 
-                id: id,
-                title: this.props.title, 
-                description: this.props.description
+                id: post.id,
+                title: post.title, 
+                description: post.description
             })
         )
     }
 
-    requestBodyForBeachReport(id){
+    const requestBodyForBeachReport = (beachReport) => {
         return (
             JSON.stringify({ 
-                id: id,
-                waterQuality: this.props.beachReport.waterQuality,
-                temperature: this.props.beachReport.temperature,
-                fishingConditions: this.props.beachReport.fishingConditions
+                id: beachReport.id,
+                waterQuality: beachReport.waterQuality,
+                temperature: beachReport.temperature,
+                fishingConditions: beachReport.fishingConditions
             })
         )
     }
 
-    requestBodyForWindStatus(id){
+    const requestBodyForWindStatus = (windStatus) => {
         return (
             JSON.stringify({ 
-                id: id,
-                windDirection: this.props.windStatus.windDirection,
-                windVelocity: this.props.windStatus.windVelocity
+                id: windStatus.id,
+                windDirection: windStatus.windDirection,
+                windVelocity: windStatus.windVelocity
             })
         )
     }
 
-    requestBodyForLink(id,link){
+    const requestBodyForLink = (link) => {
         return (
             JSON.stringify({ 
-                id: id,
+                id: link.id,
                 key: link.key,
                 tableLine: link.tableLine,
                 linkName: link.linkName,
@@ -114,13 +110,10 @@ class SavePostButton extends Button{
         )
     }
     
-    render() {
-        return(
-            <Grid.Row>
-              <Button onClick={this.updatePost}>Salvar</Button>
+    
+    return  <Grid.Row>
+                <Button onClick={updatePost}>Salvar</Button>
             </Grid.Row>
-        )
-    }
-
+    
 }
  export default SavePostButton

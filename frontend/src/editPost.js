@@ -122,11 +122,7 @@ function EditPost(){
             <TagMultiselect updateTagsList={updateTagsList}     tags={tags} allowAdditions={true}></TagMultiselect>
             <LinkTable updateLinksTable={updateLinksTable}      links={links} postId={post.id}></LinkTable>
             <SavePostButton
-              postId={post.id}
-              title={post.title}
-              description={post.description}
-              beachReport={post.beachReport}
-              windStatus={post.beachReport.windStatus}
+              post={post}
               links={links}
               tags={tags}
               updateLinksTable={updateLinksTable}

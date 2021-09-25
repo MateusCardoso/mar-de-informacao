@@ -1,4 +1,4 @@
-import React from 'react'
+import { useState } from 'react';
 import { 
     Form,
     Input,
@@ -6,53 +6,32 @@ import {
     Button,
 } from 'semantic-ui-react';
 
-class Link extends React.Component{
-    constructor(props){
-        super(props);
-        this.state = {
-            key: props.key,
-            tableLine: props.tableLine,
-            linkId: props.linkId,
-            linkName: props.linkName,
-            url: props.url,
-            toBeDeleted: false
-        }
+function Link (props){
 
-        this.handleInputChange = this.handleInputChange.bind(this);
-        this.toggleLineToDelete = this.toggleLineToDelete.bind(this);
-    }
-
-    handleInputChange(evt) {
+    const [toBeDeleted, setToBeDeleted] = useState(false)
+    
+    const handleInputChange = (evt) => {
         const name = evt.target.name;
         const value = evt.target.value;
-
-        this.setState({
-            [name]: value
-        });
-
-        this.props.updateLinkData(this.state.tableLine, name, value);
+        props.updateLinkData(props.link.tableLine, name, value);
     }
 
-    toggleLineToDelete(){
-        const value = !(this.state.toBeDeleted);
-        this.setState({
-            toBeDeleted: value
-        });
-        this.props.updateLinkData(this.state.tableLine, 'toBeDeleted', value);
+    const toggleLineToDelete = () => {
+        const value = !toBeDeleted;
+        setToBeDeleted(value);
+        props.updateLinkData(props.link.tableLine, 'toBeDeleted', value);
     }
 
-    render() {
-        return(
-            <Table.Row> 
+    return  <Table.Row> 
                 <Table.Cell>
                     <Form.Field>
                         <Input
                             fluid
-                            disabled={this.state.toBeDeleted}
+                            disabled={toBeDeleted}
                             name='linkName'
                             placeholder='Nome...'
-                            value={this.state.name}
-                            onChange={this.handleInputChange}
+                            value={props.link.linkName || ''}
+                            onChange={handleInputChange}
                         />
                     </Form.Field>
                 </Table.Cell>
@@ -60,26 +39,24 @@ class Link extends React.Component{
                     <Form.Field>
                         <Input 
                             fluid
-                            disabled={this.state.toBeDeleted}
+                            disabled={toBeDeleted}
                             name='url'
                             placeholder='URL...'
-                            value={this.state.url}
-                            onChange={this.handleInputChange}
+                            value={props.link.url || ''}
+                            onChange={handleInputChange}
                         />
                     </Form.Field>
                 </Table.Cell>
                 <Table.Cell collapsing={true}>
                     <Button
                         name='delete'
-                        icon={this.state.toBeDeleted ? 'repeat' : 'delete'}
-                        negative={!(this.state.toBeDeleted)}
-                        positive={(this.state.toBeDeleted)}
-                        onClick={this.toggleLineToDelete}
+                        icon={toBeDeleted ? 'repeat' : 'delete'}
+                        negative={!(toBeDeleted)}
+                        positive={(toBeDeleted)}
+                        onClick={toggleLineToDelete}
                     >
                     </Button>
                 </Table.Cell>
             </Table.Row>
-        )
-    }
 }
  export default Link

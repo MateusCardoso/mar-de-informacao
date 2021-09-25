@@ -1,4 +1,3 @@
-import React from 'react'
 import { 
     Grid,
     Header,
@@ -9,40 +8,23 @@ import {
 
 import fieldLabels from './fieldLabel';
 
-class BeachReport extends React.Component{
-    constructor(props){
-        super(props);
-        this.state = {
-            reportId: null,
-            waterQuality: '',
-            temperature: ''
-        }
-
-        this.handleInputChange = this.handleInputChange.bind(this);
-    }
-
-    handleInputChange(evt) {
+function BeachReport (props){
+   
+    const handleInputChange = (evt) => {
         const value = evt.target.value;
         const name = evt.target.name;
-
-        this.setState({
-            [name]: value
-        });
-
-        this.props.updateBeachReport(name,value);
+        props.updateBeachReport(name,value);
     }
 
-    render() {
-        return(
-            <Grid.Column>
+    return  <Grid.Column>
                 <Header as='h4' content='Reporte do Mar:' textAlign='left' />
                 <Form.Field>
                     <Label>{fieldLabels.waterQuality}</Label>
                     <Input fluid 
                         name='waterQuality'
                         placeholder='Qualidade...'
-                        onChange={this.handleInputChange}
-                        value={this.state.waterQuality}
+                        onChange={handleInputChange}
+                        value={props.beachReport.waterQuality || ''}
                     />
                 </Form.Field>
                 <Form.Field>
@@ -52,12 +34,11 @@ class BeachReport extends React.Component{
                         label={{ basic: true, content: '°C' }}
                         labelPosition='right'
                         placeholder='Graus...'
-                        onChange={this.handleInputChange}
-                        value={this.state.temperature}
+                        onChange={handleInputChange}
+                        value={props.beachReport.temperature || ''}
                     />
                 </Form.Field>
             </Grid.Column>
-        )
-    }
 }
- export default BeachReport
+
+export default BeachReport

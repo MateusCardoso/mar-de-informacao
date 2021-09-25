@@ -1,4 +1,4 @@
-import React from 'react'
+import { useState } from 'react';
 import { 
     Grid,
     Header,
@@ -9,57 +9,45 @@ import {
 
 import Link from './link';
 
-class LinkTable extends React.Component{
-    constructor(props){
-        super(props);
-        this.state = {
-            lastLine: 0
-        }
-
-        this.addLink = this.addLink.bind(this);
-        this.updateLinkData = this.updateLinkData.bind(this);
-        this.updatecreateLinkLinkData = this.createLink.bind(this);
-    }
-
-    renderLinks(props){
-        const links = props;
+function LinkTable (props){
+    
+    const [lastLine, setLastLine] = useState(0);
+   
+    const renderLinks = (x) => {
+        const links = x;
         return(
             links.map((link)=>
-                <Link 
-                    key={link.tableLine} 
-                    tableLine={link.tableLine}
-                    linkId={link.linkId}
-                    linkName={link.linkName}
-                    url={link.url}
-                    updateLinkData={this.updateLinkData}
+                <Link
+                    key={link.tableLine}
+                    link={link} 
+                    updateLinkData={updateLinkData}
                 ></Link>
         ))
     }
 
-    addLink(){
-        var links = this.props.links;
-        const lastLine = this.state.lastLine;
+    const addLink = async () => {
+        var links = props.links.slice();
         const newLink = {
-            linkId: null,
-            key: lastLine,
-            tableLine: lastLine,
+            id: null,
             linkName: '',
-            url: ''
+            url: '',
+            tableLine: lastLine
         }
-        const newLinkId = this.createLink(newLink); 
-        newLink.linkId = newLinkId;
+        const newLinkId = await createLink(newLink); 
+        newLink.id = newLinkId;
         links.push(newLink);
-        this.setState({
-            lastLine: lastLine + 1
-        });
+        setLastLine(lastLine + 1);
+        props.updateLinksTable(links);
     }
 
-    updateLinkData(tableLine,name,value){
-        var linkToUpdate = this.props.links.find(link => link.tableLine === tableLine);
+    const updateLinkData = (tableLine,name,value) => {
+        var links = props.links.slice();
+        var linkToUpdate = links.find(link => link.tableLine === tableLine);
         linkToUpdate[name] = value;
+        props.updateLinksTable(links);
     }
 
-    async createLink(link){
+    const createLink = async (link) => {
         const requestOptions = {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -67,49 +55,44 @@ class LinkTable extends React.Component{
                 tableLine: link.tableLine
             })
         };
-        const response = await fetch(process.env.REACT_APP_API_URL+'/links/postId='+this.props.postId, requestOptions);
+        const response = await fetch(process.env.REACT_APP_API_URL+'/links/postId='+props.postId, requestOptions);
         const data = await response.json();
-        return (data.id);
-        
-    }
+        return (data.id);   
+    };
 
-    render() {
-        return(
-        <Grid.Column>
-            <Header as='h4' content='Links:' />
-                <Table celled>
-                    <Table.Header>
-                        <Table.Row>
-                            <Table.HeaderCell>Nome do Link</Table.HeaderCell>
-                            <Table.HeaderCell>URL</Table.HeaderCell>
-                            <Table.HeaderCell>Deletar</Table.HeaderCell>
-                        </Table.Row>
-                    </Table.Header>
-                    
-                    <Table.Body children>
-                        {this.renderLinks(this.props.links)}
-                    </Table.Body>
+    return  <Grid.Column>
+                <Header as='h4' content='Links:' />
+                    <Table celled>
+                        <Table.Header>
+                            <Table.Row>
+                                <Table.HeaderCell>Nome do Link</Table.HeaderCell>
+                                <Table.HeaderCell>URL</Table.HeaderCell>
+                                <Table.HeaderCell>Deletar</Table.HeaderCell>
+                            </Table.Row>
+                        </Table.Header>
+                        
+                        <Table.Body children>
+                            {renderLinks(props.links)}
+                        </Table.Body>
 
-                    <Table.Footer>
-                        <Table.Row>
-                            <Table.HeaderCell colSpan='4'>
-                                <Button
-                                floated='right'
-                                icon
-                                labelPosition='left'
-                                primary
-                                size='small'
-                                onClick={this.addLink}
-                                >
-                                <Icon name='world' /> Adicionar Link
-                                </Button>
-                            </Table.HeaderCell>
-                        </Table.Row>
-                    </Table.Footer>
-                
-            </Table>
-        </Grid.Column>
-        )
-    }
+                        <Table.Footer>
+                            <Table.Row>
+                                <Table.HeaderCell colSpan='4'>
+                                    <Button
+                                        floated='right'
+                                        icon
+                                        labelPosition='left'
+                                        primary
+                                        size='small'
+                                        onClick={addLink}
+                                    >
+                                        <Icon name='world' /> Adicionar Link
+                                    </Button>
+                                </Table.HeaderCell>
+                            </Table.Row>
+                        </Table.Footer>
+
+                    </Table>
+            </Grid.Column>
 }
  export default LinkTable

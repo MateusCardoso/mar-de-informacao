@@ -72,7 +72,7 @@ class SearchPost extends React.Component{
     renderFilters(){
         return(
         <Grid columns={4}> 
-            <TagMultiselect updateTagsList={this.updateTagsList} allowAdditions={false} noHeader={true}></TagMultiselect>
+            <TagMultiselect updateTagsList={this.updateTagsList} allowAdditions={false} noHeader={true} tags={this.state.tags}></TagMultiselect>
         </Grid>
         )
     }

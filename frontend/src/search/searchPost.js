@@ -7,9 +7,9 @@ import {
   Button
 } from 'semantic-ui-react'
 
-import TagMultiselect from './tagMultiselect';
+import TagMultiselect from '../tagMultiselect';
 import FindPostsButton from './findPostsButton';
-import fieldLabels from './fieldLabel';
+import fieldLabels from '../fieldLabel';
 import SearchColumnsButton from './searchColumnsButton';
 
 class SearchPost extends React.Component{

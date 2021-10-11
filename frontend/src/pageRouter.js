@@ -7,7 +7,7 @@ import {
   import NewPost from "./newPost"
   import DisplayPost from "./display/displayPost"
   import Home from "./home"
-  import SearchPost from "./searchPost";
+  import SearchPost from "./search/searchPost";
   import EditPost from "./editPost";
 
 export default function PageRouter(){

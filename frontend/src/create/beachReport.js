@@ -6,7 +6,7 @@ import {
     Input
 } from "semantic-ui-react";
 
-import fieldLabels from './fieldLabel';
+import fieldLabels from '../fieldLabel';
 
 function BeachReport (props){
    

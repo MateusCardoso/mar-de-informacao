@@ -4,11 +4,11 @@ import {
     Route
   } from "react-router-dom";
 
-  import NewPost from "./newPost"
+  import NewPost from "./create/newPost"
   import DisplayPost from "./display/displayPost"
   import Home from "./home"
   import SearchPost from "./search/searchPost";
-  import EditPost from "./editPost";
+  import EditPost from "./create/editPost";
 
 export default function PageRouter(){
     return (

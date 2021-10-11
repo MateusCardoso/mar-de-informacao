@@ -13,7 +13,7 @@ import SavePostButton from './savePostButton'
 import BeachReport from './beachReport'
 import WindStatus from './windStatus'
 import LinkTable from './linkTable'
-import TagMultiselect from './tagMultiselect'
+import TagMultiselect from '../tagMultiselect'
 
 function EditPost(){
 

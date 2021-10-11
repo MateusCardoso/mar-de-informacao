@@ -10,8 +10,8 @@ import moment from 'moment';
 
 import TagMultiselect from '../common/tagMultiselect';
 import FindPostsButton from './findPostsButton';
-import fieldLabels from '../common/fieldLabel';
 import SearchColumnsButton from './searchColumnsButton';
+import SearchHeaderColumns from './searchHeaderColumns';
 
 function SearchPost () {
 
@@ -77,13 +77,6 @@ function SearchPost () {
         ))
     }
 
-    const renderHeaderColumns = () => {
-        return(
-            columns.map((column)=>
-                <Table.HeaderCell key={columns.indexOf(column)} content={column.columnName}></Table.HeaderCell>   
-        ))
-    }
-
     const renderColumns = (post) => {
         return(
             columns.map((column)=>
@@ -110,20 +103,10 @@ function SearchPost () {
                 </Segment>
                 <Segment>
                     <Segment vertical secondary textAlign='right'>
-                        <SearchColumnsButton
-                            updateColumns={setColumns}
-                        >
-                        </SearchColumnsButton>
+                        <SearchColumnsButton columns={columns} updateColumns={setColumns}/>
                     </Segment>
                     <Table>
-                        <Table.Header>
-                            <Table.Row>
-                                <Table.HeaderCell>{fieldLabels.postTitle}</Table.HeaderCell>
-                                <Table.HeaderCell>{fieldLabels.postDescription}</Table.HeaderCell>
-                                {renderHeaderColumns()}
-                            </Table.Row>
-                        </Table.Header>
-
+                        <SearchHeaderColumns columns={columns}/>
                         <Table.Body children>
                             {renderPosts()}
                         </Table.Body>

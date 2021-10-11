@@ -27,7 +27,18 @@ services:
       ADMINER_DEFAULT_PASSWORD: "pe5Cador"
       ADMINER_DEFAULT_DB: "postgres"
 
+  nginx:
+    depends_on:
+      - backend
+      - frontend
+    build: ./nginx
+    ports:
+      - 80:80
+    networks:
+      - backend_net
+
   backend:
+    container_name: backend_1
     image: maven:3.5-jdk-8
     command: mvn clean spring-boot:run -Dmaven.clean.failOnError=false
     working_dir: /usr/src/app
@@ -49,12 +60,13 @@ services:
       SPRING_DATASOURCE_PASSWORD: "pe5Cador"
   
   frontend:
+    container_name: frontend_1
     build: ./frontend
     command: npm start
     working_dir: /usr/src/app
     restart: always
     ports:
-      - 80:3000
+      - 8084:3000
     networks:
       - backend_net
     volumes:
@@ -63,7 +75,7 @@ services:
       - ./frontend/public:/usr/src/app/public
       - ./frontend/static:/usr/src/app/static
     environment:
-      REACT_APP_API_URL: "http://localhost:8085/api/v1"
+      REACT_APP_API_URL: "/api/v1"
 
 networks:
   database_net:

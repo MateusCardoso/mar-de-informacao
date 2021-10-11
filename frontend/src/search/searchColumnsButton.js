@@ -3,7 +3,7 @@ import {
     Dropdown
 } from "semantic-ui-react";
 
-import fieldLabels from "../fieldLabel";
+import fieldLabels from "../common/fieldLabel";
 
 class SearchColumnsButton extends Component{
     constructor(props){

@@ -5,7 +5,8 @@ const fieldLabels = {
     waterQuality: 'Qualidade da Agua',
     temperature: 'Temperatura',
     windDirection: 'Direçao do Vento',
-    windVelocity: 'Velocidade do Vento'
+    windVelocity: 'Velocidade do Vento',
+    publicationDateTime: 'Data de Publicaçao'
 };
 
 export default fieldLabels;

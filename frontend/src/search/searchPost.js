@@ -1,42 +1,29 @@
-import React from 'react'
+import React, {useState, useEffect} from 'react'
 import {
   Header,
   Segment,
   Table,
-  Grid,
-  Button
+  Grid
 } from 'semantic-ui-react'
+
+import moment from 'moment';
 
 import TagMultiselect from '../common/tagMultiselect';
 import FindPostsButton from './findPostsButton';
 import fieldLabels from '../common/fieldLabel';
 import SearchColumnsButton from './searchColumnsButton';
 
-class SearchPost extends React.Component{
+function SearchPost () {
 
-    constructor(props){
-        super(props);
-        this.state = {
-            posts: [],
-            tags: [],
-            columns: []
-        }
-        this.updateTagsList = this.updateTagsList.bind(this);
-        this.updatePostsList = this.updatePostsList.bind(this);
-        this.updateColumnsList = this.updateColumnsList.bind(this);
-        this.renderHeaderColumns = this.renderHeaderColumns.bind(this);
-        this.renderColumns = this.renderColumns.bind(this);
-        this.getAllPosts = this.getAllPosts.bind(this);
-    }
+    const [posts,setPosts] = useState([]);
+    const [tags,setTags] = useState([]);
+    const [columns,setColumns] = useState([]);
 
-    async componentDidMount() {
-        const posts = await this.getAllPosts();
-        this.setState({
-            posts: posts
-        });
-    }
+    useEffect(() => {
+        getAllPosts()
+    }, []);
 
-    async getAllPosts(){
+    const getAllPosts = async () => {
         const requestOptions = {
             method: 'GET'
         };
@@ -51,33 +38,33 @@ class SearchPost extends React.Component{
                 waterQuality: post.beachReport.waterQuality,
                 temperature: post.beachReport.temperature,
                 windDirection: post.beachReport.windStatus.windDirection,
-                windVelocity: post.beachReport.windStatus.windVelocity
+                windVelocity: post.beachReport.windStatus.windVelocity,
+                publicationDateTime: post.publicationDateTime ? moment(parseDate(post.publicationDateTime)).format('DD MMM, YYYY - HH:mm:ss' ) : null
             })
         }
-        return(posts);
+        setPosts(posts);
     }
 
-    updateTagsList(tags){
-        this.setState({tags: tags});
+    const parseDate = (publicationDateTime) => {
+        return ({
+            year:   publicationDateTime[0],
+            month:  publicationDateTime[1]-1,
+            day:    publicationDateTime[2],
+            hour:   publicationDateTime[3],
+            minute: publicationDateTime[4],
+            second: publicationDateTime[5],
+        })
     }
 
-    updatePostsList(posts){
-        this.setState({posts: posts});
-    }
-
-    updateColumnsList(columns){
-        this.setState({columns: columns})
-    }
-
-    renderFilters(){
+    const renderFilters = () => {
         return(
         <Grid columns={4}> 
-            <TagMultiselect updateTagsList={this.updateTagsList} allowAdditions={false} noHeader={true} tags={this.state.tags}></TagMultiselect>
+            <TagMultiselect updateTagsList={setTags} allowAdditions={false} noHeader={true} tags={tags}></TagMultiselect>
         </Grid>
         )
     }
 
-    renderPosts(posts){
+    const renderPosts = () => {
         return(
             posts.map((post)=>
                 <Table.Row key={post.id}>
@@ -85,39 +72,37 @@ class SearchPost extends React.Component{
                         <a href={"/Display/" + post.id}>{post.title}</a>
                     </Table.Cell>
                     <Table.Cell content={post.description}></Table.Cell>
-                    {this.renderColumns(post)}
+                    {renderColumns(post)}
                 </Table.Row>
         ))
     }
 
-    renderHeaderColumns(){
+    const renderHeaderColumns = () => {
         return(
-            this.state.columns.map((column)=>
-                <Table.HeaderCell key={this.state.columns.indexOf(column)} content={column.columnName}></Table.HeaderCell>   
+            columns.map((column)=>
+                <Table.HeaderCell key={columns.indexOf(column)} content={column.columnName}></Table.HeaderCell>   
         ))
     }
 
-    renderColumns(post){
+    const renderColumns = (post) => {
         return(
-            this.state.columns.map((column)=>
-                <Table.Cell key={this.state.columns.indexOf(column)} content={post[column.columnTechnicalName]}></Table.Cell>   
+            columns.map((column)=>
+                <Table.Cell key={columns.indexOf(column)} content={post[column.columnTechnicalName]}></Table.Cell>   
         ))
     }
 
-    render(){
-        return(
-            <div>
+    return  <div>
                 <Segment padded='very' inverted color='grey'>
                     <Header as='h1' content='Buscar Posts' textAlign='left' />
                 </Segment>
                 <Segment fluid='true'>
                     <Header as='h4' content='Filtros:' textAlign='left' />
-                    {this.renderFilters()}
+                    {renderFilters()}
                     <Segment vertical>
                         <FindPostsButton
-                            tags={this.state.tags}
-                            updatePostsList={this.updatePostsList}
-                            resetPostList={this.getAllPosts}
+                            tags={tags}
+                            updatePostsList={setPosts}
+                            resetPostList={getAllPosts}
                         >
                         </FindPostsButton>
                     </Segment>
@@ -126,7 +111,7 @@ class SearchPost extends React.Component{
                 <Segment>
                     <Segment vertical secondary textAlign='right'>
                         <SearchColumnsButton
-                            updateColumns={this.updateColumnsList}
+                            updateColumns={setColumns}
                         >
                         </SearchColumnsButton>
                     </Segment>
@@ -135,19 +120,17 @@ class SearchPost extends React.Component{
                             <Table.Row>
                                 <Table.HeaderCell>{fieldLabels.postTitle}</Table.HeaderCell>
                                 <Table.HeaderCell>{fieldLabels.postDescription}</Table.HeaderCell>
-                                {this.renderHeaderColumns()}
+                                {renderHeaderColumns()}
                             </Table.Row>
                         </Table.Header>
 
                         <Table.Body children>
-                            {this.renderPosts(this.state.posts)}
+                            {renderPosts()}
                         </Table.Body>
 
                     </Table>
                 </Segment>
             </div>
-        );
-    }
-}
+};
 
-export default SearchPost
+export default SearchPost;

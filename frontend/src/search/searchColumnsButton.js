@@ -29,6 +29,11 @@ class SearchColumnsButton extends Component{
                     id: 4,
                     text: fieldLabels.windVelocity,
                     value: 'windVelocity'
+                },
+                {
+                    id: 5,
+                    text: fieldLabels.publicationDateTime,
+                    value: 'publicationDateTime'
                 }
             ],
             selectedColumns: []

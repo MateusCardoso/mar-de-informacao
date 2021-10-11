@@ -5,7 +5,7 @@ import {
   } from "react-router-dom";
 
   import NewPost from "./newPost"
-  import DisplayPost from "./displayPost"
+  import DisplayPost from "./display/displayPost"
   import Home from "./home"
   import SearchPost from "./searchPost";
   import EditPost from "./editPost";

@@ -9,7 +9,9 @@ import {
 import { useParams } from 'react-router';
 
 import DisplayLinks from './displayLinks';
-import DisplayTags from './displayTags';
+import HeaderFragment from './headerFragment';
+import BeachReportFragment from './beachReportFragment';
+import WindStatusFragment from './windStatusFragment';
 
 function DisplayPost(){
 
@@ -77,67 +79,9 @@ function DisplayPost(){
                             
                         </Segment>
                     </Grid.Column>
-                    <Grid.Column>
-                        <Segment basic>
-                            <Header as='h1'>{post.title}</Header>
-                            {post.description}
-                            { tags.length ?
-                                <Segment basic>Tags: 
-                                    <DisplayTags tags={tags}></DisplayTags>
-                                </Segment>
-                                : null
-                            }
-                        </Segment>
-                    </Grid.Column>
-                    {   post.beachReport.waterQuality !== null  && post.beachReport.temperature !== null ?
-                        <Grid.Column>
-                            <Segment basic>
-                                <Header as='h3'>Situaçao do Mar</Header>
-                                <Segment>
-                                    { post.beachReport.waterQuality ?
-                                        <Segment basic>
-                                            Transparencia da Agua: {post.beachReport.waterQuality}
-                                        </Segment>
-                                        : null
-                                    }
-
-                                    <Segment basic>
-                                        Intensidade da Mare:
-                                    </Segment>
-                                    
-                                    { post.beachReport.temperature ?
-                                        <Segment basic>
-                                            Temperatura: {post.beachReport.temperature} ºC
-                                        </Segment>    
-                                        : null 
-                                    }
-                                </Segment>
-                            </Segment>
-                        </Grid.Column>
-                        : null
-                    }
-                    {   post.beachReport.windStatus.windDirection !== null && post.beachReport.windStatus.windVelocity !== null ?
-                        <Grid.Column>
-                            <Segment basic>
-                                <Header as='h3'>Situaçao do Vento</Header>
-                                <Segment>
-                                    { post.beachReport.windStatus.windDirection ?
-                                        <Segment basic>
-                                            Direçao do Vento: {post.beachReport.windStatus.windDirection}
-                                        </Segment>
-                                        : null 
-                                    }
-                                    {   post.beachReport.windStatus.windVelocity ?
-                                        <Segment basic>
-                                            Velocidade do Vento: {post.beachReport.windStatus.windVelocity} Km/h
-                                        </Segment>
-                                        : null
-                                    }
-                                </Segment>
-                            </Segment>
-                        </Grid.Column>
-                        : null
-                    }
+                    <HeaderFragment post={post} tags={tags}/>
+                    <BeachReportFragment beachReport={post.beachReport}/>
+                    <WindStatusFragment windStatus={post.beachReport.windStatus}/>
                     <Grid.Column>
                         <Segment basic>
                             <Header as='h3'>Precipitaçao</Header>

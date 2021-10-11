@@ -7,12 +7,12 @@ import com.ufrgs.inf.tcc.model.PostRecord;
 import com.ufrgs.inf.tcc.model.Tag;
 
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface PostRecordRepository extends CrudRepository<PostRecord, Long> {
+public interface PostRecordRepository extends PagingAndSortingRepository<PostRecord, Long> {
 
     @Query("SELECT DISTINCT post FROM PostRecord post INNER JOIN post.tags tag WHERE tag.id IN :tagIds")
     List<PostRecord> findAllWithTags( 

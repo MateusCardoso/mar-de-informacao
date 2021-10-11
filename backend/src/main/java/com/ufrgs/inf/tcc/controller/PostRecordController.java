@@ -8,6 +8,7 @@ import com.ufrgs.inf.tcc.repository.TagRepository;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -35,6 +36,12 @@ public class PostRecordController {
 	@ApiOperation(value = "Find all Posts", nickname = "findAll")
 	public Iterable<PostRecord> findAll() {
 		return postRecordRepository.findAll();
+	}
+
+	@GetMapping("/orderedBy")
+	@ApiOperation(value = "Get Ordered Posts", nickname = "findAllOrderedBy")
+	public Iterable<PostRecord> findAllOrderedBy(@RequestParam("field") String field, @RequestParam("order") String order) {
+		return postRecordRepository.findAll(Sort.by(Sort.Direction.fromString(order), field));
 	}
 
 	@GetMapping("/{id}")

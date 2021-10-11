@@ -14,6 +14,7 @@ import BeachReport from './beachReport'
 import WindStatus from './windStatus'
 import LinkTable from './linkTable'
 import TagMultiselect from '../common/tagMultiselect'
+import PublishPostButton from './publishPostButton';
 
 function EditPost(){
 
@@ -115,20 +116,26 @@ function EditPost(){
           <Header as='h1'>Entrar novo Post</Header>
         </Segment>
         <Form>
-          <Grid columns={2} stackable>
+          <Grid columns={2} stackable doubling>
             <PostText updatePostText={updatePostText}           post={post}></PostText>
             <BeachReport updateBeachReport={updateBeachReport}  beachReport={post.beachReport}></BeachReport>
             <WindStatus updateWindStatus={updateWindStatus}     windStatus={post.beachReport.windStatus}></WindStatus>
             <TagMultiselect updateTagsList={updateTagsList}     tags={tags} allowAdditions={true}></TagMultiselect>
             <LinkTable updateLinksTable={updateLinksTable}      links={links} postId={post.id}></LinkTable>
-            <SavePostButton
-              post={post}
-              links={links}
-              tags={tags}
-              updateLinksTable={updateLinksTable}
-            >
-            </SavePostButton>
-            
+            <Grid.Row>
+                <SavePostButton
+                    post={post}
+                    links={links}
+                    tags={tags}
+                    updateLinksTable={updateLinksTable}
+                />
+                <PublishPostButton 
+                    post={post}
+                    links={links}
+                    tags={tags}
+                    updateLinksTable={updateLinksTable}
+                />
+            </Grid.Row>
           </Grid>
         </Form>
     </div>;

@@ -18,8 +18,7 @@ class FindPostsButton extends Button{
             const data = await response.json();
             this.props.updatePostsList(data);
         }else{
-            const allPosts = await this.props.resetPostList();
-            this.props.updatePostsList(allPosts);
+            await this.props.resetPostList();
         }
     }
 
@@ -27,8 +26,7 @@ class FindPostsButton extends Button{
         const tags = this.props.tags;
         var tagIds = [];
         for(const tag of tags){
-            let tagId = await tag.tagId;
-            tagIds.push(tagId);
+            tagIds.push(tag.id);
         }
         return(tagIds.join());
     }

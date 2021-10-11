@@ -2,6 +2,7 @@ package com.ufrgs.inf.tcc.model;
 
 import javax.persistence.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -16,6 +17,9 @@ public class PostRecord {
 	private String title;
 	@Column(length = 2048)
 	private String description;
+	private Character status;
+	private LocalDateTime creationDateTime;
+	private LocalDateTime publicationDateTime;
 
 	@OneToOne(cascade=CascadeType.ALL)
 	@JoinColumn(name = "reportId")
@@ -66,6 +70,30 @@ public class PostRecord {
 		this.description = description;
 	}
 
+	public Character getStatus() {
+		return status;
+	}
+
+	public void setStatus(Character status) {
+		this.status = status;
+	}
+
+	public LocalDateTime getCreationDateTime() {
+		return creationDateTime;
+	}
+
+	public void setCreationDatetime(LocalDateTime creationDateTime) {
+		this.creationDateTime = creationDateTime;
+	}
+	
+	public LocalDateTime getPublicationDateTime() {
+		return publicationDateTime;
+	}
+
+	public void setPublicationDatetime(LocalDateTime publicationDateTime) {
+		this.publicationDateTime = publicationDateTime;
+	}
+
 	public BeachReport getBeachReport(){
 		return beachReport;
 	}
@@ -106,7 +134,7 @@ public class PostRecord {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(postId, title, description);
+		return Objects.hash(postId, title, description, status, creationDateTime, publicationDateTime);
 	}
 
 	@Override
@@ -115,6 +143,9 @@ public class PostRecord {
 				"postId=" + postId +
 				", title='" + title + '\'' +
 				", description='" + description + '\'' +
+				", status='" + status + '\'' +
+				", creationDateTime='" + creationDateTime + '\'' +
+				", publicationDateTime='" + publicationDateTime + '\'' +
 				'}';
 	}
 }

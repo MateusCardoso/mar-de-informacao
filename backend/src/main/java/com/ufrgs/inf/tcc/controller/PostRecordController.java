@@ -15,6 +15,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.util.Optional;
 import java.util.List;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 @RestController
@@ -59,6 +60,8 @@ public class PostRecordController {
 	@PostMapping
 	@ApiOperation(value = "Create Post", nickname = "create")
 	public ResponseEntity<PostRecord> create(@RequestBody PostRecord postRecord) {
+		postRecord.setStatus('D');
+		postRecord.setCreationDatetime(LocalDateTime.now());
 		postRecord = postRecordRepository.save(postRecord);
 		return ResponseEntity
 				.created(ServletUriComponentsBuilder.fromCurrentRequest().path("/" + postRecord.getId()).build().toUri())
@@ -79,6 +82,18 @@ public class PostRecordController {
 		oldPostRecord.setDescription(postRecord.getDescription());
 		oldPostRecord.setTitle(postRecord.getTitle());
 		return postRecordRepository.save(oldPostRecord);
+	}
+
+	@PatchMapping("/publish/{id}")
+	@ApiOperation(value = "Publish Post", nickname = "publish")
+	public PostRecord publish(@PathVariable("id") Long id) throws ObjectNotFoundException, RequestInconsistentException {
+		if (!postRecordRepository.existsById(id)) {
+			throw new ObjectNotFoundException(PostRecord.class, id);
+		}
+		PostRecord postRecord = postRecordRepository.findById(id).get();
+		postRecord.setStatus('P');
+		postRecord.setPublicationDatetime(LocalDateTime.now());
+		return postRecordRepository.save(postRecord);
 	}
 
 	@PatchMapping("/{id}/tags")

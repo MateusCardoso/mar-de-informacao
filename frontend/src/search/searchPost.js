@@ -18,16 +18,23 @@ function SearchPost () {
     const [posts,setPosts] = useState([]);
     const [tags,setTags] = useState([]);
     const [columns,setColumns] = useState([]);
+    const [orderedBy,setOrderedBy] = useState({
+        field: '',
+        order: '',
+        tableOrder: ''
+    });
 
     useEffect(() => {
         getAllPosts()
-    }, []);
+    }, [orderedBy]);
 
     const getAllPosts = async () => {
         const requestOptions = {
             method: 'GET'
         };
-        const response = await fetch(process.env.REACT_APP_API_URL+'/posts', requestOptions);
+        const response = orderedBy.field !== '' 
+            ? await fetch(process.env.REACT_APP_API_URL+'/posts/orderedBy?field='+orderedBy.field+'&order='+orderedBy.order, requestOptions) 
+            : await fetch(process.env.REACT_APP_API_URL+'/posts', requestOptions);
         const data = await response.json();
         var posts = [];
         for(const post of data){
@@ -105,8 +112,8 @@ function SearchPost () {
                     <Segment vertical secondary textAlign='right'>
                         <SearchColumnsButton columns={columns} updateColumns={setColumns}/>
                     </Segment>
-                    <Table>
-                        <SearchHeaderColumns columns={columns}/>
+                    <Table sortable>
+                        <SearchHeaderColumns columns={columns} orderedBy={orderedBy} setOrderedBy={setOrderedBy}/>
                         <Table.Body children>
                             {renderPosts()}
                         </Table.Body>

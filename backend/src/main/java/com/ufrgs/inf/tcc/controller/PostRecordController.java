@@ -40,8 +40,12 @@ public class PostRecordController {
 
 	@GetMapping("/orderedBy")
 	@ApiOperation(value = "Get Ordered Posts", nickname = "findAllOrderedBy")
-	public Iterable<PostRecord> findAllOrderedBy(@RequestParam("field") String field, @RequestParam("order") String order) {
-		return postRecordRepository.findAll(Sort.by(Sort.Direction.fromString(order), field));
+	public Iterable<PostRecord> findAllOrderedBy(@RequestParam(required = false) String entityName, @RequestParam("field") String field, @RequestParam("order") String order) {
+		if(entityName != null){
+			return postRecordRepository.findAllWithJoin(Sort.by(Sort.Direction.fromString(order), entityName+"."+field));
+		} else {
+			return postRecordRepository.findAll(Sort.by(Sort.Direction.fromString(order), field));
+		}
 	}
 
 	@GetMapping("/{id}")

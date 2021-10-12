@@ -11,26 +11,28 @@ function SearchHeaderColumns (props) {
                 <Table.HeaderCell 
                     key={columns.indexOf(column)} 
                     sorted={orderedBy.field === column.columnTechnicalName ? orderedBy.tableOrder : null}
-                    onClick={() => changeOrder(column.columnTechnicalName)}
+                    onClick={() => changeOrder(column.columnTechnicalName, column.entityName)}
                     content={column.columnName}
                 />
         ))
     });
 
-    const changeOrder = (field) => {
+    const changeOrder = (field, entity) => {
         var currentOrder = props.orderedBy;
         if(currentOrder.field === field){
             currentOrder.order = currentOrder.order === '' ? 'DESC' 
                                 : currentOrder.order === 'DESC' ? 'ASC'
                                 : ''
-            currentOrder.tableOrder = currentOrder.tableOrder === '' ? 'Descending' 
-                                : currentOrder.tableOrder === 'Descending' ? 'Ascending'
+            currentOrder.tableOrder = currentOrder.tableOrder === '' ? 'descending' 
+                                : currentOrder.tableOrder === 'descending' ? 'ascending'
                                 : ''
-            currentOrder.field = currentOrder.order === '' ? '' : currentOrder.field;             
+            currentOrder.field = currentOrder.order === '' ? '' : currentOrder.field;
+            currentOrder.entity = currentOrder.order === '' ? '' : currentOrder.entity;  
         } else{
             currentOrder.field = field;
+            currentOrder.entity = entity;
             currentOrder.order = 'DESC';
-            currentOrder.tableOrder = 'Descending'
+            currentOrder.tableOrder = 'descending'
         }
         props.setOrderedBy({...currentOrder});
     };
@@ -39,12 +41,12 @@ function SearchHeaderColumns (props) {
                 <Table.Row>
                     <Table.HeaderCell
                         sorted={orderedBy.field === 'title' ? orderedBy.tableOrder : null}
-                        onClick={() => changeOrder('title')}
+                        onClick={() => changeOrder('title', '')}
                         content={fieldLabels.postTitle}
                     />
                     <Table.HeaderCell
                         sorted={orderedBy.field === 'description' ? orderedBy.tableOrder : null}
-                        onClick={() => changeOrder('description')}
+                        onClick={() => changeOrder('description', '')}
                         content={fieldLabels.postDescription}
                     />
                     {renderHeaderColumns(props.columns)}

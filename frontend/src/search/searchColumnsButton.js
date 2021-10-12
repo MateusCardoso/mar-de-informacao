@@ -8,27 +8,32 @@ function SearchColumnsButton (props) {
         {
             id: 1,
             text: fieldLabels.waterQuality,
-            value: 'waterQuality'
+            value: 'waterQuality',
+            entity: 'beachReport'
         },
         {
             id: 2,
             text: fieldLabels.temperature,
-            value: 'temperature'
+            value: 'temperature',
+            entity: 'beachReport'
         },
         {
             id: 3,
             text: fieldLabels.windDirection,
-            value: 'windDirection'
+            value: 'windDirection',
+            entity: 'windStatus'
         },
         {
             id: 4,
             text: fieldLabels.windVelocity,
-            value: 'windVelocity'
+            value: 'windVelocity',
+            entity: 'windStatus'
         },
         {
             id: 5,
             text: fieldLabels.publicationDateTime,
-            value: 'publicationDateTime'
+            value: 'publicationDateTime',
+            entity: ''
         }
     ];
 
@@ -40,7 +45,8 @@ function SearchColumnsButton (props) {
             if(optionWithId !== undefined){
                 selectedColumns.push({
                     columnName: optionWithId.text,
-                    columnTechnicalName: optionWithId.value
+                    columnTechnicalName: optionWithId.value,
+                    entityName: optionWithId.entity
                 });
             }
         }else if(evt.target.parentNode.attributes.role !== undefined && evt.target.parentNode.attributes.role.nodeValue === 'option'){
@@ -49,7 +55,8 @@ function SearchColumnsButton (props) {
             if(optionWithId !== undefined){
                 selectedColumns.push({
                     columnName: optionWithId.text,
-                    columnTechnicalName: optionWithId.value
+                    columnTechnicalName: optionWithId.value,
+                    entityName: optionWithId.entity
                 });
             }
         }else if(evt.target.className === 'dropdown icon clear'){

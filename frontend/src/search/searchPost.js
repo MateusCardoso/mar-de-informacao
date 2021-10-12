@@ -19,6 +19,7 @@ function SearchPost () {
     const [tags,setTags] = useState([]);
     const [columns,setColumns] = useState([]);
     const [orderedBy,setOrderedBy] = useState({
+        entity: '',
         field: '',
         order: '',
         tableOrder: ''
@@ -32,7 +33,9 @@ function SearchPost () {
         const requestOptions = {
             method: 'GET'
         };
-        const response = orderedBy.field !== '' 
+        const response = orderedBy.entity !== '' 
+            ? await fetch(process.env.REACT_APP_API_URL+'/posts/orderedBy?entityName='+orderedBy.entity+'&field='+orderedBy.field+'&order='+orderedBy.order, requestOptions) 
+            : orderedBy.field !== '' 
             ? await fetch(process.env.REACT_APP_API_URL+'/posts/orderedBy?field='+orderedBy.field+'&order='+orderedBy.order, requestOptions) 
             : await fetch(process.env.REACT_APP_API_URL+'/posts', requestOptions);
         const data = await response.json();

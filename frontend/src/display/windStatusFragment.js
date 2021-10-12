@@ -7,7 +7,7 @@ import {
 function WindStatusFragment (props) {
     var windStatus = props.windStatus;
 
-    return windStatus.windDirection !== null && windStatus.windVelocity !== null ?
+    return windStatus.windDirection !== null || windStatus.windVelocity !== null ?
             <Grid.Column>
                 <Segment basic >
                     <Header as='h3'>Situaçao do Vento</Header>

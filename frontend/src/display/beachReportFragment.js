@@ -7,7 +7,7 @@ import {
 function BeachReportFragment (props) {
     var beachReport = props.beachReport;
 
-    return beachReport.waterQuality !== null  && beachReport.temperature !== null ?
+    return beachReport.waterQuality !== null  || beachReport.temperature !== null ?
             <Grid.Column >
                 <Segment basic>
                     <Header as='h3'>Situaçao do Mar</Header>

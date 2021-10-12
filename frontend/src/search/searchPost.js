@@ -6,12 +6,12 @@ import {
   Grid
 } from 'semantic-ui-react'
 
-import moment from 'moment';
-
 import TagMultiselect from '../common/tagMultiselect';
 import FindPostsButton from './findPostsButton';
 import SearchColumnsButton from './searchColumnsButton';
 import SearchHeaderColumns from './searchHeaderColumns';
+
+import RetrievePosts from './retrievePosts';
 
 function SearchPost () {
 
@@ -26,46 +26,30 @@ function SearchPost () {
     });
 
     useEffect(() => {
-        getAllPosts()
+        getPosts();
     }, [orderedBy]);
 
-    const getAllPosts = async () => {
-        const requestOptions = {
-            method: 'GET'
-        };
-        const response = orderedBy.entity !== '' 
-            ? await fetch(process.env.REACT_APP_API_URL+'/posts/orderedBy?entityName='+orderedBy.entity+'&field='+orderedBy.field+'&order='+orderedBy.order, requestOptions) 
-            : orderedBy.field !== '' 
-            ? await fetch(process.env.REACT_APP_API_URL+'/posts/orderedBy?field='+orderedBy.field+'&order='+orderedBy.order, requestOptions) 
-            : await fetch(process.env.REACT_APP_API_URL+'/posts', requestOptions);
-        const data = await response.json();
-        var posts = [];
-        for(const post of data){
-            posts.push({
-                id: post.id,
-                title: post.title,
-                description: post.description,
-                waterQuality: post.beachReport.waterQuality,
-                temperature: post.beachReport.temperature,
-                windDirection: post.beachReport.windStatus.windDirection,
-                windVelocity: post.beachReport.windStatus.windVelocity,
-                publicationDateTime: post.publicationDateTime ? moment(parseDate(post.publicationDateTime)).format('DD MMM, YYYY - HH:mm:ss' ) : null
-            })
-        }
-        setPosts(posts);
-    }
-
-    const parseDate = (publicationDateTime) => {
-        return ({
-            year:   publicationDateTime[0],
-            month:  publicationDateTime[1]-1,
-            day:    publicationDateTime[2],
-            hour:   publicationDateTime[3],
-            minute: publicationDateTime[4],
-            second: publicationDateTime[5],
+    const getPosts = async () => {
+        const tagIds = await getTagIds();
+        await RetrievePosts({
+            setPosts: setPosts,
+            orderedBy: orderedBy,
+            filters: tagIds
+                    ? [{
+                        name: 'tagIds',
+                        value: tagIds
+                    }] : null
         })
     }
 
+    const getTagIds = async () => {
+        var tagIds = [];
+        for(const tag of tags){
+            tagIds.push(tag.id);
+        }
+        return(tagIds.join());
+    };
+    
     const renderFilters = () => {
         return(
         <Grid columns={4}> 
@@ -104,8 +88,7 @@ function SearchPost () {
                     <Segment vertical>
                         <FindPostsButton
                             tags={tags}
-                            updatePostsList={setPosts}
-                            resetPostList={getAllPosts}
+                            getPosts={getPosts}
                         >
                         </FindPostsButton>
                     </Segment>

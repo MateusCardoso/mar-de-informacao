@@ -148,8 +148,14 @@ public class PostRecordController {
 
 	@GetMapping("/byTags")
 	@ApiOperation(value = "Get by Tag Relations", nickname = "get related")
-	public Iterable<PostRecord> getPostsByTags(@RequestParam("tagIds") List<Long> tagIds){		
-		return postRecordRepository.findAllWithTags(tagIds);
+	public Iterable<PostRecord> getPostsByTags(@RequestParam("tagIds") List<Long> tagIds, @RequestParam(required = false) String entityName, @RequestParam(required = false) String field, @RequestParam(required = false) String order){		
+		if(entityName != null){
+			return postRecordRepository.findAllWithTags(Sort.by(Sort.Direction.fromString(order), entityName+"."+field), tagIds);
+		} else if(field != null){
+			return postRecordRepository.findAllWithTags(Sort.by(Sort.Direction.fromString(order), field), tagIds);
+		} else{
+			return postRecordRepository.findAllWithTags(tagIds);
+		}
 	}
 
 	@GetMapping("/{id}/tags")

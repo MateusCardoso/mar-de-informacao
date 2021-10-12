@@ -15,11 +15,17 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface PostRecordRepository extends PagingAndSortingRepository<PostRecord, Long> {
 
-    @Query("SELECT post FROM PostRecord post INNER JOIN post.beachReport beachReport INNER JOIN beachReport.windStatus windStatus")
+    @Query("SELECT post FROM PostRecord post INNER JOIN FETCH post.beachReport beachReport INNER JOIN FETCH beachReport.windStatus windStatus")
     List<PostRecord> findAllWithJoin(Sort sort);
 
     @Query("SELECT DISTINCT post FROM PostRecord post INNER JOIN post.tags tag WHERE tag.id IN :tagIds")
-    List<PostRecord> findAllWithTags( 
+    List<PostRecord> findAllWithTags(
+        @Param("tagIds") Iterable<Long> tagIds 
+    );
+
+    @Query("SELECT DISTINCT post FROM PostRecord post INNER JOIN FETCH post.beachReport beachReport INNER JOIN FETCH beachReport.windStatus windStatus INNER JOIN FETCH post.tags tag WHERE tag.id IN :tagIds")
+    List<PostRecord> findAllWithTags(
+        Sort sort, 
         @Param("tagIds") Iterable<Long> tagIds 
     );
     

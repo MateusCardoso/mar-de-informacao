@@ -29,33 +29,14 @@ function TagMultiselect (props) {
         retrieveOptions()
     }, []);
 
-    const selectTag = (evt) => {
-        var selectedTags = props.tags.slice();
-        if(evt.target.attributes.role !== undefined && evt.target.attributes.role.nodeValue === 'option'){
-            const targetId = Number(evt.target.id);
-            const tagWithId = options.find(x => x.id === targetId );
-            if(tagWithId !== undefined){
-                selectedTags.push({
-                    id: tagWithId.id,
-                    tagName: tagWithId.value
-                });
-            }
-        }else if(evt.target.parentNode.attributes.role !== undefined && evt.target.parentNode.attributes.role.nodeValue === 'option'){
-            const targetId = Number(evt.target.parentNode.id);
-            const tagWithId = options.find(x => x.id === targetId );
-            if(tagWithId !== undefined){
-                selectedTags.push({
-                    id: tagWithId.id,
-                    tagName: tagWithId.value
-                });
-            }
-        }else if(evt.target.className === 'dropdown icon clear'){
-            selectedTags = [];
-        }else if(evt.target.className === 'delete icon'){
-            const tagName = evt.target.parentNode.innerText;
-            const currentTags = selectedTags;
-            selectedTags = currentTags.filter(x => x.tagName !== tagName);
-        }
+    const selectTag = (_evt,data) => {
+        const selectedTags = data.value.map((value) => {
+            const option = options.find(x => x.value === value )
+            return ({
+                id: option.id,
+                tagName: option.value
+            })
+        });
         props.updateTagsList(selectedTags);
     };
 

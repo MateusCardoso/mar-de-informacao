@@ -2,21 +2,19 @@ import React, {useState, useEffect} from 'react'
 import {
   Header,
   Segment,
-  Table,
-  Grid
+  Table
 } from 'semantic-ui-react'
 
-import TagMultiselect from '../common/tagMultiselect';
-import FindPostsButton from './findPostsButton';
 import SearchColumnsButton from './searchColumnsButton';
 import SearchHeaderColumns from './searchHeaderColumns';
-
 import RetrievePosts from './retrievePosts';
+import FilterBar from './filterBar';
 
 function SearchPost () {
 
     const [posts,setPosts] = useState([]);
     const [tags,setTags] = useState([]);
+    const [date, setDate] = useState(new Date());
     const [columns,setColumns] = useState([]);
     const [orderedBy,setOrderedBy] = useState({
         entity: '',
@@ -49,14 +47,6 @@ function SearchPost () {
         }
         return(tagIds.join());
     };
-    
-    const renderFilters = () => {
-        return(
-        <Grid columns={4}> 
-            <TagMultiselect updateTagsList={setTags} allowAdditions={false} noHeader={true} tags={tags}></TagMultiselect>
-        </Grid>
-        )
-    }
 
     const renderPosts = () => {
         return(
@@ -82,18 +72,13 @@ function SearchPost () {
                 <Segment padded='very' inverted color='grey'>
                     <Header as='h1' content='Buscar Posts' textAlign='left' />
                 </Segment>
-                <Segment fluid='true'>
-                    <Header as='h4' content='Filtros:' textAlign='left' />
-                    {renderFilters()}
-                    <Segment vertical>
-                        <FindPostsButton
-                            tags={tags}
-                            getPosts={getPosts}
-                        >
-                        </FindPostsButton>
-                    </Segment>
-
-                </Segment>
+                <FilterBar
+                    tags={tags}
+                    setTags={setTags}
+                    date={date}
+                    setDate={setDate}
+                    getPosts={getPosts}
+                />
                 <Segment>
                     <Segment vertical secondary textAlign='right'>
                         <SearchColumnsButton columns={columns} updateColumns={setColumns}/>

@@ -13,8 +13,8 @@ function DateFilter (props){
                         fluid
                         format='DD MMM, YYYY'
                         type='range'
-                        onChange={(_event, data) => props.setDate(data.value)} 
-                        value={props.date} />
+                        onChange={(_event, data) => props.setDateRange(data.value)} 
+                        value={props.dateRange} />
                 </Form.Field>
             </Grid.Column>
 

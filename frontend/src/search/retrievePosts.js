@@ -36,7 +36,7 @@ async function RetrievePosts (props) {
     const orderedBy = props.orderedBy;
     let tagFilter = props.filters ? props.filters.find(x => x.name == 'tagIds' ) : null;
     var data;
-    if( tagFilter !== undefined && tagFilter !== null){
+    if( tagFilter.value !== ""){
         const tagIds = tagFilter.value;
         const response = orderedBy.entity !== '' 
         ? await fetch(process.env.REACT_APP_API_URL+'/posts/byTags?tagIds='+tagIds+'&entityName='+orderedBy.entity+'&field='+orderedBy.field+'&order='+orderedBy.order, requestOptions) 

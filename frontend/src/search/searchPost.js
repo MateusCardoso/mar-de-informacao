@@ -14,7 +14,7 @@ function SearchPost () {
 
     const [posts,setPosts] = useState([]);
     const [tags,setTags] = useState([]);
-    const [date, setDate] = useState(new Date());
+    const [dateRange, setDateRange] = useState([]);
     const [columns,setColumns] = useState([]);
     const [orderedBy,setOrderedBy] = useState({
         entity: '',
@@ -32,11 +32,14 @@ function SearchPost () {
         await RetrievePosts({
             setPosts: setPosts,
             orderedBy: orderedBy,
-            filters: tagIds
-                    ? [{
-                        name: 'tagIds',
-                        value: tagIds
-                    }] : null
+            filters: [
+                    {   name: 'tagIds',
+                        value: tagIds 
+                    },
+                    {   name: 'date',
+                        value: dateRange 
+                    }
+                    ]
         })
     }
 
@@ -75,8 +78,8 @@ function SearchPost () {
                 <FilterBar
                     tags={tags}
                     setTags={setTags}
-                    date={date}
-                    setDate={setDate}
+                    date={dateRange}
+                    setDateRange={setDateRange}
                     getPosts={getPosts}
                 />
                 <Segment>

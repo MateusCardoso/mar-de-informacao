@@ -14,7 +14,7 @@ function FilterBar (props) {
         return(
         <Grid columns={4}> 
             <TagMultiselect updateTagsList={props.setTags} allowAdditions={false} noHeader={true} tags={props.tags}/>
-            <DateFilter setDate={props.setDate} date={props.date}/>
+            <DateFilter setDateRange={props.setDateRange} dateRange={props.dateRange}/>
         </Grid>
         )
     }

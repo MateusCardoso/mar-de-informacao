@@ -39,10 +39,10 @@ async function RetrievePosts (props) {
     if( tagFilter.value !== ""){
         const tagIds = tagFilter.value;
         const response = orderedBy.entity !== '' 
-        ? await fetch(process.env.REACT_APP_API_URL+'/posts/byTags?tagIds='+tagIds+'&entityName='+orderedBy.entity+'&field='+orderedBy.field+'&order='+orderedBy.order, requestOptions) 
+        ? await fetch(process.env.REACT_APP_API_URL+'/posts/filteredBy?tagIds='+tagIds+'&entityName='+orderedBy.entity+'&field='+orderedBy.field+'&order='+orderedBy.order, requestOptions) 
         : orderedBy.field !== '' 
-        ? await fetch(process.env.REACT_APP_API_URL+'/posts/byTags?tagIds='+tagIds+'&field='+orderedBy.field+'&order='+orderedBy.order, requestOptions) 
-        : await fetch(process.env.REACT_APP_API_URL+'/posts/byTags?tagIds='+tagIds, requestOptions);
+        ? await fetch(process.env.REACT_APP_API_URL+'/posts/filteredBy?tagIds='+tagIds+'&field='+orderedBy.field+'&order='+orderedBy.order, requestOptions) 
+        : await fetch(process.env.REACT_APP_API_URL+'/posts/filteredBy?tagIds='+tagIds, requestOptions);
         
         data = await response.json();
     }else{

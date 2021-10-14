@@ -16,6 +16,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.util.Optional;
 import java.util.List;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
@@ -48,6 +49,19 @@ public class PostRecordController {
 		}
 	}
 
+	@GetMapping("/filteredBy")
+	@ApiOperation(value = "Get Filtered Posts", nickname = "getAllFilteredBy")
+	public Iterable<PostRecord> getAllFilteredBy(@RequestParam(required = false) List<Long> tagIds, @RequestParam(required = false) LocalDate fromDate, @RequestParam(required = false) LocalDate toDate, 
+		@RequestParam(required = false) String entityName, @RequestParam(required = false) String field, @RequestParam(required = false) String order){		
+		if(entityName != null){
+			return postRecordRepository.findAllWithTags(Sort.by(Sort.Direction.fromString(order), entityName+"."+field), tagIds);
+		} else if(field != null){
+			return postRecordRepository.findAllWithTags(Sort.by(Sort.Direction.fromString(order), field), tagIds);
+		} else{
+			return postRecordRepository.findAllWithTags(tagIds);
+		}
+	}
+
 	@GetMapping("/{id}")
 	@ApiOperation(value = "Find Posts by id", nickname = "findById")
 	public PostRecord findById(@PathVariable("id") Long id) throws ObjectNotFoundException {
@@ -66,6 +80,12 @@ public class PostRecordController {
 			throw new ObjectNotFoundException(PostRecord.class, id);
 		}
 		return postRecordRepository.findLinksFromPost(id);
+	}
+
+	@GetMapping("/{id}/tags")
+	@ApiOperation(value = "Get Post Tags", nickname = "get tags")
+	public Iterable<Tag> getTagsFromPost(@PathVariable("id") Long id){		
+		return postRecordRepository.findTagsFromPost(id);
 	}
 
 	@PostMapping
@@ -144,24 +164,6 @@ public class PostRecordController {
 		tagRepository.saveAll(tagsToRemoveRelation);
 				
 		return postRecordRepository.save(postRecord);
-	}
-
-	@GetMapping("/byTags")
-	@ApiOperation(value = "Get by Tag Relations", nickname = "get related")
-	public Iterable<PostRecord> getPostsByTags(@RequestParam("tagIds") List<Long> tagIds, @RequestParam(required = false) String entityName, @RequestParam(required = false) String field, @RequestParam(required = false) String order){		
-		if(entityName != null){
-			return postRecordRepository.findAllWithTags(Sort.by(Sort.Direction.fromString(order), entityName+"."+field), tagIds);
-		} else if(field != null){
-			return postRecordRepository.findAllWithTags(Sort.by(Sort.Direction.fromString(order), field), tagIds);
-		} else{
-			return postRecordRepository.findAllWithTags(tagIds);
-		}
-	}
-
-	@GetMapping("/{id}/tags")
-	@ApiOperation(value = "Get Post Tags", nickname = "get tags")
-	public Iterable<Tag> getTagsFromPost(@PathVariable("id") Long id){		
-		return postRecordRepository.findTagsFromPost(id);
 	}
 
 	@DeleteMapping("/{id}")

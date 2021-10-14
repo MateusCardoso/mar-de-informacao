@@ -30,13 +30,16 @@ function TagMultiselect (props) {
     }, []);
 
     const selectTag = (_evt,data) => {
-        const selectedTags = data.value.map((value) => {
+        const selectedTags = data.value.reduce((result, value) => {
             const option = options.find(x => x.value === value )
-            return ({
-                id: option.id,
-                tagName: option.value
-            })
-        });
+            if(option !== undefined){
+                result.push({
+                    id: option.id,
+                    tagName: option.value
+                })
+            }
+            return result;
+        }, []);
         props.updateTagsList(selectedTags);
     };
 

@@ -2,7 +2,7 @@ package com.ufrgs.inf.tcc.model;
 
 import javax.persistence.*;
 
-import java.time.LocalDateTime;
+import java.sql.Date;
 import java.util.List;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -18,8 +18,8 @@ public class PostRecord {
 	@Column(length = 2048)
 	private String description;
 	private Character status;
-	private LocalDateTime creationDateTime;
-	private LocalDateTime publicationDateTime;
+	private Date creationDate;
+	private Date publicationDate;
 
 	@OneToOne(cascade=CascadeType.ALL)
 	@JoinColumn(name = "reportId")
@@ -78,20 +78,20 @@ public class PostRecord {
 		this.status = status;
 	}
 
-	public LocalDateTime getCreationDateTime() {
-		return creationDateTime;
+	public Date getCreationDate() {
+		return creationDate;
 	}
 
-	public void setCreationDatetime(LocalDateTime creationDateTime) {
-		this.creationDateTime = creationDateTime;
+	public void setCreationDate(Date creationDate) {
+		this.creationDate = creationDate;
 	}
 	
-	public LocalDateTime getPublicationDateTime() {
-		return publicationDateTime;
+	public Date getPublicationDate() {
+		return publicationDate;
 	}
 
-	public void setPublicationDatetime(LocalDateTime publicationDateTime) {
-		this.publicationDateTime = publicationDateTime;
+	public void setPublicationDate(Date publicationDate) {
+		this.publicationDate = publicationDate;
 	}
 
 	public BeachReport getBeachReport(){
@@ -134,7 +134,7 @@ public class PostRecord {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(postId, title, description, status, creationDateTime, publicationDateTime);
+		return Objects.hash(postId, title, description, status, creationDate, publicationDate);
 	}
 
 	@Override
@@ -144,8 +144,8 @@ public class PostRecord {
 				", title='" + title + '\'' +
 				", description='" + description + '\'' +
 				", status='" + status + '\'' +
-				", creationDateTime='" + creationDateTime + '\'' +
-				", publicationDateTime='" + publicationDateTime + '\'' +
+				", creationDate='" + creationDate + '\'' +
+				", publicationDate='" + publicationDate + '\'' +
 				'}';
 	}
 }

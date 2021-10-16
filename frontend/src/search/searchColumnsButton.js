@@ -34,38 +34,39 @@ function SearchColumnsButton (props) {
             text: fieldLabels.publicationDate,
             value: 'publicationDate',
             entity: ''
+        },
+        {
+            id: 6,
+            text: fieldLabels.rainVolume,
+            value: 'rainVolume',
+            entity: 'beachReport'
+        },
+        {
+            id: 7,
+            text: fieldLabels.fishCatched,
+            value: 'fishCatched',
+            entity: 'beachReport'
+        },
+        {
+            id: 8,
+            text: fieldLabels.fishQuantity,
+            value: 'fishQuantity',
+            entity: 'beachReport'
         }
     ];
 
-    const selectColumn = (evt) => {
-        var selectedColumns = props.columns.slice();
-        if(evt.target.attributes.role !== undefined && evt.target.attributes.role.nodeValue === 'option'){
-            const targetId = Number(evt.target.id);
-            const optionWithId = options.find(x => x.id === targetId );
-            if(optionWithId !== undefined){
-                selectedColumns.push({
-                    columnName: optionWithId.text,
-                    columnTechnicalName: optionWithId.value,
-                    entityName: optionWithId.entity
-                });
+    const selectColumn = (_evt, data) => {
+        const selectedColumns = data.value.reduce((result, value) => {
+            const option = options.find(x => x.value === value )
+            if(option !== undefined){
+                result.push({
+                    columnName: option.text,
+                    columnTechnicalName: option.value,
+                    entityName: option.entity
+                })
             }
-        }else if(evt.target.parentNode.attributes.role !== undefined && evt.target.parentNode.attributes.role.nodeValue === 'option'){
-            const targetId = Number(evt.target.parentNode.id);
-            const optionWithId = options.find(x => x.id === targetId );
-            if(optionWithId !== undefined){
-                selectedColumns.push({
-                    columnName: optionWithId.text,
-                    columnTechnicalName: optionWithId.value,
-                    entityName: optionWithId.entity
-                });
-            }
-        }else if(evt.target.className === 'dropdown icon clear'){
-            selectedColumns = [];
-        }else if(evt.target.className === 'delete icon'){
-            const columnName = evt.target.parentNode.innerText;
-            const currentColumns = selectedColumns;
-            selectedColumns = currentColumns.filter(x => x.columnName !== columnName);
-        }
+            return result;
+        }, []);
         props.updateColumns(selectedColumns);
     }
 
@@ -77,6 +78,7 @@ function SearchColumnsButton (props) {
                 button
                 multiple
                 selection
+                clearable
                 options={options}
                 className='icon'
                 onChange={selectColumn}

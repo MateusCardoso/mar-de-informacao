@@ -11,6 +11,9 @@ async function RetrievePosts (props) {
                 description: post.description,
                 waterQuality: post.beachReport.waterQuality,
                 temperature: post.beachReport.temperature,
+                rainVolume: post.beachReport.rainVolume,
+                fishCatched: post.beachReport.fishCatched,
+                fishQuantity: post.beachReport.fishQuantity,
                 windDirection: post.beachReport.windStatus.windDirection,
                 windVelocity: post.beachReport.windStatus.windVelocity,
                 publicationDate: post.publicationDate ? moment(post.publicationDate).format('DD MMM, YYYY' ) : null

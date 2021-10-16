@@ -6,6 +6,7 @@ import com.ufrgs.inf.tcc.model.Link;
 import com.ufrgs.inf.tcc.model.PostRecord;
 import com.ufrgs.inf.tcc.model.Tag;
 
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.domain.Sort;
@@ -13,10 +14,13 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface PostRecordRepository extends PagingAndSortingRepository<PostRecord, Long> {
+public interface PostRecordRepository extends PagingAndSortingRepository<PostRecord, Long>, 
+        JpaSpecificationExecutor<PostRecord> {
 
     @Query("SELECT post FROM PostRecord post INNER JOIN FETCH post.beachReport beachReport INNER JOIN FETCH beachReport.windStatus windStatus")
-    List<PostRecord> findAllWithJoin(Sort sort);
+    List<PostRecord> findAllWithJoin(
+        Sort sort
+    );
 
     @Query("SELECT DISTINCT post FROM PostRecord post INNER JOIN post.tags tag WHERE tag.id IN :tagIds")
     List<PostRecord> findAllWithTags(
@@ -25,7 +29,7 @@ public interface PostRecordRepository extends PagingAndSortingRepository<PostRec
 
     @Query("SELECT DISTINCT post FROM PostRecord post INNER JOIN FETCH post.beachReport beachReport INNER JOIN FETCH beachReport.windStatus windStatus INNER JOIN FETCH post.tags tag WHERE tag.id IN :tagIds")
     List<PostRecord> findAllWithTags(
-        Sort sort, 
+        Sort sort,
         @Param("tagIds") Iterable<Long> tagIds 
     );
     

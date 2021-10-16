@@ -15,6 +15,7 @@ function SearchPost () {
     const [posts,setPosts] = useState([]);
     const [tags,setTags] = useState([]);
     const [dateRange, setDateRange] = useState([]);
+    const [titleFilter, setTitleFilter] = useState('');
     const [columns,setColumns] = useState([]);
     const [orderedBy,setOrderedBy] = useState({
         entity: '',
@@ -33,6 +34,10 @@ function SearchPost () {
             setPosts: setPosts,
             orderedBy: orderedBy,
             filters:[{
+                        name: 'title',
+                        value: titleFilter 
+                    },
+                    {
                         name: 'tagIds',
                         value: tagIds 
                     },
@@ -76,6 +81,8 @@ function SearchPost () {
                     <Header as='h1' content='Buscar Posts' textAlign='left' />
                 </Segment>
                 <FilterBar
+                    titleFilter={titleFilter}
+                    setTitleFilter={setTitleFilter} 
                     tags={tags}
                     setTags={setTags}
                     date={dateRange}

@@ -7,12 +7,14 @@ import {
 import TagMultiselect from '../common/tagMultiselect';
 import DateFilter from './dateFilter';
 import FindPostsButton from './findPostsButton';
+import TitleFilter from './titleFilter';
 
 function FilterBar (props) {
 
     const renderFilters = () => {
         return(
-        <Grid columns={4}> 
+        <Grid columns={4}>
+            <TitleFilter titleFilter={props.titleFilter} setTitleFilter={props.setTitleFilter}/> 
             <TagMultiselect updateTagsList={props.setTags} allowAdditions={false} noHeader={true} tags={props.tags}/>
             <DateFilter setDateRange={props.setDateRange} dateRange={props.dateRange}/>
         </Grid>

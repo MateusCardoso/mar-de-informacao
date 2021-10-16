@@ -50,9 +50,13 @@ public class PostRecordController {
 
 	@GetMapping("/filteredBy")
 	@ApiOperation(value = "Get Filtered Posts", nickname = "getAllFilteredBy")
-	public Iterable<PostRecord> getAllFilteredBy(@RequestParam(required = false) List<Long> tagIds, @RequestParam(required = false) @DateTimeFormat(iso = ISO.DATE_TIME) List<LocalDate> dateRange,
+	public Iterable<PostRecord> getAllFilteredBy(@RequestParam(required = false) String title, @RequestParam(required = false) List<Long> tagIds, @RequestParam(required = false) @DateTimeFormat(iso = ISO.DATE_TIME) List<LocalDate> dateRange,
 		@RequestParam(required = false) String entityName, @RequestParam(required = false) String field, @RequestParam(required = false) String order){		
 		PostRecordCombineSpecification specificationBuilder = new PostRecordCombineSpecification();
+		
+		if(title != null){
+			specificationBuilder.with("title", "LK", title);
+		}
 		
 		if(tagIds != null){
 			for (long tagId : tagIds){

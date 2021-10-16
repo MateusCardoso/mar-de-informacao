@@ -14,6 +14,7 @@ import BeachReportFragment from './beachReportFragment';
 import WindStatusFragment from './windStatusFragment';
 import PrecipitationFragment from './precipitationFragment';
 import FishingFragment from './fishingFragment';
+import EditPostButton from './editPostButton';
 
 function DisplayPost(){
 
@@ -74,6 +75,9 @@ function DisplayPost(){
                 <Header as='h1'>Posts Museu do Mar</Header>
             </Segment>
             <Segment>
+                <Segment vertical secondary textAlign='right'>
+                    <EditPostButton postId={postId}/>
+                </Segment>
                 <Grid columns={2} stackable>
                     <Grid.Column>
                         <Segment basic >

@@ -21,13 +21,13 @@ function SearchColumnsButton (props) {
             id: 3,
             text: fieldLabels.windDirection,
             value: 'windDirection',
-            entity: 'windStatus'
+            entity: 'beachReport.windStatus'
         },
         {
             id: 4,
             text: fieldLabels.windVelocity,
             value: 'windVelocity',
-            entity: 'windStatus'
+            entity: 'beachReport.windStatus'
         },
         {
             id: 5,

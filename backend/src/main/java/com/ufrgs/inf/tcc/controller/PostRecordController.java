@@ -9,6 +9,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
 import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.DateTimeFormat.ISO;
 import org.springframework.http.HttpStatus;
@@ -18,8 +19,8 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.util.Optional;
 import java.util.List;
+import java.sql.Date;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 @RestController
@@ -44,23 +45,43 @@ public class PostRecordController {
 	@GetMapping("/orderedBy")
 	@ApiOperation(value = "Get Ordered Posts", nickname = "findAllOrderedBy")
 	public Iterable<PostRecord> findAllOrderedBy(@RequestParam(required = false) String entityName, @RequestParam("field") String field, @RequestParam("order") String order) {
-		if(entityName != null){
-			return postRecordRepository.findAllWithJoin(Sort.by(Sort.Direction.fromString(order), entityName+"."+field));
-		} else {
-			return postRecordRepository.findAll(Sort.by(Sort.Direction.fromString(order), field));
-		}
+		return postRecordRepository.findAll(Sort.by(Sort.Direction.fromString(order), getOrderByFieldName(entityName, field)));
 	}
 
 	@GetMapping("/filteredBy")
 	@ApiOperation(value = "Get Filtered Posts", nickname = "getAllFilteredBy")
 	public Iterable<PostRecord> getAllFilteredBy(@RequestParam(required = false) List<Long> tagIds, @RequestParam(required = false) @DateTimeFormat(iso = ISO.DATE_TIME) List<LocalDate> dateRange,
 		@RequestParam(required = false) String entityName, @RequestParam(required = false) String field, @RequestParam(required = false) String order){		
-		if(entityName != null){
-			return postRecordRepository.findAllWithTags(Sort.by(Sort.Direction.fromString(order), entityName+"."+field), tagIds);
-		} else if(field != null){
-			return postRecordRepository.findAllWithTags(Sort.by(Sort.Direction.fromString(order), field), tagIds);
+		PostRecordCombineSpecification specificationBuilder = new PostRecordCombineSpecification();
+		
+		if(tagIds != null){
+			for (long tagId : tagIds){
+				specificationBuilder.with("tagId", "EQ", tagId);
+			}
+		}
+		
+		if(dateRange != null){
+			if(dateRange.size() == 1){
+				specificationBuilder.with("publicationDate", "EQ", Date.valueOf(dateRange.get(0)));
+			}else if(dateRange.size() == 2){
+				specificationBuilder.with("publicationDate", "GE", Date.valueOf(dateRange.get(0)));
+				specificationBuilder.with("publicationDate", "LE", Date.valueOf(dateRange.get(1)));
+			}
+		}
+		Specification<PostRecord> combinedSpecification = specificationBuilder.combine();
+		
+		if(field != null){
+			return postRecordRepository.findAll(combinedSpecification, Sort.by(Sort.Direction.fromString(order), getOrderByFieldName(entityName, field)));
 		} else{
-			return postRecordRepository.findAllWithTags(tagIds);
+			return postRecordRepository.findAll(combinedSpecification);
+		}
+	}
+
+	private String getOrderByFieldName(String entityName, String field){
+		if(entityName != null){
+			return entityName+"."+field;
+		}else{
+			return field;
 		}
 	}
 
@@ -94,7 +115,7 @@ public class PostRecordController {
 	@ApiOperation(value = "Create Post", nickname = "create")
 	public ResponseEntity<PostRecord> create(@RequestBody PostRecord postRecord) {
 		postRecord.setStatus('D');
-		postRecord.setCreationDatetime(LocalDateTime.now());
+		postRecord.setCreationDate(Date.valueOf(LocalDate.now()));
 		postRecord = postRecordRepository.save(postRecord);
 		return ResponseEntity
 				.created(ServletUriComponentsBuilder.fromCurrentRequest().path("/" + postRecord.getId()).build().toUri())
@@ -125,7 +146,7 @@ public class PostRecordController {
 		}
 		PostRecord postRecord = postRecordRepository.findById(id).get();
 		postRecord.setStatus('P');
-		postRecord.setPublicationDatetime(LocalDateTime.now());
+		postRecord.setPublicationDate(Date.valueOf(LocalDate.now()));
 		return postRecordRepository.save(postRecord);
 	}
 

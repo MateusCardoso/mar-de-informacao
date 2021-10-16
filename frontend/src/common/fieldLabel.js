@@ -6,6 +6,9 @@ const fieldLabels = {
     temperature: 'Temperatura',
     windDirection: 'Direçao do Vento',
     windVelocity: 'Velocidade do Vento',
+    rainVolume: 'Volume de Chuva',
+    fishCatched: 'Peixe mais capturado',
+    fishQuantity: 'Quantidade',
     publicationDate: 'Data de Publicaçao'
 };
 

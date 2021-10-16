@@ -12,6 +12,8 @@ import DisplayLinks from './displayLinks';
 import HeaderFragment from './headerFragment';
 import BeachReportFragment from './beachReportFragment';
 import WindStatusFragment from './windStatusFragment';
+import PrecipitationFragment from './precipitationFragment';
+import FishingFragment from './fishingFragment';
 
 function DisplayPost(){
 
@@ -82,29 +84,8 @@ function DisplayPost(){
                     <HeaderFragment post={post} tags={tags}/>
                     <BeachReportFragment beachReport={post.beachReport}/>
                     <WindStatusFragment windStatus={post.beachReport.windStatus}/>
-                    <Grid.Column>
-                        <Segment basic>
-                            <Header as='h3'>Precipitaçao</Header>
-                            <Segment>
-                                <Segment basic>
-                                    Quantidade de chuva (mm):
-                                </Segment>
-                            </Segment>
-                        </Segment>
-                    </Grid.Column>
-                    <Grid.Column>
-                        <Segment basic>
-                            <Header as='h3'>Pescaria</Header>
-                            <Segment>
-                                <Segment basic>
-                                    Especie mais capturada:
-                                </Segment>
-                                <Segment basic>
-                                    Quantidade (Kg):
-                                </Segment>
-                            </Segment>
-                        </Segment>
-                    </Grid.Column>
+                    <PrecipitationFragment beachReport={post.beachReport}/>
+                    <FishingFragment beachReport={post.beachReport}/>
                 </Grid>
             </Segment>
             <Segment>

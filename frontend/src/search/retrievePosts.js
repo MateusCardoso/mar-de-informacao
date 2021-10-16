@@ -13,21 +13,10 @@ async function RetrievePosts (props) {
                 temperature: post.beachReport.temperature,
                 windDirection: post.beachReport.windStatus.windDirection,
                 windVelocity: post.beachReport.windStatus.windVelocity,
-                publicationDateTime: post.publicationDateTime ? moment(parseDate(post.publicationDateTime)).format('DD MMM, YYYY - HH:mm:ss' ) : null
+                publicationDate: post.publicationDate ? moment(post.publicationDate).format('DD MMM, YYYY' ) : null
             })
         }
         props.setPosts(posts);
-    };
-
-    const parseDate = (publicationDateTime) => {
-        return ({
-            year:   publicationDateTime[0],
-            month:  publicationDateTime[1]-1,
-            day:    publicationDateTime[2],
-            hour:   publicationDateTime[3],
-            minute: publicationDateTime[4],
-            second: publicationDateTime[5],
-        })
     };
 
     const buildFilters = () => {

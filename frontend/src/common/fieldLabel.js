@@ -6,7 +6,7 @@ const fieldLabels = {
     temperature: 'Temperatura',
     windDirection: 'Direçao do Vento',
     windVelocity: 'Velocidade do Vento',
-    publicationDateTime: 'Data de Publicaçao'
+    publicationDate: 'Data de Publicaçao'
 };
 
 export default fieldLabels;

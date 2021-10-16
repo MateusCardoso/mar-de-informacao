@@ -31,8 +31,8 @@ function SearchColumnsButton (props) {
         },
         {
             id: 5,
-            text: fieldLabels.publicationDateTime,
-            value: 'publicationDateTime',
+            text: fieldLabels.publicationDate,
+            value: 'publicationDate',
             entity: ''
         }
     ];

@@ -32,14 +32,14 @@ function SearchPost () {
         await RetrievePosts({
             setPosts: setPosts,
             orderedBy: orderedBy,
-            filters: [
-                    {   name: 'tagIds',
+            filters:[{
+                        name: 'tagIds',
                         value: tagIds 
                     },
-                    {   name: 'date',
-                        value: dateRange 
-                    }
-                    ]
+                    {
+                        name: 'dateRange',
+                        value: dateRange ? dateRange.map((x) => x.toISOString()) : ''
+                    }]
         })
     }
 

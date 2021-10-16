@@ -30,29 +30,45 @@ async function RetrievePosts (props) {
         })
     };
 
+    const buildFilters = () => {
+        var joinedFilter = props.filters.reduce((filterString, filter) => {
+            if(filter.value.length !== 0){
+                if(Array.isArray(filter.value)){
+                    filterString.push(filter.name+'='+filter.value.join());
+                }else{
+                    filterString.push(filter.name+'='+filter.value);
+                }
+            }
+            return filterString;
+        }, []);
+        return joinedFilter.join('&');
+    };
+
+    const buildOrderedBy = () => {
+        const orderedBy = props.orderedBy;
+        var joinedOrder = [];
+        orderedBy.entity ? joinedOrder.push('entityName='+orderedBy.entity) : null;
+        orderedBy.field ? joinedOrder.push('field='+orderedBy.field) : null;
+        orderedBy.order ? joinedOrder.push('order='+orderedBy.order) : null;
+        return joinedOrder.join('&');
+    };
+
     const requestOptions = {
         method: 'GET'
     };
-    const orderedBy = props.orderedBy;
-    let tagFilter = props.filters ? props.filters.find(x => x.name == 'tagIds' ) : null;
-    var data;
-    if( tagFilter.value !== ""){
-        const tagIds = tagFilter.value;
-        const response = orderedBy.entity !== '' 
-        ? await fetch(process.env.REACT_APP_API_URL+'/posts/filteredBy?tagIds='+tagIds+'&entityName='+orderedBy.entity+'&field='+orderedBy.field+'&order='+orderedBy.order, requestOptions) 
-        : orderedBy.field !== '' 
-        ? await fetch(process.env.REACT_APP_API_URL+'/posts/filteredBy?tagIds='+tagIds+'&field='+orderedBy.field+'&order='+orderedBy.order, requestOptions) 
-        : await fetch(process.env.REACT_APP_API_URL+'/posts/filteredBy?tagIds='+tagIds, requestOptions);
+    const allFilters =  buildFilters();
+    const orderFields = buildOrderedBy();
+    const response = allFilters.length !== 0 ? 
+            orderFields.length !== 0 
+                ? await fetch(process.env.REACT_APP_API_URL+'/posts/filteredBy?'+allFilters+'&'+orderFields, requestOptions) 
+                : await fetch(process.env.REACT_APP_API_URL+'/posts/filteredBy?'+allFilters, requestOptions)
+            : orderFields.length !== 0 
+                ? await fetch(process.env.REACT_APP_API_URL+'/posts/orderedBy?'+orderFields, requestOptions) 
+                : await fetch(process.env.REACT_APP_API_URL+'/posts', requestOptions)
+        ;
         
-        data = await response.json();
-    }else{
-        const response = orderedBy.entity !== '' 
-        ? await fetch(process.env.REACT_APP_API_URL+'/posts/orderedBy?entityName='+orderedBy.entity+'&field='+orderedBy.field+'&order='+orderedBy.order, requestOptions) 
-        : orderedBy.field !== '' 
-        ? await fetch(process.env.REACT_APP_API_URL+'/posts/orderedBy?field='+orderedBy.field+'&order='+orderedBy.order, requestOptions) 
-        : await fetch(process.env.REACT_APP_API_URL+'/posts', requestOptions);
-        data = await response.json();
-    }
+    const data = await response.json();
+
     formatAndSetPosts(data);
 
 }

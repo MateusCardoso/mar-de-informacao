@@ -23,8 +23,12 @@ public class PostRecordSpecification implements Specification<PostRecord>{
     public Predicate toPredicate
       (Root<PostRecord> root, CriteriaQuery<?> query, CriteriaBuilder builder) {
        
-
-        if (condition.getOperator().equalsIgnoreCase("GE")) {
+        if(condition.getFieldName() == "tagId"){
+            return builder.equal(
+                root.joinList("tags").get(condition.getFieldName()), condition.getFieldValue()
+            );
+        }
+        else if (condition.getOperator().equalsIgnoreCase("GE")) {
             if(condition.getFieldName() == "publicationDate"){
                 return builder.greaterThanOrEqualTo(
                   root.<Date>get(condition.getFieldName()), Date.valueOf(condition.getFieldValue().toString()));

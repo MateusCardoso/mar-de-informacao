@@ -49,7 +49,7 @@ public class BeachReportController {
 
 	@PatchMapping("/{id}")
 	@ApiOperation(value = "Update Report", nickname = "update")
-	public BeachReport update(@RequestBody BeachReportPartialUpdate beachReport, @PathVariable("id") Long id) throws ObjectNotFoundException, RequestInconsistentException {
+	public BeachReport update(@RequestBody BeachReport beachReport, @PathVariable("id") Long id) throws ObjectNotFoundException, RequestInconsistentException {
 		if (!id.equals(beachReport.getId())) {
 			throw new RequestInconsistentException(String.format("Inconsistent IDs in url and body: url id: %d; body id: %d", beachReport.getId(), id));
 		}
@@ -60,6 +60,9 @@ public class BeachReportController {
 		BeachReport oldBeachReport = dbBeachReport.get();
 		oldBeachReport.setTemperature(beachReport.getTemperature());
 		oldBeachReport.setWaterQuality(beachReport.getWaterQuality());
+		oldBeachReport.setRainVolume(beachReport.getRainVolume());
+		oldBeachReport.setFishCatched(beachReport.getFishCatched());
+		oldBeachReport.setFishQuantity(beachReport.getFishQuantity());
 		return beachReportRepository.save(oldBeachReport);
 	}
 

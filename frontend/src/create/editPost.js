@@ -26,7 +26,10 @@ function EditPost(){
             id: null,
             waterQuality: '',
             temperature: '',
-                windStatus: {
+            rainVolume: '',
+            fishCatched: '',
+            fishQuantity: '',
+            windStatus: {
                 id: null,
                 windDirection: '',
                 windVelocity: ''

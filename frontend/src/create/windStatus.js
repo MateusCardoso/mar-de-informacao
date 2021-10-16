@@ -35,6 +35,7 @@ function WindStatus (props){
                         labelPosition='right'
                         placeholder='Velocidade...'
                         onChange={handleInputChange}
+                        type='number'
                         value={props.windStatus.windVelocity || ''}
                     />
                 </Form.Field>

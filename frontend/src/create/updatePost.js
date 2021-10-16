@@ -34,7 +34,9 @@ async function UpdatePost (props) {
                 id: beachReport.id,
                 waterQuality: beachReport.waterQuality,
                 temperature: beachReport.temperature,
-                fishingConditions: beachReport.fishingConditions
+                rainVolume: beachReport.rainVolume,
+                fishCatched: beachReport.fishCatched,
+                fishQuantity: beachReport.fishQuantity
             })
         )
     }

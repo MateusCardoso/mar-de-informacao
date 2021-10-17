@@ -5,6 +5,7 @@ import {
     Table,
     Button,
 } from 'semantic-ui-react';
+import { placeholders } from '../common/fieldLabel';
 
 function Link (props){
 
@@ -29,7 +30,7 @@ function Link (props){
                             fluid
                             disabled={toBeDeleted}
                             name='linkName'
-                            placeholder='Nome...'
+                            placeholder={placeholders.linkName}
                             value={props.link.linkName || ''}
                             onChange={handleInputChange}
                         />
@@ -41,7 +42,7 @@ function Link (props){
                             fluid
                             disabled={toBeDeleted}
                             name='url'
-                            placeholder='URL...'
+                            placeholder={placeholders.linkURL}
                             value={props.link.url || ''}
                             onChange={handleInputChange}
                         />

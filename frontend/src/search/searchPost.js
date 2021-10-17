@@ -9,6 +9,7 @@ import SearchColumnsButton from './searchColumnsButton';
 import SearchHeaderColumns from './searchHeaderColumns';
 import RetrievePosts from './retrievePosts';
 import FilterBar from './filterBar';
+import { apps } from '../common/fieldLabel';
 
 function SearchPost () {
 
@@ -78,7 +79,7 @@ function SearchPost () {
 
     return  <div>
                 <Segment padded='very' inverted color='grey'>
-                    <Header as='h1' content='Buscar Posts' textAlign='left' />
+                    <Header as='h1' content={apps.searchHeader} textAlign='left' />
                 </Segment>
                 <FilterBar
                     titleFilter={titleFilter}

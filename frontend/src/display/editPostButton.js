@@ -1,6 +1,7 @@
 import { useCallback } from 'react';
 import { useHistory } from 'react-router-dom';
 import { Button } from "semantic-ui-react";
+import { buttons } from '../common/fieldLabel';
 
 
 function EditPostButton (props) {
@@ -14,7 +15,7 @@ function EditPostButton (props) {
     return <Button
         primary
         onClick={() => {redirectToEdit()}}
-        content='Editar'
+        content={buttons.edit}
     />
 }
 

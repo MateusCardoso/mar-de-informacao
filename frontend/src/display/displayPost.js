@@ -15,6 +15,7 @@ import WindStatusFragment from './windStatusFragment';
 import PrecipitationFragment from './precipitationFragment';
 import FishingFragment from './fishingFragment';
 import EditPostButton from './editPostButton';
+import { apps, sectionHeaders } from '../common/fieldLabel';
 
 function DisplayPost(){
 
@@ -72,7 +73,7 @@ function DisplayPost(){
 
     return <div>
             <Segment padded='very' inverted color='grey'>
-                <Header as='h1'>Posts Museu do Mar</Header>
+                <Header as='h1'>{apps.displayHeader}</Header>
             </Segment>
             <Segment>
                 <Segment vertical secondary textAlign='right'>
@@ -123,7 +124,7 @@ function DisplayPost(){
             </Segment>
             { links.length ?
                 <Segment>
-                    <Header as='h3'>Links:</Header>
+                    <Header as='h3'>{sectionHeaders.linksSection}:</Header>
                     <DisplayLinks links={links}></DisplayLinks>
                 </Segment>
                 : null

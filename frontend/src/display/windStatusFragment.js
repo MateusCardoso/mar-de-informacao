@@ -3,6 +3,7 @@ import {
     Segment,
     Grid
 } from 'semantic-ui-react'
+import { fieldLabels, sectionHeaders, units } from '../common/fieldLabel';
 
 function WindStatusFragment (props) {
     var windStatus = props.windStatus;
@@ -10,17 +11,17 @@ function WindStatusFragment (props) {
     return windStatus.windDirection !== null || windStatus.windVelocity !== null ?
             <Grid.Column>
                 <Segment basic >
-                    <Header as='h3'>Situaçao do Vento</Header>
+                    <Header as='h3'>{sectionHeaders.windSection}</Header>
                     <Segment>
                         { windStatus.windDirection ?
                             <Segment basic>
-                                Direçao do Vento: {windStatus.windDirection}
+                                {fieldLabels.windDirection} {windStatus.windDirection}
                             </Segment>
                             : null 
                         }
                         { windStatus.windVelocity ?
                             <Segment basic>
-                                Velocidade do Vento: {windStatus.windVelocity} Km/h
+                                {fieldLabels.windVelocity} {windStatus.windVelocity} {units.velocity}
                             </Segment>
                             : null
                         }

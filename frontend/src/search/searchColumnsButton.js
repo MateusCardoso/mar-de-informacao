@@ -1,6 +1,6 @@
 import {Dropdown} from "semantic-ui-react";
 
-import fieldLabels from "../common/fieldLabel";
+import { buttons, fieldLabels } from "../common/fieldLabel";
 
 function SearchColumnsButton (props) {
     
@@ -71,7 +71,7 @@ function SearchColumnsButton (props) {
     }
 
     return <Dropdown
-                text='+Colunas'
+                text={buttons.moreColumns}
                 icon='settings'
                 floating
                 labeled

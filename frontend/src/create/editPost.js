@@ -15,6 +15,7 @@ import WindStatus from './windStatus'
 import LinkTable from './linkTable'
 import TagMultiselect from '../common/tagMultiselect'
 import PublishPostButton from './publishPostButton';
+import { apps } from '../common/fieldLabel';
 
 function EditPost(){
 
@@ -116,7 +117,7 @@ function EditPost(){
 
     return <div>
         <Segment padded='very' inverted color='grey'>
-          <Header as='h1'>Entrar novo Post</Header>
+          <Header as='h1'>{apps.createHeader}</Header>
         </Segment>
         <Form>
           <Grid columns={2} stackable doubling>

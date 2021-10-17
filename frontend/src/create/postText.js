@@ -5,6 +5,7 @@ import {
     Label,
     Form
 } from "semantic-ui-react";
+import { fieldLabels, placeholders, sectionHeaders } from "../common/fieldLabel";
 
 function PostText (props){
 
@@ -15,21 +16,21 @@ function PostText (props){
     };
 
     return <Grid.Column>
-                <Header as='h4' content='Descriçao do Post:' textAlign='left' />
+                <Header as='h4' content={sectionHeaders.postDescription} textAlign='left' />
                 <Form.Field>
-                    <Label>Titulo:</Label>
+                    <Label content={fieldLabels.postTitle}/>
                     <TextArea 
                         name='title' 
-                        placeholder='Titulo do Post...' 
+                        placeholder={placeholders.postTitle} 
                         onChange={handleInputChange} 
                         value={props.post.title || ''}
                     />
                 </Form.Field>
                 <Form.Field>
-                    <Label>Texto:</Label>
+                    <Label content={fieldLabels.postDescription}/>
                     <TextArea 
                         name='description' 
-                        placeholder='Texto do Post...' 
+                        placeholder={placeholders.postDescription} 
                         style={{ minHeight: 200 }} 
                         onChange={handleInputChange} 
                         value={props.post.description || ''}

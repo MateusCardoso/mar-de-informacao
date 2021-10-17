@@ -1,12 +1,13 @@
 import { Grid, Form, Label } from 'semantic-ui-react'
 
 import SemanticDatepicker from 'react-semantic-ui-datepickers';
+import { fieldLabels } from '../common/fieldLabel';
 
 function DateFilter (props){
 
     return  <Grid.Column>
                 <Form.Field>
-                    <Label>Data de Publicaçao</Label>
+                    <Label>{fieldLabels.publicationDate}</Label>
                     <SemanticDatepicker 
                         locale="pt-BR" 
                         datePickerOnly

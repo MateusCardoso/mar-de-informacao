@@ -7,6 +7,8 @@ import {
     Dropdown
 } from 'semantic-ui-react';
 
+import { fieldLabels, placeholders, sectionHeaders } from './fieldLabel';
+
 function TagMultiselect (props) {
     
     const [options, setOptions] = useState([]);
@@ -75,7 +77,7 @@ function TagMultiselect (props) {
     const renderHeader = () => {
         if(props.noHeader !== true){
             return(
-                <Header as='h4' content='Categoria do Post:' textAlign='left'/>
+                <Header as='h4' content={sectionHeaders.postCategory} textAlign='left'/>
             )
         }
     };
@@ -83,7 +85,7 @@ function TagMultiselect (props) {
     return  <Grid.Column>
                 {renderHeader()}
                 <Form.Field>
-                    <Label>Tags de Busca</Label>
+                    <Label content={fieldLabels.tags}/>
                     <Dropdown
                         allowAdditions={props.allowAdditions}
                         clearable
@@ -95,7 +97,7 @@ function TagMultiselect (props) {
                         value={props.tags.map((tag) => tag.tagName)}
                         onAddItem={addTag}
                         onChange={selectTag}
-                        placeholder='Tags...'
+                        placeholder={placeholders.tags}
                     />
                 </Form.Field>
             </Grid.Column>

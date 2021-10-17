@@ -1,7 +1,7 @@
 import React, {useCallback} from 'react'
 import {Table} from 'semantic-ui-react'
 
-import fieldLabels from "../common/fieldLabel";
+import { fieldLabels } from "../common/fieldLabel";
 
 function SearchHeaderColumns (props) {
     var orderedBy = props.orderedBy;

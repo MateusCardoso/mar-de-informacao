@@ -6,7 +6,7 @@ import {
     Input
 } from "semantic-ui-react";
 
-import fieldLabels from '../common/fieldLabel';
+import { fieldLabels, placeholders, sectionHeaders, units } from '../common/fieldLabel';
 
 function BeachReport (props){
    
@@ -17,12 +17,12 @@ function BeachReport (props){
     }
 
     return  <Grid.Column>
-                <Header as='h4' content='Reporte do Mar:' textAlign='left' />
+                <Header as='h4' content={sectionHeaders.beachReportSection} textAlign='left' />
                 <Form.Field>
                     <Label>{fieldLabels.waterQuality}</Label>
                     <Input fluid 
                         name='waterQuality'
-                        placeholder='Qualidade...'
+                        placeholder={placeholders.waterQuality}
                         onChange={handleInputChange}
                         value={props.beachReport.waterQuality || ''}
                     />
@@ -31,31 +31,33 @@ function BeachReport (props){
                     <Label>{fieldLabels.temperature}</Label>
                     <Input fluid
                         name='temperature'
-                        label={{ basic: true, content: '°C' }}
+                        label={{ basic: true, content: units.temperature }}
                         labelPosition='right'
-                        placeholder='Graus...'
+                        placeholder={placeholders.temperature}
                         onChange={handleInputChange}
                         type='number'
                         value={props.beachReport.temperature || ''}
                     />
                 </Form.Field>
+                <Header as='h4' content={sectionHeaders.precipitation} textAlign='left' />
                 <Form.Field>
                     <Label>{fieldLabels.rainVolume}</Label>
                     <Input fluid
                         name='rainVolume'
-                        label={{ basic: true, content: 'mm' }}
+                        label={{ basic: true, content: units.rainVolume }}
                         labelPosition='right'
-                        placeholder='Volume...'
+                        placeholder={placeholders.rainVolume}
                         onChange={handleInputChange}
                         type='number'
                         value={props.beachReport.rainVolume || ''}
                     />
                 </Form.Field>
+                <Header as='h4' content={sectionHeaders.fishing} textAlign='left' />
                 <Form.Field>
                     <Label>{fieldLabels.fishCatched}</Label>
                     <Input fluid
                         name='fishCatched'
-                        placeholder='Nome...'
+                        placeholder={placeholders.fishCatched}
                         onChange={handleInputChange}
                         value={props.beachReport.fishCatched || ''}
                     />
@@ -64,9 +66,9 @@ function BeachReport (props){
                     <Label>{fieldLabels.fishQuantity}</Label>
                     <Input fluid
                         name='fishQuantity'
-                        label={{ basic: true, content: 'Kg' }}
+                        label={{ basic: true, content: units.quantity }}
                         labelPosition='right'
-                        placeholder='Quantidade...'
+                        placeholder={placeholders.fishQuantity}
                         onChange={handleInputChange}
                         type='number'
                         value={props.beachReport.fishQuantity || ''}

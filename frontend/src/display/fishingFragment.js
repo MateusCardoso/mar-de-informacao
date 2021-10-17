@@ -3,14 +3,14 @@ import {
     Segment,
     Grid
 } from 'semantic-ui-react'
-import fieldLabels from '../common/fieldLabel';
+import { fieldLabels, sectionHeaders, units } from '../common/fieldLabel';
 
 function FishingFragment (props) {
     let beachReport = props.beachReport;
     return beachReport.fishCatched !== null || beachReport.fishQuantity !== null ?
                 <Grid.Column>
                 <Segment basic>
-                    <Header as='h3'>Pescaria</Header>
+                    <Header as='h3'>{sectionHeaders.fishing}</Header>
                     <Segment>
                         { beachReport.fishCatched !== null ?
                             <Segment basic>
@@ -20,7 +20,7 @@ function FishingFragment (props) {
                         }
                         { beachReport.fishQuantity !== null ?
                             <Segment basic>
-                                {fieldLabels.fishQuantity}: {beachReport.fishQuantity} Kg
+                                {fieldLabels.fishQuantity}: {beachReport.fishQuantity} {units.quantity}
                             </Segment>
                             : null
                         }

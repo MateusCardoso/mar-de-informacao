@@ -3,6 +3,7 @@ import {
     Segment,
     Grid
 } from 'semantic-ui-react'
+import { sectionHeaders } from '../common/fieldLabel';
 
 import TagMultiselect from '../common/tagMultiselect';
 import DateFilter from './dateFilter';
@@ -22,7 +23,7 @@ function FilterBar (props) {
     }
 
     return <Segment fluid='true'>
-                <Header as='h4' content='Filtros:' textAlign='left' />
+                <Header as='h4' content={sectionHeaders.filterBar} textAlign='left' />
                 {renderFilters()}
                 <Segment vertical>
                     <FindPostsButton

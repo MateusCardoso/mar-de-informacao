@@ -1,5 +1,5 @@
 import { Grid, Form, Label, Input } from 'semantic-ui-react'
-import fieldLabels from '../common/fieldLabel';
+import { fieldLabels } from '../common/fieldLabel';
 
 function TitleFilter (props) {
 

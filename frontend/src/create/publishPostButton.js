@@ -2,6 +2,8 @@ import { Button } from "semantic-ui-react";
 import { useHistory } from 'react-router-dom';
 import UpdatePost from "./updatePost";
 
+import {buttons} from "../common/fieldLabel";
+
 function PublishPostButton (props) {
 
     const history = useHistory();
@@ -25,7 +27,7 @@ function PublishPostButton (props) {
     return  <Button
                 primary 
                 onClick={publishPost}>
-                    Publicar
+                    {buttons.publish}
             </Button>
 }
 

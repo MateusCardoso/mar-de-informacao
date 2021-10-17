@@ -1,5 +1,6 @@
 package com.ufrgs.inf.tcc.controller;
 
+import com.ufrgs.inf.tcc.model.Image;
 import com.ufrgs.inf.tcc.model.Link;
 import com.ufrgs.inf.tcc.model.PostRecord;
 import com.ufrgs.inf.tcc.repository.PostRecordRepository;
@@ -113,6 +114,16 @@ public class PostRecordController {
 	@ApiOperation(value = "Get Post Tags", nickname = "get tags")
 	public Iterable<Tag> getTagsFromPost(@PathVariable("id") Long id){		
 		return postRecordRepository.findTagsFromPost(id);
+	}
+
+	@GetMapping("/{id}/images")
+	@ApiOperation(value = "Get Post Images Info", nickname = "get images info")
+	public Iterable<Image> getImagesFromPost(@PathVariable("id") Long id){		
+		List<Image> images = postRecordRepository.findImagesFromPost(id);
+		for (Image image : images) {
+			image.setContent(null);
+		}
+		return images;
 	}
 
 	@PostMapping

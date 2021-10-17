@@ -34,11 +34,11 @@ public class FindingReport {
 		this.garbageQuantity = garbageQuantity;
 	}
 
-	public Long getFindingId() {
+	public Long getId() {
 		return findingId;
 	}
 
-	public void setFindingId(Long findingId) {
+	public void setId(Long findingId) {
 		this.findingId = findingId;
 	}
 

@@ -15,13 +15,13 @@ function WindStatusFragment (props) {
                     <Segment>
                         { windStatus.windDirection ?
                             <Segment basic>
-                                {fieldLabels.windDirection} {windStatus.windDirection}
+                                {fieldLabels.windDirection}: {windStatus.windDirection}
                             </Segment>
                             : null 
                         }
                         { windStatus.windVelocity ?
                             <Segment basic>
-                                {fieldLabels.windVelocity} {windStatus.windVelocity} {units.velocity}
+                                {fieldLabels.windVelocity}: {windStatus.windVelocity} {units.velocity}
                             </Segment>
                             : null
                         }

@@ -15,13 +15,13 @@ function BeachReportFragment (props) {
                     <Segment>
                         { beachReport.waterQuality ?
                             <Segment basic>
-                                {fieldLabels.waterQuality} {beachReport.waterQuality}
+                                {fieldLabels.waterQuality}: {beachReport.waterQuality}
                             </Segment>
                             : null
                         }
                         { beachReport.temperature ?
                             <Segment basic>
-                                {fieldLabels.temperature} {beachReport.temperature} {units.temperature}
+                                {fieldLabels.temperature}: {beachReport.temperature} {units.temperature}
                             </Segment>    
                             : null 
                         }

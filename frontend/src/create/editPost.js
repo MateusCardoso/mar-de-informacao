@@ -16,6 +16,7 @@ import LinkTable from './linkTable'
 import TagMultiselect from '../common/tagMultiselect'
 import PublishPostButton from './publishPostButton';
 import { apps } from '../common/fieldLabel';
+import FindingReport from './findingReport';
 
 function EditPost(){
 
@@ -35,6 +36,13 @@ function EditPost(){
                 windDirection: '',
                 windVelocity: ''
             }
+        },
+        findingReport: {
+            id: null,
+            animalName: '',
+            animalSpecies: '',
+            garbageOrigin: '',
+            garbageQuantity: ''
         }
     });
 
@@ -92,6 +100,16 @@ function EditPost(){
             }
         })
     }
+
+    const updateFindingReport = (name,value) => {
+        setPost({
+            ...post, 
+            findingReport: { 
+                ...post.findingReport,
+                [name]:value 
+            }
+        })
+    }
     
     const updateWindStatus = (name,value) => {
         setPost({
@@ -121,11 +139,12 @@ function EditPost(){
         </Segment>
         <Form>
           <Grid columns={2} stackable doubling>
-            <PostText updatePostText={updatePostText}           post={post}></PostText>
-            <BeachReport updateBeachReport={updateBeachReport}  beachReport={post.beachReport}></BeachReport>
-            <WindStatus updateWindStatus={updateWindStatus}     windStatus={post.beachReport.windStatus}></WindStatus>
-            <TagMultiselect updateTagsList={updateTagsList}     tags={tags} allowAdditions={true}></TagMultiselect>
-            <LinkTable updateLinksTable={updateLinksTable}      links={links} postId={post.id}></LinkTable>
+            <PostText updatePostText={updatePostText}                   post={post}/>
+            <BeachReport updateBeachReport={updateBeachReport}          beachReport={post.beachReport}/>
+            <TagMultiselect updateTagsList={updateTagsList}             tags={tags} allowAdditions={true}/>
+            <WindStatus updateWindStatus={updateWindStatus}             windStatus={post.beachReport.windStatus}/>
+            <FindingReport updateFindingReport={updateFindingReport}    findingReport={post.findingReport}/>
+            <LinkTable updateLinksTable={updateLinksTable}              links={links} postId={post.id}/>
             <Grid.Row>
                 <SavePostButton
                     post={post}

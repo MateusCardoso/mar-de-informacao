@@ -58,14 +58,15 @@ const placeholders = {
 const sectionHeaders = {
     postDescription: 'Descricao do Post:',
     beachReportSection: 'Situaçao do Mar:',
-    precipitation: 'Precipitaçao',
+    precipitation: 'Precipitaçao:',
     fishing: 'Pescaria:',
-    windSection: 'Situaçao do Vento',
+    windSection: 'Situaçao do Vento:',
     postCategory: 'Categoria do Post:',
     animalFinding: 'Animais Encontrados:',
     garbageFinding: 'Lixo Encontrado:',
-    linksSection: 'Links',
-    filterBar: 'Filtros:'
+    linksSection: 'Links:',
+    filterBar: 'Filtros:',
+    photos: 'Fotos:'
 };
 
 const apps = {

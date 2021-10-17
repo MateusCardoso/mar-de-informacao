@@ -16,6 +16,7 @@ import PrecipitationFragment from './precipitationFragment';
 import FishingFragment from './fishingFragment';
 import EditPostButton from './editPostButton';
 import { apps, sectionHeaders } from '../common/fieldLabel';
+import FindingReportFragment from './findingReportFragment';
 
 function DisplayPost(){
 
@@ -30,6 +31,12 @@ function DisplayPost(){
                 windDirection: '',
                 windVelocity: ''
             }
+        },
+        findingReport: {
+            animalName: '',
+            animalSpecies: '',
+            garbageOrigin: '',
+            garbageQuantity: ''
         }
     });
 
@@ -93,35 +100,7 @@ function DisplayPost(){
                     <FishingFragment beachReport={post.beachReport}/>
                 </Grid>
             </Segment>
-            <Segment>
-                <Grid columns={2} stackable>
-                    <Grid.Column>
-                        <Header as='h3'>Animais Encontrados</Header>
-                        <Segment>
-                            <Segment basic>
-                                Especies:
-                            </Segment>
-                            <Segment basic>
-                                Fotos:
-                            </Segment>
-                        </Segment>
-                    </Grid.Column>
-                    <Grid.Column>
-                        <Header as='h3'>Lixo</Header>
-                            <Segment>
-                                <Segment basic>
-                                    Quantidade de Lixo (Kg):
-                                </Segment>
-                                <Segment basic>
-                                    Origem:
-                                </Segment>
-                                <Segment basic>
-                                    Fotos:
-                                </Segment>
-                            </Segment>
-                    </Grid.Column>
-                </Grid>
-            </Segment>
+            <FindingReportFragment findingReport={post.findingReport}/>
             { links.length ?
                 <Segment>
                     <Header as='h3'>{sectionHeaders.linksSection}:</Header>

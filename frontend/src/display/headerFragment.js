@@ -16,7 +16,7 @@ function HeaderFragment (props) {
                     <Header as='h1'>{post.title}</Header>
                     {post.description}
                     { tags.length ?
-                        <Segment basic>{fieldLabels.tags} 
+                        <Segment basic>{fieldLabels.tags}: 
                             <DisplayTags tags={tags}></DisplayTags>
                         </Segment>
                         : null

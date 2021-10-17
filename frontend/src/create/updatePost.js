@@ -41,6 +41,18 @@ async function UpdatePost (props) {
         )
     }
 
+    const requestBodyForFindingReport = (findingReport) => {
+        return (
+            JSON.stringify({ 
+                id: findingReport.id,
+                animalName: findingReport.animalName,
+                animalSpecies: findingReport.animalSpecies,
+                garbageOrigin: findingReport.garbageOrigin,
+                garbageQuantity: findingReport.garbageQuantity
+            })
+        )
+    }
+
     const requestBodyForWindStatus = (windStatus) => {
         return (
             JSON.stringify({ 
@@ -87,6 +99,9 @@ async function UpdatePost (props) {
     const reportId = await props.post.beachReport.id;
     const requestOptionsUpdateBeachReport = buildRequestOptions('PATCH',requestBodyForBeachReport(props.post.beachReport));
 
+    const findingId = await props.post.findingReport.id;
+    const requestOptionsUpdateFindingReport = buildRequestOptions('PATCH',requestBodyForFindingReport(props.post.findingReport));
+
     const windId = await props.post.beachReport.windStatus.id;
     const requestOptionsUpdateWindStatus = buildRequestOptions('PATCH',requestBodyForWindStatus(props.post.beachReport.windStatus));
 
@@ -97,6 +112,7 @@ async function UpdatePost (props) {
         fetch(process.env.REACT_APP_API_URL+'/posts/'+postId, requestOptionsUpdateDescription),
         fetch(process.env.REACT_APP_API_URL+'/posts/'+postId+'/tags?tagIds='+tagIds, requestOptionsUpdateTags),
         fetch(process.env.REACT_APP_API_URL+'/reports/'+reportId, requestOptionsUpdateBeachReport),
+        fetch(process.env.REACT_APP_API_URL+'/findings/'+findingId, requestOptionsUpdateFindingReport),
         fetch(process.env.REACT_APP_API_URL+'/windStatus/'+windId, requestOptionsUpdateWindStatus)
     }
     catch(error){

@@ -6,6 +6,7 @@ import {
     Button,
     Icon
 } from 'semantic-ui-react';
+import { buttons, fieldLabels, sectionHeaders } from '../common/fieldLabel';
 
 import Link from './link';
 
@@ -61,13 +62,13 @@ function LinkTable (props){
     };
 
     return  <Grid.Column>
-                <Header as='h4' content='Links:' />
+                <Header as='h4' content={sectionHeaders.linksSection} />
                     <Table celled>
                         <Table.Header>
                             <Table.Row>
-                                <Table.HeaderCell>Nome do Link</Table.HeaderCell>
-                                <Table.HeaderCell>URL</Table.HeaderCell>
-                                <Table.HeaderCell>Deletar</Table.HeaderCell>
+                                <Table.HeaderCell>{fieldLabels.linkName}</Table.HeaderCell>
+                                <Table.HeaderCell>{fieldLabels.linkURL}</Table.HeaderCell>
+                                <Table.HeaderCell>{buttons.deleteLink}</Table.HeaderCell>
                             </Table.Row>
                         </Table.Header>
                         
@@ -86,7 +87,7 @@ function LinkTable (props){
                                         size='small'
                                         onClick={addLink}
                                     >
-                                        <Icon name='world' /> Adicionar Link
+                                        <Icon name='world' /> {buttons.addLink}
                                     </Button>
                                 </Table.HeaderCell>
                             </Table.Row>

@@ -13,7 +13,10 @@ import SavePostButton from './savePostButton'
 import BeachReport from './beachReport'
 import WindStatus from './windStatus'
 import LinkTable from './linkTable'
-import TagMultiselect from './tagMultiselect'
+import TagMultiselect from '../common/tagMultiselect'
+import PublishPostButton from './publishPostButton';
+import { apps } from '../common/fieldLabel';
+import FindingReport from './findingReport';
 
 function EditPost(){
 
@@ -25,11 +28,21 @@ function EditPost(){
             id: null,
             waterQuality: '',
             temperature: '',
-                windStatus: {
+            rainVolume: '',
+            fishCatched: '',
+            fishQuantity: '',
+            windStatus: {
                 id: null,
                 windDirection: '',
                 windVelocity: ''
             }
+        },
+        findingReport: {
+            id: null,
+            animalName: '',
+            animalSpecies: '',
+            garbageOrigin: '',
+            garbageQuantity: ''
         }
     });
 
@@ -87,6 +100,16 @@ function EditPost(){
             }
         })
     }
+
+    const updateFindingReport = (name,value) => {
+        setPost({
+            ...post, 
+            findingReport: { 
+                ...post.findingReport,
+                [name]:value 
+            }
+        })
+    }
     
     const updateWindStatus = (name,value) => {
         setPost({
@@ -112,23 +135,30 @@ function EditPost(){
 
     return <div>
         <Segment padded='very' inverted color='grey'>
-          <Header as='h1'>Entrar novo Post</Header>
+          <Header as='h1'>{apps.createHeader}</Header>
         </Segment>
         <Form>
-          <Grid columns={2} stackable>
-            <PostText updatePostText={updatePostText}           post={post}></PostText>
-            <BeachReport updateBeachReport={updateBeachReport}  beachReport={post.beachReport}></BeachReport>
-            <WindStatus updateWindStatus={updateWindStatus}     windStatus={post.beachReport.windStatus}></WindStatus>
-            <TagMultiselect updateTagsList={updateTagsList}     tags={tags} allowAdditions={true}></TagMultiselect>
-            <LinkTable updateLinksTable={updateLinksTable}      links={links} postId={post.id}></LinkTable>
-            <SavePostButton
-              post={post}
-              links={links}
-              tags={tags}
-              updateLinksTable={updateLinksTable}
-            >
-            </SavePostButton>
-            
+          <Grid columns={2} stackable doubling>
+            <PostText updatePostText={updatePostText}                   post={post}/>
+            <BeachReport updateBeachReport={updateBeachReport}          beachReport={post.beachReport}/>
+            <TagMultiselect updateTagsList={updateTagsList}             tags={tags} allowAdditions={true}/>
+            <WindStatus updateWindStatus={updateWindStatus}             windStatus={post.beachReport.windStatus}/>
+            <FindingReport updateFindingReport={updateFindingReport}    findingReport={post.findingReport}/>
+            <LinkTable updateLinksTable={updateLinksTable}              links={links} postId={post.id}/>
+            <Grid.Row>
+                <SavePostButton
+                    post={post}
+                    links={links}
+                    tags={tags}
+                    updateLinksTable={updateLinksTable}
+                />
+                <PublishPostButton 
+                    post={post}
+                    links={links}
+                    tags={tags}
+                    updateLinksTable={updateLinksTable}
+                />
+            </Grid.Row>
           </Grid>
         </Form>
     </div>;

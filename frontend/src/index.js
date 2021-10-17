@@ -4,7 +4,7 @@ import ReactDOM from "react-dom";
 import { Container} from "semantic-ui-react";
 require('dotenv').config();
 
-import PageRouter from "./pageRouter"
+import PageRouter from "./common/pageRouter"
 
 const App = ({ children }) => (
   <Container style={{ margin: 20 }}>

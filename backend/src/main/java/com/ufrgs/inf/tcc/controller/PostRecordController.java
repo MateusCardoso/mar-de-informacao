@@ -8,6 +8,10 @@ import com.ufrgs.inf.tcc.repository.TagRepository;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
+import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.format.annotation.DateTimeFormat.ISO;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,6 +19,8 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.util.Optional;
 import java.util.List;
+import java.sql.Date;
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 @RestController
@@ -34,6 +40,53 @@ public class PostRecordController {
 	@ApiOperation(value = "Find all Posts", nickname = "findAll")
 	public Iterable<PostRecord> findAll() {
 		return postRecordRepository.findAll();
+	}
+
+	@GetMapping("/orderedBy")
+	@ApiOperation(value = "Get Ordered Posts", nickname = "findAllOrderedBy")
+	public Iterable<PostRecord> findAllOrderedBy(@RequestParam(required = false) String entityName, @RequestParam("field") String field, @RequestParam("order") String order) {
+		return postRecordRepository.findAll(Sort.by(Sort.Direction.fromString(order), getOrderByFieldName(entityName, field)));
+	}
+
+	@GetMapping("/filteredBy")
+	@ApiOperation(value = "Get Filtered Posts", nickname = "getAllFilteredBy")
+	public Iterable<PostRecord> getAllFilteredBy(@RequestParam(required = false) String title, @RequestParam(required = false) List<Long> tagIds, @RequestParam(required = false) @DateTimeFormat(iso = ISO.DATE_TIME) List<LocalDate> dateRange,
+		@RequestParam(required = false) String entityName, @RequestParam(required = false) String field, @RequestParam(required = false) String order){		
+		PostRecordCombineSpecification specificationBuilder = new PostRecordCombineSpecification();
+		
+		if(title != null){
+			specificationBuilder.with("title", "LK", title);
+		}
+		
+		if(tagIds != null){
+			for (long tagId : tagIds){
+				specificationBuilder.with("tagId", "EQ", tagId);
+			}
+		}
+		
+		if(dateRange != null){
+			if(dateRange.size() == 1){
+				specificationBuilder.with("publicationDate", "EQ", Date.valueOf(dateRange.get(0)));
+			}else if(dateRange.size() == 2){
+				specificationBuilder.with("publicationDate", "GE", Date.valueOf(dateRange.get(0)));
+				specificationBuilder.with("publicationDate", "LE", Date.valueOf(dateRange.get(1)));
+			}
+		}
+		Specification<PostRecord> combinedSpecification = specificationBuilder.combine();
+		
+		if(field != null){
+			return postRecordRepository.findAll(combinedSpecification, Sort.by(Sort.Direction.fromString(order), getOrderByFieldName(entityName, field)));
+		} else{
+			return postRecordRepository.findAll(combinedSpecification);
+		}
+	}
+
+	private String getOrderByFieldName(String entityName, String field){
+		if(entityName != null){
+			return entityName+"."+field;
+		}else{
+			return field;
+		}
 	}
 
 	@GetMapping("/{id}")
@@ -56,9 +109,17 @@ public class PostRecordController {
 		return postRecordRepository.findLinksFromPost(id);
 	}
 
+	@GetMapping("/{id}/tags")
+	@ApiOperation(value = "Get Post Tags", nickname = "get tags")
+	public Iterable<Tag> getTagsFromPost(@PathVariable("id") Long id){		
+		return postRecordRepository.findTagsFromPost(id);
+	}
+
 	@PostMapping
 	@ApiOperation(value = "Create Post", nickname = "create")
 	public ResponseEntity<PostRecord> create(@RequestBody PostRecord postRecord) {
+		postRecord.setStatus('D');
+		postRecord.setCreationDate(Date.valueOf(LocalDate.now()));
 		postRecord = postRecordRepository.save(postRecord);
 		return ResponseEntity
 				.created(ServletUriComponentsBuilder.fromCurrentRequest().path("/" + postRecord.getId()).build().toUri())
@@ -79,6 +140,18 @@ public class PostRecordController {
 		oldPostRecord.setDescription(postRecord.getDescription());
 		oldPostRecord.setTitle(postRecord.getTitle());
 		return postRecordRepository.save(oldPostRecord);
+	}
+
+	@PatchMapping("/publish/{id}")
+	@ApiOperation(value = "Publish Post", nickname = "publish")
+	public PostRecord publish(@PathVariable("id") Long id) throws ObjectNotFoundException, RequestInconsistentException {
+		if (!postRecordRepository.existsById(id)) {
+			throw new ObjectNotFoundException(PostRecord.class, id);
+		}
+		PostRecord postRecord = postRecordRepository.findById(id).get();
+		postRecord.setStatus('P');
+		postRecord.setPublicationDate(Date.valueOf(LocalDate.now()));
+		return postRecordRepository.save(postRecord);
 	}
 
 	@PatchMapping("/{id}/tags")
@@ -118,18 +191,6 @@ public class PostRecordController {
 		tagRepository.saveAll(tagsToRemoveRelation);
 				
 		return postRecordRepository.save(postRecord);
-	}
-
-	@GetMapping("/byTags")
-	@ApiOperation(value = "Get by Tag Relations", nickname = "get related")
-	public Iterable<PostRecord> getPostsByTags(@RequestParam("tagIds") List<Long> tagIds){		
-		return postRecordRepository.findAllWithTags(tagIds);
-	}
-
-	@GetMapping("/{id}/tags")
-	@ApiOperation(value = "Get Post Tags", nickname = "get tags")
-	public Iterable<Tag> getTagsFromPost(@PathVariable("id") Long id){		
-		return postRecordRepository.findTagsFromPost(id);
 	}
 
 	@DeleteMapping("/{id}")

@@ -7,6 +7,8 @@ import {
     Dropdown
 } from 'semantic-ui-react';
 
+import { fieldLabels, placeholders, sectionHeaders } from './fieldLabel';
+
 function TagMultiselect (props) {
     
     const [options, setOptions] = useState([]);
@@ -29,33 +31,17 @@ function TagMultiselect (props) {
         retrieveOptions()
     }, []);
 
-    const selectTag = (evt) => {
-        var selectedTags = props.tags.slice();
-        if(evt.target.attributes.role !== undefined && evt.target.attributes.role.nodeValue === 'option'){
-            const targetId = Number(evt.target.id);
-            const tagWithId = options.find(x => x.id === targetId );
-            if(tagWithId !== undefined){
-                selectedTags.push({
-                    id: tagWithId.id,
-                    tagName: tagWithId.value
-                });
+    const selectTag = (_evt,data) => {
+        const selectedTags = data.value.reduce((result, value) => {
+            const option = options.find(x => x.value === value )
+            if(option !== undefined){
+                result.push({
+                    id: option.id,
+                    tagName: option.value
+                })
             }
-        }else if(evt.target.parentNode.attributes.role !== undefined && evt.target.parentNode.attributes.role.nodeValue === 'option'){
-            const targetId = Number(evt.target.parentNode.id);
-            const tagWithId = options.find(x => x.id === targetId );
-            if(tagWithId !== undefined){
-                selectedTags.push({
-                    id: tagWithId.id,
-                    tagName: tagWithId.value
-                });
-            }
-        }else if(evt.target.className === 'dropdown icon clear'){
-            selectedTags = [];
-        }else if(evt.target.className === 'delete icon'){
-            const tagName = evt.target.parentNode.innerText;
-            const currentTags = selectedTags;
-            selectedTags = currentTags.filter(x => x.tagName !== tagName);
-        }
+            return result;
+        }, []);
         props.updateTagsList(selectedTags);
     };
 
@@ -91,7 +77,7 @@ function TagMultiselect (props) {
     const renderHeader = () => {
         if(props.noHeader !== true){
             return(
-                <Header as='h4' content='Categoria do Post:' textAlign='left'/>
+                <Header as='h4' content={sectionHeaders.postCategory} textAlign='left'/>
             )
         }
     };
@@ -99,7 +85,7 @@ function TagMultiselect (props) {
     return  <Grid.Column>
                 {renderHeader()}
                 <Form.Field>
-                    <Label>Tags de Busca</Label>
+                    <Label content={fieldLabels.tags}/>
                     <Dropdown
                         allowAdditions={props.allowAdditions}
                         clearable
@@ -111,7 +97,7 @@ function TagMultiselect (props) {
                         value={props.tags.map((tag) => tag.tagName)}
                         onAddItem={addTag}
                         onChange={selectTag}
-                        placeholder='Tags...'
+                        placeholder={placeholders.tags}
                     />
                 </Form.Field>
             </Grid.Column>

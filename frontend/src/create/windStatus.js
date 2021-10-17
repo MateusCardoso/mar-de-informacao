@@ -6,7 +6,7 @@ import {
     Input,
 } from "semantic-ui-react";
 
-import fieldLabels from './fieldLabel';
+import { fieldLabels, units, placeholders, sectionHeaders } from '../common/fieldLabel';
 
 function WindStatus (props){
     
@@ -17,12 +17,12 @@ function WindStatus (props){
     }
 
     return  <Grid.Column>
-                <Header as='h4' content='Vento:' textAlign='left' />
+                <Header as='h4' content={sectionHeaders.windSection} textAlign='left' />
                 <Form.Field>
                     <Label>{fieldLabels.windDirection}</Label>
                     <Input fluid
                         name='windDirection'
-                        placeholder='Direçao...'
+                        placeholder={placeholders.windDirection}
                         onChange={handleInputChange}
                         value={props.windStatus.windDirection || ''}
                     />
@@ -31,10 +31,11 @@ function WindStatus (props){
                     <Label>{fieldLabels.windVelocity}</Label>
                     <Input fluid
                         name='windVelocity'
-                        label={{ basic: true, content: 'Km/h' }}
+                        label={{ basic: true, content: units.velocity }}
                         labelPosition='right'
-                        placeholder='Velocidade...'
+                        placeholder={placeholders.windVelocity}
                         onChange={handleInputChange}
+                        type='number'
                         value={props.windStatus.windVelocity || ''}
                     />
                 </Form.Field>

@@ -11,6 +11,7 @@ function NewPost(){
         beachReport: {
           windStatus: {}
         },
+        findingReport: {},
       })
     };
     const response = await fetch(process.env.REACT_APP_API_URL+'/posts', requestOptions);

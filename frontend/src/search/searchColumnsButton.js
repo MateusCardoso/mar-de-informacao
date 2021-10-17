@@ -52,6 +52,30 @@ function SearchColumnsButton (props) {
             text: fieldLabels.fishQuantity,
             value: 'fishQuantity',
             entity: 'beachReport'
+        },
+        {
+            id: 9,
+            text: fieldLabels.animalName,
+            value: 'animalName',
+            entity: 'findingReport'
+        },
+        {
+            id: 10,
+            text: fieldLabels.animalSpecies,
+            value: 'animalSpecies',
+            entity: 'findingReport'
+        },
+        {
+            id: 11,
+            text: fieldLabels.garbageOrigin,
+            value: 'garbageOrigin',
+            entity: 'findingReport'
+        },
+        {
+            id: 12,
+            text: fieldLabels.garbageQuantity,
+            value: 'garbageQuantity',
+            entity: 'findingReport'
         }
     ];
 

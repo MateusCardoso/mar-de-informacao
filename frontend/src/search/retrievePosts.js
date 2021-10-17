@@ -16,6 +16,10 @@ async function RetrievePosts (props) {
                 fishQuantity: post.beachReport.fishQuantity,
                 windDirection: post.beachReport.windStatus.windDirection,
                 windVelocity: post.beachReport.windStatus.windVelocity,
+                animalName: post.findingReport.animalName,
+                animalSpecies: post.findingReport.animalSpecies,
+                garbageOrigin: post.findingReport.garbageOrigin,
+                garbageQuantity: post.findingReport.garbageQuantity,
                 publicationDate: post.publicationDate ? moment(post.publicationDate).format('DD MMM, YYYY' ) : null
             })
         }

@@ -25,6 +25,10 @@ public class PostRecord {
 	@JoinColumn(name = "reportId")
 	private BeachReport beachReport;
 
+	@OneToOne(cascade=CascadeType.ALL)
+	@JoinColumn(name = "findingId")
+	private FindingReport findingReport;
+
 	@OneToMany(mappedBy = "postRecord")
 	private List<Link> links;
 
@@ -102,6 +106,14 @@ public class PostRecord {
 		this.beachReport = beachReport;
 	}
 
+	public FindingReport getFindingReport(){
+		return findingReport;
+	}
+
+	public void setFindingReport(FindingReport findingReport){
+		this.findingReport = findingReport;
+	}
+
 	public List<Link> getLinks(){
 		return links;
 	}
@@ -129,7 +141,9 @@ public class PostRecord {
 		PostRecord that = (PostRecord) o;
 		return Objects.equals(postId, that.postId) &&
 				Objects.equals(title, that.title) &&
-			    Objects.equals(description, that.description);
+			    Objects.equals(description, that.description) &&
+			    Objects.equals(creationDate, that.creationDate) &&
+			    Objects.equals(publicationDate, that.publicationDate);
 	}
 
 	@Override

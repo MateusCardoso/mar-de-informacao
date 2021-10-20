@@ -57,9 +57,9 @@ public class ImageController {
 
     @PostMapping("/postId={postId}")
     @ApiOperation(value = "Create Image under Post", nickname = "createOnPost")
-    Long uploadImage(@PathVariable("postId") Long postId, @RequestParam("category") Character category ,@RequestParam MultipartFile multipartImage) throws Exception{
+    Long uploadImage(@PathVariable("postId") Long postId, @RequestParam("category") Character category ,@RequestParam String fileName, @RequestParam MultipartFile multipartImage) throws Exception{
         Image dbImage = new Image();
-        dbImage.setName(multipartImage.getName());
+        dbImage.setName(fileName);
         dbImage.setContent(multipartImage.getBytes());
         dbImage.setCategory(category);
         dbImage = imageRepository.save(dbImage);
@@ -70,6 +70,20 @@ public class ImageController {
         postRecord.setImages(currentImages);
         postRecordRepository.save(postRecord);
         dbImage.setPostRecord(postRecord);
+        dbImage = imageRepository.save(dbImage);
+
+        return dbImage.getId();            
+    }
+
+    @PatchMapping("/{imageId}")
+    @ApiOperation(value = "Update Image file", nickname = "updateImage")
+    Long updateImage(@PathVariable("imageId") Long imageId, @RequestParam String fileName, @RequestParam MultipartFile multipartImage) throws Exception{
+        if (!imageRepository.existsById(imageId)) {
+			throw new ObjectNotFoundException(Image.class, imageId);
+		}
+        Image dbImage = imageRepository.findById(imageId).get();
+        dbImage.setName(fileName);
+        dbImage.setContent(multipartImage.getBytes());
         dbImage = imageRepository.save(dbImage);
 
         return dbImage.getId();            

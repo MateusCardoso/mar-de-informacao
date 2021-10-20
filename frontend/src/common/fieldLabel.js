@@ -2,6 +2,7 @@
 const fieldLabels = {
     postTitle: 'Titulo',
     postDescription: 'Texto',
+    mainImage: 'Imagem de Capa',
     waterQuality: 'Qualidade da Agua',
     temperature: 'Temperatura',
     windDirection: 'Direçao do Vento',

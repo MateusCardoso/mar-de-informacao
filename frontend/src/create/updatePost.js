@@ -1,3 +1,5 @@
+import ImageUpload from "./imageUpload";
+
 async function UpdatePost (props) {
     
     const getTagIds = async () => {
@@ -118,6 +120,13 @@ async function UpdatePost (props) {
     catch(error){
         console.error('Error:', error);
     };
+
+    await ImageUpload({
+        postId: postId,
+        image: props.mainImage,
+        category: 'M',
+        setImage: props.setMainImage
+    });
     
     await updateLinks();
 }

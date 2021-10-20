@@ -17,6 +17,7 @@ import TagMultiselect from '../common/tagMultiselect'
 import PublishPostButton from './publishPostButton';
 import { apps } from '../common/fieldLabel';
 import FindingReport from './findingReport';
+import UploadImageButton from './uploadImageButton';
 
 function EditPost(){
 
@@ -45,7 +46,12 @@ function EditPost(){
             garbageQuantity: ''
         }
     });
-
+    const [mainImage, setMainImage] = useState({
+        id: null,
+        uploadRequired: false,
+        file: null,
+        localURL: null
+    });
     const [links, setLinks] = useState([]);
     const [tags, setTags] = useState([]);
     
@@ -140,6 +146,7 @@ function EditPost(){
         <Form>
           <Grid columns={2} stackable doubling>
             <PostText updatePostText={updatePostText}                   post={post}/>
+            <UploadImageButton setMainImage={setMainImage}              mainImage={mainImage}/>
             <BeachReport updateBeachReport={updateBeachReport}          beachReport={post.beachReport}/>
             <TagMultiselect updateTagsList={updateTagsList}             tags={tags} allowAdditions={true}/>
             <WindStatus updateWindStatus={updateWindStatus}             windStatus={post.beachReport.windStatus}/>
@@ -150,12 +157,15 @@ function EditPost(){
                     post={post}
                     links={links}
                     tags={tags}
+                    mainImage={mainImage}
+                    setMainImage={setMainImage}
                     updateLinksTable={updateLinksTable}
                 />
                 <PublishPostButton 
                     post={post}
                     links={links}
                     tags={tags}
+                    mainImage={mainImage}
                     updateLinksTable={updateLinksTable}
                 />
             </Grid.Row>

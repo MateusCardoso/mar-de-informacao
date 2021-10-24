@@ -10,10 +10,11 @@ function FindingReportFragment (props) {
     var findingReport = props.findingReport;
 
     return  findingReport.animalName !== null || findingReport.animalSpecies !== null || 
-            findingReport.garbageOrigin !== null || findingReport.garbageQuantity !== null ? 
+            findingReport.garbageOrigin !== null || findingReport.garbageQuantity !== null
+            || props.images.length !== 0 ? 
             <Segment>
                 <Grid columns={2} stackable>
-                    {   findingReport.animalName !== null || findingReport.animalSpecies !== null ?
+                    {   findingReport.animalName !== null || findingReport.animalSpecies !== null || props.images.find(x => x.category === 'A') !== undefined ?
                         <Grid.Column>
                             <Header as='h3'>{sectionHeaders.animalFinding}</Header>
                             <Segment>
@@ -40,7 +41,7 @@ function FindingReportFragment (props) {
                         </Grid.Column>
                         : null
                     }
-                    {   findingReport.garbageOrigin !== null || findingReport.garbageQuantity !== null ?
+                    {   findingReport.garbageOrigin !== null || findingReport.garbageQuantity !== null || props.images.find(x => x.category === 'G') !== undefined ?
                         <Grid.Column>
                             <Header as='h3'>{sectionHeaders.garbageFinding}</Header>
                                 <Segment>

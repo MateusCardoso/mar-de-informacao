@@ -11,7 +11,7 @@ function DisplayCoverImage(props) {
                     centered
                     size='big' 
                     src={props.image !== undefined ? props.image.localURL : null}
-                    href={props.image.localURL}
+                    href={props.image !== undefined ? props.image.localURL : null}
             />
             </Segment>
         </Grid.Column>

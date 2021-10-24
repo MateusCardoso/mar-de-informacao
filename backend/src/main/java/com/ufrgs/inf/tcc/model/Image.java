@@ -4,6 +4,8 @@ import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import org.hibernate.annotations.Type;
+
 @Entity
 @JsonIgnoreProperties(value={"postRecord"})
 public class Image {
@@ -13,9 +15,9 @@ public class Image {
     private Long imageId;
     
     private String name;
-    private Character category; 
+    private Character category;
     
-    @Lob
+    @Type(type = "org.hibernate.type.ImageType")
     private byte[] content;
     
     @ManyToOne

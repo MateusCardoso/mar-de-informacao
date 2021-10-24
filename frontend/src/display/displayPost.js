@@ -17,6 +17,7 @@ import FishingFragment from './fishingFragment';
 import EditPostButton from './editPostButton';
 import { apps, sectionHeaders } from '../common/fieldLabel';
 import FindingReportFragment from './findingReportFragment';
+import DisplayCoverImage from './displayCoverImage';
 
 function DisplayPost(){
 
@@ -43,6 +44,8 @@ function DisplayPost(){
     const [links, setLinks] = useState([]);
 
     const [tags, setTags] = useState([]);
+
+    const [images, setImages] = useState([]);
     
     let {postId} = useParams();
     const retrievePost = useCallback(async ()=>{
@@ -71,12 +74,32 @@ function DisplayPost(){
         const data = await response.json();
         setTags(data);
     }, [postId]);
+
+    const retrieveImages = useCallback(async ()=>{
+        const requestOptions = {
+            method: 'GET'
+        };
+        const response = await fetch(process.env.REACT_APP_API_URL+'/posts/'+postId+'/images', requestOptions);
+        const data = await response.json();
+        
+        const savedImages = await Promise.all(data.map( async (image) => {
+            const response = await fetch(process.env.REACT_APP_API_URL+'/images/'+image.id, requestOptions);
+            const responseImage = await response.blob();
+            return {
+                ...image,
+                content: responseImage,
+                localURL: URL.createObjectURL(responseImage)
+            }
+        }));
+        setImages(savedImages);
+    }, [postId]);
     
     useEffect(()=>{
         retrievePost(),
         retrieveLinks(),
-        retrieveTags();
-    }, [retrievePost]);
+        retrieveTags(),
+        retrieveImages();
+    }, [postId]);
 
     return <div>
             <Segment padded='very' inverted color='grey'>
@@ -87,12 +110,7 @@ function DisplayPost(){
                     <EditPostButton postId={postId}/>
                 </Segment>
                 <Grid columns={2} stackable>
-                    <Grid.Column>
-                        <Segment basic >
-                            <Image size='big' src={'/images/placeholder.png'}></Image>
-                            
-                        </Segment>
-                    </Grid.Column>
+                    <DisplayCoverImage image={images.find(x => x.category === 'M')}/>
                     <HeaderFragment post={post} tags={tags}/>
                     <BeachReportFragment beachReport={post.beachReport}/>
                     <WindStatusFragment windStatus={post.beachReport.windStatus}/>
@@ -100,7 +118,7 @@ function DisplayPost(){
                     <FishingFragment beachReport={post.beachReport}/>
                 </Grid>
             </Segment>
-            <FindingReportFragment findingReport={post.findingReport}/>
+            <FindingReportFragment findingReport={post.findingReport} images={images.filter(x => x.category !== 'M')}/>
             { links.length ?
                 <Segment>
                     <Header as='h3'>{sectionHeaders.linksSection}:</Header>

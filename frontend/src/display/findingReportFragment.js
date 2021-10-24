@@ -4,6 +4,7 @@ import {
     Grid
 } from 'semantic-ui-react'
 import { fieldLabels, sectionHeaders, units } from '../common/fieldLabel';
+import DisplayPhotoGallery from './displayPhotoGallery';
 
 function FindingReportFragment (props) {
     var findingReport = props.findingReport;
@@ -28,9 +29,13 @@ function FindingReportFragment (props) {
                                     </Segment>
                                     : null
                                 }
-                                <Segment basic>
-                                    {sectionHeaders.photos}
-                                </Segment>
+                                {   props.images.find(x => x.category === 'A') !== undefined ?
+                                    <Segment basic>
+                                        {sectionHeaders.photos}
+                                        <DisplayPhotoGallery images={props.images.filter(x => x.category === 'A')}/>
+                                    </Segment>
+                                    : null
+                                }
                             </Segment>
                         </Grid.Column>
                         : null
@@ -51,9 +56,13 @@ function FindingReportFragment (props) {
                                         </Segment>
                                         : null
                                     }
-                                    <Segment basic>
-                                        {sectionHeaders.photos}
-                                    </Segment>
+                                    {   props.images.find(x => x.category === 'G') !== undefined ?
+                                        <Segment basic>
+                                            {sectionHeaders.photos}
+                                            <DisplayPhotoGallery images={props.images.filter(x => x.category === 'G')}/>
+                                        </Segment>
+                                        : null
+                                    }
                                 </Segment>
                         </Grid.Column>
                         : null

@@ -6,6 +6,7 @@ function SavePostButton (props){
    
     return  <Button 
                 secondary
+                type="button"
                 onClick={() => UpdatePost(props)}>
                     {buttons.save}
             </Button>

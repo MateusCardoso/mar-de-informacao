@@ -8,7 +8,8 @@ function PublishPostButton (props) {
 
     const history = useHistory();
 
-    const publishPost = async () => {
+    const publishPost = async (event) => {
+        event.preventDefault();
         await UpdatePost(props);
 
         const postId = props.post.id;
@@ -25,7 +26,8 @@ function PublishPostButton (props) {
     }
 
     return  <Button
-                primary 
+                primary
+                type="button"
                 onClick={publishPost}>
                     {buttons.publish}
             </Button>

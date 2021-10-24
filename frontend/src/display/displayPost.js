@@ -112,8 +112,8 @@ function DisplayPost(){
                 <Grid columns={2} stackable>
                     <DisplayCoverImage image={images.find(x => x.category === 'M')}/>
                     <HeaderFragment post={post} tags={tags}/>
-                    <BeachReportFragment beachReport={post.beachReport}/>
                     <WindStatusFragment windStatus={post.beachReport.windStatus}/>
+                    <BeachReportFragment beachReport={post.beachReport}/>
                     <PrecipitationFragment beachReport={post.beachReport}/>
                     <FishingFragment beachReport={post.beachReport}/>
                 </Grid>

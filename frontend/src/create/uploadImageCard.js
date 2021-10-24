@@ -44,7 +44,7 @@ function UploadImageCard (props){
 
     return  <Card fluid>
                 { props.image !== undefined ?
-                    <Image size={props.size} src={props.image.localURL}/>
+                    <Image size={props.size} src={props.image.localURL} centered/>
                     : null
                 }    
                 <Card.Content textAlign={props.useIcon ? 'center' : 'right'}>

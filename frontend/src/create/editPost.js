@@ -15,9 +15,9 @@ import WindStatus from './windStatus'
 import LinkTable from './linkTable'
 import TagMultiselect from '../common/tagMultiselect'
 import PublishPostButton from './publishPostButton';
-import { apps, fieldLabels } from '../common/fieldLabel';
+import { apps } from '../common/fieldLabel';
 import FindingReport from './findingReport';
-import UploadImageButton from './uploadImageButton';
+import CoverImageUpload from './coverImageUpload';
 
 function EditPost(){
 
@@ -184,13 +184,13 @@ function EditPost(){
         </Segment>
         <Form>
           <Grid columns={2} stackable doubling>
-            <PostText updatePostText={updatePostText}                   post={post}/>
-            <UploadImageButton updateImage={updateImage}              postId={post.id} image={images.find(x => x.category === 'M')} category={'M'} imageLabel={fieldLabels.mainImage}/>
-            <BeachReport updateBeachReport={updateBeachReport}          beachReport={post.beachReport}/>
-            <TagMultiselect updateTagsList={updateTagsList}             tags={tags} allowAdditions={true}/>
-            <WindStatus updateWindStatus={updateWindStatus}             windStatus={post.beachReport.windStatus}/>
-            <FindingReport updateFindingReport={updateFindingReport}    findingReport={post.findingReport}/>
-            <LinkTable updateLinksTable={updateLinksTable}              links={links} postId={post.id}/>
+            <PostText updatePostText={updatePostText} post={post}/>
+            <CoverImageUpload updateImage={updateImage} postId={post.id} image={images.find(x => x.category === 'M')}/>
+            <BeachReport updateBeachReport={updateBeachReport} beachReport={post.beachReport}/>
+            <TagMultiselect updateTagsList={updateTagsList} tags={tags} allowAdditions={true}/>
+            <WindStatus updateWindStatus={updateWindStatus} windStatus={post.beachReport.windStatus}/>
+            <FindingReport updateFindingReport={updateFindingReport} findingReport={post.findingReport} updateImage={updateImage} postId={post.id} images={images.filter(x => x.category !== 'M')}/>
+            <LinkTable updateLinksTable={updateLinksTable}  links={links} postId={post.id}/>
             <Grid.Row>
                 <SavePostButton
                     post={post}

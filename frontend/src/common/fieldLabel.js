@@ -67,6 +67,7 @@ const sectionHeaders = {
     windSection: 'Situaçao do Vento:',
     postCategory: 'Categoria do Post:',
     animalFinding: 'Animais Encontrados:',
+    gallery: 'Fotos:',
     garbageFinding: 'Lixo Encontrado:',
     linksSection: 'Links:',
     filterBar: 'Filtros:',

@@ -7,6 +7,7 @@ import {
 } from "semantic-ui-react";
 
 import { fieldLabels, units, placeholders, sectionHeaders } from '../common/fieldLabel';
+import GalleryImageUpload from "./galleryImageUpload";
 
 
 function FindingReport (props) {
@@ -38,6 +39,15 @@ function FindingReport (props) {
                             value={props.findingReport.animalSpecies || ''}
                         />
                     </Form.Field>
+                    <Form.Field>
+                        <Header as='h5' content={sectionHeaders.gallery} textAlign='left' />
+                        <GalleryImageUpload
+                            updateImage={props.updateImage}
+                            postId={props.postId} 
+                            images={props.images.filter(x => x.category === 'A')}
+                            category={'A'}
+                        />
+                    </Form.Field>
                 </Grid.Column>
                 <Grid.Column>
                     <Header as='h4' content={sectionHeaders.garbageFinding} textAlign='left' />
@@ -60,6 +70,15 @@ function FindingReport (props) {
                             onChange={handleInputChange}
                             type='number'
                             value={props.findingReport.garbageQuantity || ''}
+                        />
+                    </Form.Field>
+                    <Form.Field>
+                        <Header as='h5' content={sectionHeaders.gallery} textAlign='left' />
+                        <GalleryImageUpload
+                            updateImage={props.updateImage}
+                            postId={props.postId} 
+                            images={props.images.filter(x => x.category === 'G')}
+                            category={'G'}
                         />
                     </Form.Field>
                 </Grid.Column>

@@ -1,16 +1,14 @@
 import { useRef } from "react";
 import {
-    Header, 
     Image,
-    Grid,
     Button,
     Card
 } from "semantic-ui-react";
-import { buttons, sectionHeaders } from "../common/fieldLabel";
+import { buttons } from "../common/fieldLabel";
 import ImageUpload from "./imageUpload";
 
 
-function UploadImageButton (props){
+function UploadImageCard (props){
 
     const onImageChange = async (evt) => {
         if(evt.target.files.length !== 0){
@@ -44,40 +42,37 @@ function UploadImageButton (props){
 
     var inputRef = useRef(null);
 
-    return <Grid.Column>
-                <Header as='h4' content={sectionHeaders.coverImage} textAlign='left' />
-                <Card fluid>
+    return  <Card fluid>
+                { props.image !== undefined ?
+                    <Image size={props.size} src={props.image.localURL}/>
+                    : null
+                }    
+                <Card.Content textAlign={props.useIcon ? 'center' : 'right'}>
+                    <Button 
+                        secondary
+                        size='tiny'
+                        icon={props.image !== undefined && props.useIcon ? 'upload' : null }
+                        onClick={() => inputRef.current.click()} 
+                        content={props.image !== undefined && props.useIcon ? null : buttons.uploadImage}
+                    />
                     { props.image !== undefined ?
-                        <Image size='big' src={props.image.localURL}/>
-                        : null
-                    }    
-                    <Card.Content textAlign={'right'}>
                         <Button 
-                            secondary
-                            size='tiny'
-                            onClick={() => inputRef.current.click()} 
-                            content={buttons.uploadImage}
-                            />
-                        { props.image !== undefined ?
-                            <Button 
-                                negative 
-                                size={'tiny'}
-                                onClick={removeImage} 
-                                content={buttons.removeImage}/>
-                            : null
-                        }
-                    </Card.Content>
-                </Card> 
-                
+                            negative 
+                            size={'tiny'}
+                            icon={props.useIcon ? 'delete' : null }
+                            onClick={removeImage} 
+                            content={props.useIcon ? null : buttons.removeImage}/>
+                        : null
+                    }
+                </Card.Content>
                 <input
-                ref={inputRef}
+                    ref={inputRef}
                     onChange={onImageChange}
                     type='file'
                     style={{display: 'none'}}
                 />
-        
-            </Grid.Column>
+            </Card> 
 
 }
 
-export default UploadImageButton;
+export default UploadImageCard;

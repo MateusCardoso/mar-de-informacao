@@ -8,7 +8,7 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
-@JsonIgnoreProperties(value = {"links","tags"})
+@JsonIgnoreProperties(value = {"links","tags", "images"})
 public class PostRecord {
 
 	@Id
@@ -31,6 +31,9 @@ public class PostRecord {
 
 	@OneToMany(mappedBy = "postRecord")
 	private List<Link> links;
+
+	@OneToMany(mappedBy = "postRecord")
+	private List<Image> images;
 
 	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name 		= "Post_Tag",
@@ -120,6 +123,14 @@ public class PostRecord {
 
 	public void setLinks(List<Link> links){
 		this.links = links;
+	}
+
+	public List<Image> getImages(){
+		return images;
+	}
+
+	public void setImages(List<Image> images){
+		this.images = images;
 	}
 
 	public List<Tag> getTags(){

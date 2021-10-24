@@ -4,15 +4,17 @@ import {
     Grid
 } from 'semantic-ui-react'
 import { fieldLabels, sectionHeaders, units } from '../common/fieldLabel';
+import DisplayPhotoGallery from './displayPhotoGallery';
 
 function FindingReportFragment (props) {
     var findingReport = props.findingReport;
 
     return  findingReport.animalName !== null || findingReport.animalSpecies !== null || 
-            findingReport.garbageOrigin !== null || findingReport.garbageQuantity !== null ? 
+            findingReport.garbageOrigin !== null || findingReport.garbageQuantity !== null
+            || props.images.length !== 0 ? 
             <Segment>
                 <Grid columns={2} stackable>
-                    {   findingReport.animalName !== null || findingReport.animalSpecies !== null ?
+                    {   findingReport.animalName !== null || findingReport.animalSpecies !== null || props.images.find(x => x.category === 'A') !== undefined ?
                         <Grid.Column>
                             <Header as='h3'>{sectionHeaders.animalFinding}</Header>
                             <Segment>
@@ -28,14 +30,18 @@ function FindingReportFragment (props) {
                                     </Segment>
                                     : null
                                 }
-                                <Segment basic>
-                                    {sectionHeaders.photos}
-                                </Segment>
+                                {   props.images.find(x => x.category === 'A') !== undefined ?
+                                    <Segment basic>
+                                        {sectionHeaders.photos}
+                                        <DisplayPhotoGallery images={props.images.filter(x => x.category === 'A')}/>
+                                    </Segment>
+                                    : null
+                                }
                             </Segment>
                         </Grid.Column>
                         : null
                     }
-                    {   findingReport.garbageOrigin !== null || findingReport.garbageQuantity !== null ?
+                    {   findingReport.garbageOrigin !== null || findingReport.garbageQuantity !== null || props.images.find(x => x.category === 'G') !== undefined ?
                         <Grid.Column>
                             <Header as='h3'>{sectionHeaders.garbageFinding}</Header>
                                 <Segment>
@@ -51,9 +57,13 @@ function FindingReportFragment (props) {
                                         </Segment>
                                         : null
                                     }
-                                    <Segment basic>
-                                        {sectionHeaders.photos}
-                                    </Segment>
+                                    {   props.images.find(x => x.category === 'G') !== undefined ?
+                                        <Segment basic>
+                                            {sectionHeaders.photos}
+                                            <DisplayPhotoGallery images={props.images.filter(x => x.category === 'G')}/>
+                                        </Segment>
+                                        : null
+                                    }
                                 </Segment>
                         </Grid.Column>
                         : null

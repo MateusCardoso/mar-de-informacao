@@ -17,6 +17,7 @@ import TagMultiselect from '../common/tagMultiselect'
 import PublishPostButton from './publishPostButton';
 import { apps } from '../common/fieldLabel';
 import FindingReport from './findingReport';
+import CoverImageUpload from './coverImageUpload';
 
 function EditPost(){
 
@@ -45,7 +46,14 @@ function EditPost(){
             garbageQuantity: ''
         }
     });
-
+    const [images, setImages] = useState([{
+        id: null,
+        category: '',
+        uploadRequired: false,
+        deleteRequired: false,
+        content: null,
+        localURL: null
+    }]);
     const [links, setLinks] = useState([]);
     const [tags, setTags] = useState([]);
     
@@ -77,12 +85,34 @@ function EditPost(){
         const data = await response.json();
         setTags(data);
     }, [postId]);
+
+    const retrieveImages = useCallback(async ()=>{
+        const requestOptions = {
+            method: 'GET'
+        };
+        const response = await fetch(process.env.REACT_APP_API_URL+'/posts/'+postId+'/images', requestOptions);
+        const data = await response.json();
+        
+        const savedImages = await Promise.all(data.map( async (image) => {
+            const response = await fetch(process.env.REACT_APP_API_URL+'/images/'+image.id, requestOptions);
+            const responseImage = await response.blob();
+            return {
+                ...image,
+                uploadRequired: false,
+                deleteRequired: false,
+                content: responseImage,
+                localURL: URL.createObjectURL(responseImage)
+            }
+        }));
+        setImages(savedImages);
+    }, [postId]);
     
     useEffect(()=>{
         retrievePost(),
         retrieveLinks(),
-        retrieveTags();
-    }, [retrievePost]);
+        retrieveTags(),
+        retrieveImages();
+    }, [postId]);
 
     const updatePostText = (name,value) => {
         setPost({
@@ -133,19 +163,27 @@ function EditPost(){
         setTags(tags);
     }
 
+    const updateImage = (image) => {
+        const allImages = images.slice();
+        const imageIndex = images.findIndex(x => x.id === image.id);
+        if(image.deleteRequired === true){
+            allImages.splice(imageIndex, 1);
+        }else{
+            if(imageIndex !== -1){
+                allImages[imageIndex] = image;
+            }else{
+                allImages.push(image);
+            }
+        }
+        setImages(allImages);
+    }
+
     return <div>
         <Segment padded='very' inverted color='grey'>
           <Header as='h1'>{apps.createHeader}</Header>
         </Segment>
         <Form>
-          <Grid columns={2} stackable doubling>
-            <PostText updatePostText={updatePostText}                   post={post}/>
-            <BeachReport updateBeachReport={updateBeachReport}          beachReport={post.beachReport}/>
-            <TagMultiselect updateTagsList={updateTagsList}             tags={tags} allowAdditions={true}/>
-            <WindStatus updateWindStatus={updateWindStatus}             windStatus={post.beachReport.windStatus}/>
-            <FindingReport updateFindingReport={updateFindingReport}    findingReport={post.findingReport}/>
-            <LinkTable updateLinksTable={updateLinksTable}              links={links} postId={post.id}/>
-            <Grid.Row>
+            <Segment vertical secondary textAlign='right'>
                 <SavePostButton
                     post={post}
                     links={links}
@@ -158,8 +196,16 @@ function EditPost(){
                     tags={tags}
                     updateLinksTable={updateLinksTable}
                 />
-            </Grid.Row>
-          </Grid>
+            </Segment>
+            <Grid padded='vertically' columns={2} stackable doubling>
+                <PostText updatePostText={updatePostText} post={post}/>
+                <CoverImageUpload updateImage={updateImage} postId={post.id} image={images.find(x => x.category === 'M')}/>
+                <TagMultiselect updateTagsList={updateTagsList} tags={tags} allowAdditions={true}/>
+                <WindStatus updateWindStatus={updateWindStatus} windStatus={post.beachReport.windStatus}/>
+                <BeachReport updateBeachReport={updateBeachReport} beachReport={post.beachReport}/>
+                <FindingReport updateFindingReport={updateFindingReport} findingReport={post.findingReport} updateImage={updateImage} postId={post.id} images={images.filter(x => x.category !== 'M')}/>
+                <LinkTable updateLinksTable={updateLinksTable}  links={links} postId={post.id}/>
+            </Grid>
         </Form>
     </div>;
 }

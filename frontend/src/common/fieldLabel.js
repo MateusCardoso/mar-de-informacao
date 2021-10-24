@@ -2,6 +2,7 @@
 const fieldLabels = {
     postTitle: 'Titulo',
     postDescription: 'Texto',
+    mainImage: 'Imagem de Capa',
     waterQuality: 'Qualidade da Agua',
     temperature: 'Temperatura',
     windDirection: 'Direçao do Vento',
@@ -33,7 +34,9 @@ const buttons = {
     find: 'Procurar',
     moreColumns: 'Mais Colunas',
     deleteLink: 'Deletar',
-    addLink: 'Adicionar Link'
+    addLink: 'Adicionar Link',
+    uploadImage: 'Escolher Imagem',
+    removeImage: 'Remover'
 }
 
 const placeholders = {
@@ -57,12 +60,14 @@ const placeholders = {
 
 const sectionHeaders = {
     postDescription: 'Descricao do Post:',
+    coverImage: 'Imagem de Capa:',
     beachReportSection: 'Situaçao do Mar:',
     precipitation: 'Precipitaçao:',
     fishing: 'Pescaria:',
     windSection: 'Situaçao do Vento:',
     postCategory: 'Categoria do Post:',
     animalFinding: 'Animais Encontrados:',
+    gallery: 'Fotos:',
     garbageFinding: 'Lixo Encontrado:',
     linksSection: 'Links:',
     filterBar: 'Filtros:',

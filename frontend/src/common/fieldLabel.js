@@ -34,7 +34,8 @@ const buttons = {
     find: 'Procurar',
     moreColumns: 'Mais Colunas',
     deleteLink: 'Deletar',
-    addLink: 'Adicionar Link'
+    addLink: 'Adicionar Link',
+    uploadImage: 'Escolher Imagem'
 }
 
 const placeholders = {

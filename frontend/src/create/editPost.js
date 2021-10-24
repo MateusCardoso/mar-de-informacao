@@ -15,7 +15,7 @@ import WindStatus from './windStatus'
 import LinkTable from './linkTable'
 import TagMultiselect from '../common/tagMultiselect'
 import PublishPostButton from './publishPostButton';
-import { apps } from '../common/fieldLabel';
+import { apps, fieldLabels } from '../common/fieldLabel';
 import FindingReport from './findingReport';
 import UploadImageButton from './uploadImageButton';
 
@@ -46,12 +46,12 @@ function EditPost(){
             garbageQuantity: ''
         }
     });
-    const [mainImage, setMainImage] = useState({
+    const [images, setImages] = useState([{
         id: null,
-        uploadRequired: false,
-        file: null,
+        category: '',
+        content: null,
         localURL: null
-    });
+    }]);
     const [links, setLinks] = useState([]);
     const [tags, setTags] = useState([]);
     
@@ -83,12 +83,33 @@ function EditPost(){
         const data = await response.json();
         setTags(data);
     }, [postId]);
+
+    const retrieveImages = useCallback(async ()=>{
+        const requestOptions = {
+            method: 'GET'
+        };
+        const response = await fetch(process.env.REACT_APP_API_URL+'/posts/'+postId+'/images', requestOptions);
+        const data = await response.json();
+        
+        const savedImages = await Promise.all(data.map( async (image) => {
+            const response = await fetch(process.env.REACT_APP_API_URL+'/images/'+image.id, requestOptions);
+            const responseImage = await response.blob();
+            return {
+                ...image,
+                uploadRequired: false,
+                content: responseImage,
+                localURL: URL.createObjectURL(responseImage)
+            }
+        }));
+        setImages(savedImages);
+    }, [postId]);
     
     useEffect(()=>{
         retrievePost(),
         retrieveLinks(),
-        retrieveTags();
-    }, [retrievePost]);
+        retrieveTags(),
+        retrieveImages();
+    }, [postId]);
 
     const updatePostText = (name,value) => {
         setPost({
@@ -139,6 +160,17 @@ function EditPost(){
         setTags(tags);
     }
 
+    const updateImage = (image) => {
+        const allImages = images.slice();
+        const imageIndex = images.findIndex(x => x.id === image.id);
+        if(imageIndex !== -1){
+            allImages[imageIndex] = image;
+        }else{
+            allImages.push(image);
+        }
+        setImages(allImages);
+    }
+
     return <div>
         <Segment padded='very' inverted color='grey'>
           <Header as='h1'>{apps.createHeader}</Header>
@@ -146,7 +178,7 @@ function EditPost(){
         <Form>
           <Grid columns={2} stackable doubling>
             <PostText updatePostText={updatePostText}                   post={post}/>
-            <UploadImageButton setMainImage={setMainImage}              mainImage={mainImage}/>
+            <UploadImageButton updateImage={updateImage}              postId={post.id} image={images.find(x => x.category === 'M')} category={'M'} imageLabel={fieldLabels.mainImage}/>
             <BeachReport updateBeachReport={updateBeachReport}          beachReport={post.beachReport}/>
             <TagMultiselect updateTagsList={updateTagsList}             tags={tags} allowAdditions={true}/>
             <WindStatus updateWindStatus={updateWindStatus}             windStatus={post.beachReport.windStatus}/>
@@ -157,15 +189,12 @@ function EditPost(){
                     post={post}
                     links={links}
                     tags={tags}
-                    mainImage={mainImage}
-                    setMainImage={setMainImage}
                     updateLinksTable={updateLinksTable}
                 />
                 <PublishPostButton 
                     post={post}
                     links={links}
                     tags={tags}
-                    mainImage={mainImage}
                     updateLinksTable={updateLinksTable}
                 />
             </Grid.Row>

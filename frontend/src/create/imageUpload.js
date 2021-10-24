@@ -3,7 +3,7 @@
 async function ImageUpload (props) {
 
     const postId = await props.postId;
-    const image = props.image;
+    let image = props.image;
     
     const buildRequestOptions = (method,body) => {
         return {
@@ -13,23 +13,25 @@ async function ImageUpload (props) {
     }
 
     const formData = new FormData();
-    formData.append('fileName', image.file.name);
-    formData.append('multipartImage', image.file);
+    formData.append('fileName', image.content.name);
+    formData.append('multipartImage', image.content);
 
-    if(image.id === null){
-        const response = await fetch(process.env.REACT_APP_API_URL+'/images/postId='+postId+'?category='+props.category, buildRequestOptions('POST', formData))
+    if(image.id === undefined){
+        const response = await fetch(process.env.REACT_APP_API_URL+'/images/postId='+postId+'?category='+image.category, buildRequestOptions('POST', formData))
         const data = await response.json();
-        props.setImage({
-            ...props.image,
-            id: data
-        });        
+        image = {
+            ...image,
+            id: data,
+            uploadRequired: false
+        };        
     } else if(image.uploadRequired){
         await fetch(process.env.REACT_APP_API_URL+'/images/'+image.id, buildRequestOptions('PATCH', formData))
-        props.setImage({
-            ...props.image,
+        image = {
+            ...image,
             uploadRequired: false
-        });        
+        };        
     }
+    props.updateImage(image);
 
 }
 

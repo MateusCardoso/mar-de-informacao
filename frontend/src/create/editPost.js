@@ -49,6 +49,8 @@ function EditPost(){
     const [images, setImages] = useState([{
         id: null,
         category: '',
+        uploadRequired: false,
+        deleteRequired: false,
         content: null,
         localURL: null
     }]);
@@ -97,6 +99,7 @@ function EditPost(){
             return {
                 ...image,
                 uploadRequired: false,
+                deleteRequired: false,
                 content: responseImage,
                 localURL: URL.createObjectURL(responseImage)
             }
@@ -163,10 +166,14 @@ function EditPost(){
     const updateImage = (image) => {
         const allImages = images.slice();
         const imageIndex = images.findIndex(x => x.id === image.id);
-        if(imageIndex !== -1){
-            allImages[imageIndex] = image;
+        if(image.deleteRequired === true){
+            allImages.splice(imageIndex, 1);
         }else{
-            allImages.push(image);
+            if(imageIndex !== -1){
+                allImages[imageIndex] = image;
+            }else{
+                allImages.push(image);
+            }
         }
         setImages(allImages);
     }

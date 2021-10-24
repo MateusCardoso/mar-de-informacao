@@ -1,14 +1,12 @@
 import { useRef } from "react";
-import { 
-    Label,
-    Form,
-    Input,
+import {
+    Header, 
     Image,
     Grid,
     Button,
-    Ref
+    Card
 } from "semantic-ui-react";
-import { buttons } from "../common/fieldLabel";
+import { buttons, sectionHeaders } from "../common/fieldLabel";
 import ImageUpload from "./imageUpload";
 
 
@@ -32,29 +30,52 @@ function UploadImageButton (props){
         }
     }
 
+    const removeImage = async () => {
+        const currentImage = {
+            ...props.image,
+            deleteRequired: true
+        }
+        await ImageUpload({
+            postId: props.postId,
+            image: currentImage,
+            updateImage: props.updateImage
+        });
+    }
+
     var inputRef = useRef(null);
 
     return <Grid.Column>
-                <Label content={props.imageLabel}/>
-                {
-                    props.image !== undefined ? 
-                    <Image size='big' src={props.image.localURL}/>
-                    : null
-                }    
+                <Header as='h4' content={sectionHeaders.coverImage} textAlign='left' />
+                <Card fluid>
+                    { props.image !== undefined ?
+                        <Image size='big' src={props.image.localURL}/>
+                        : null
+                    }    
+                    <Card.Content textAlign={'right'}>
+                        <Button 
+                            secondary
+                            size='tiny'
+                            onClick={() => inputRef.current.click()} 
+                            content={buttons.uploadImage}
+                            />
+                        { props.image !== undefined ?
+                            <Button 
+                                negative 
+                                size={'tiny'}
+                                onClick={removeImage} 
+                                content={buttons.removeImage}/>
+                            : null
+                        }
+                    </Card.Content>
+                </Card> 
+                
                 <input
                 ref={inputRef}
                     onChange={onImageChange}
                     type='file'
                     style={{display: 'none'}}
-                    />
-                
-                
-                <Button 
-                    secondary
-                    size='mini'
-                    onClick={() => inputRef.current.click()} 
-                    content={buttons.uploadImage}
                 />
+        
             </Grid.Column>
 
 }

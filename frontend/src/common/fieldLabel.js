@@ -35,7 +35,8 @@ const buttons = {
     moreColumns: 'Mais Colunas',
     deleteLink: 'Deletar',
     addLink: 'Adicionar Link',
-    uploadImage: 'Escolher Imagem'
+    uploadImage: 'Escolher Imagem',
+    removeImage: 'Remover'
 }
 
 const placeholders = {
@@ -59,6 +60,7 @@ const placeholders = {
 
 const sectionHeaders = {
     postDescription: 'Descricao do Post:',
+    coverImage: 'Imagem de Capa:',
     beachReportSection: 'Situaçao do Mar:',
     precipitation: 'Precipitaçao:',
     fishing: 'Pescaria:',

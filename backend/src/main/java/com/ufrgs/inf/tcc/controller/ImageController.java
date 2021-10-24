@@ -11,6 +11,7 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.MediaType;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -89,4 +90,13 @@ public class ImageController {
         return dbImage.getId();            
     }
 
+    @DeleteMapping("/{id}")
+	@ResponseStatus(HttpStatus.NO_CONTENT)
+	@ApiOperation(value = "Delete Image", nickname = "delete")
+	public void delete(@PathVariable("id") Long id) throws ObjectNotFoundException {
+		if (!imageRepository.existsById(id)) {
+			throw new ObjectNotFoundException(PostRecord.class, id);
+		}
+		imageRepository.deleteById(id);
+	}
 }

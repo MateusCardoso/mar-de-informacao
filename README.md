@@ -1,8 +1,7 @@
 # mar-de-informacao
 Repositório para desenvolvimento de trabalho de Graduação CiC UFRGS 2020/2:
 
-"Captura de conhecimento empírico de pescadores do litoral do RS com intuito
-de padronizar a consulta de informação pela comunidade estudantil"
+"Proposta de um sistema para o registro de informações de um Pescador para apoio ao Museu do Mar Virtual"
 
 ## Sobre o trabalho
 
